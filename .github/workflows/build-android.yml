@@ -29,7 +29,7 @@ jobs:
 
       - name: Build APK
         run: |
-          cd client
+          cd client/android
           chmod +x gradlew
           ./gradlew assembleDebug
 
@@ -37,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: MugenVPN-debug
-          path: client/build/outputs/apk/debug/*.apk
+          path: client/android/app/build/outputs/apk/debug/*.apk
