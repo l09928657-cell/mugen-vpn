@@ -9,18 +9,18 @@ Button {
 
     property string image
 
-    property string hoveredColor: AmneziaStyle.color.translucentWhite
-    property string defaultColor: AmneziaStyle.color.transparent
-    property string pressedColor: AmneziaStyle.color.sheerWhite
-    property string disableColor: AmneziaStyle.color.slateGray
+    property string hoveredColor: MugenStyle.color.translucentWhite
+    property string defaultColor: MugenStyle.color.transparent
+    property string pressedColor: MugenStyle.color.sheerWhite
+    property string disableColor: MugenStyle.color.slateGray
 
-    property string imageColor: AmneziaStyle.color.mutedGray
-    property string disableImageColor: AmneziaStyle.color.slateGray
+    property string imageColor: MugenStyle.color.mutedGray
+    property string disableImageColor: MugenStyle.color.slateGray
 
     property alias backgroundColor: background.color
     property alias backgroundRadius: background.radius
 
-    property string borderFocusedColor: AmneziaStyle.color.paleGray
+    property string borderFocusedColor: MugenStyle.color.paleGray
     property int borderFocusedWidth: 1
 
     hoverEnabled: true
@@ -65,7 +65,7 @@ Button {
         id: background
 
         anchors.fill: parent
-        border.color: root.activeFocus ? root.borderFocusedColor : AmneziaStyle.color.transparent
+        border.color: root.activeFocus ? root.borderFocusedColor : MugenStyle.color.transparent
         border.width: root.activeFocus ? root.borderFocusedWidth : 0
 
         color: {

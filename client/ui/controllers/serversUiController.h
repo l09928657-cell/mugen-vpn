@@ -58,7 +58,7 @@ public slots:
     void setDefaultContainer(const QString &serverId, int containerIndex);
     void setDefaultContainerAtIndex(int index, int containerIndex);
 
-    void toggleAmneziaDns(bool enabled);
+    void toggleMugenDns(bool enabled);
     void onDefaultServerChanged(const QString &defaultServerId);
     
     // Getters for properties
@@ -132,7 +132,7 @@ private:
     ContainersModel* m_containersModel;
     ContainersModel* m_defaultServerContainersModel;
 
-    QVector<amnezia::ServerDescription> m_orderedServerDescriptions;
+    QVector<mugen::ServerDescription> m_orderedServerDescriptions;
     
     QString m_processedServerId;
     int m_processedContainerIndex = -1;

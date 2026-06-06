@@ -23,7 +23,7 @@
 #include "core/protocols/androidVpnProtocol.h"
 #endif
 
-using namespace amnezia;
+using namespace mugen;
 
 class VpnConnection : public QObject
 {
@@ -41,7 +41,7 @@ public:
     QSharedPointer<VpnProtocol> vpnProtocol() const;
 
     const QString &remoteAddress() const;
-    void addSitesRoutes(const QString &gw, amnezia::RouteMode mode);
+    void addSitesRoutes(const QString &gw, mugen::RouteMode mode);
 
 #ifdef Q_OS_ANDROID
     void restoreConnection();
@@ -61,7 +61,7 @@ public slots:
 signals:
     void bytesChanged(quint64 receivedBytes, quint64 sentBytes);
     void connectionStateChanged(Vpn::ConnectionState state);
-    void vpnProtocolError(amnezia::ErrorCode error);
+    void vpnProtocolError(mugen::ErrorCode error);
 
     void serviceIsNotReady();
 

@@ -21,21 +21,21 @@ class ConfiguratorBase : public QObject
 public:
     explicit ConfiguratorBase(SshSession* sshSession, QObject *parent = nullptr);
 
-    static QScopedPointer<ConfiguratorBase> create(amnezia::Proto protocol,
+    static QScopedPointer<ConfiguratorBase> create(mugen::Proto protocol,
                                                    SshSession* sshSession);
 
-    virtual amnezia::ProtocolConfig createConfig(const amnezia::ServerCredentials &credentials, amnezia::DockerContainer container,
-                                        const amnezia::ContainerConfig &containerConfig,
-                                        const amnezia::DnsSettings &dnsSettings,
-                                        amnezia::ErrorCode &errorCode) = 0;
+    virtual mugen::ProtocolConfig createConfig(const mugen::ServerCredentials &credentials, mugen::DockerContainer container,
+                                        const mugen::ContainerConfig &containerConfig,
+                                        const mugen::DnsSettings &dnsSettings,
+                                        mugen::ErrorCode &errorCode) = 0;
 
-    virtual amnezia::ProtocolConfig processConfigWithLocalSettings(const amnezia::ConnectionSettings &settings,
-                                                                   amnezia::ProtocolConfig protocolConfig);
-    virtual amnezia::ProtocolConfig processConfigWithExportSettings(const amnezia::ExportSettings &settings,
-                                                                     amnezia::ProtocolConfig protocolConfig);
+    virtual mugen::ProtocolConfig processConfigWithLocalSettings(const mugen::ConnectionSettings &settings,
+                                                                   mugen::ProtocolConfig protocolConfig);
+    virtual mugen::ProtocolConfig processConfigWithExportSettings(const mugen::ExportSettings &settings,
+                                                                     mugen::ProtocolConfig protocolConfig);
 
 protected:
-    void applyDnsToNativeConfig(const amnezia::DnsSettings &dns, amnezia::ProtocolConfig &protocolConfig);
+    void applyDnsToNativeConfig(const mugen::DnsSettings &dns, mugen::ProtocolConfig &protocolConfig);
 
     SshSession* m_sshSession;
 };

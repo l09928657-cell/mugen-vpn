@@ -5,7 +5,7 @@
 #include "core/utils/constants/configKeys.h"
 #include "core/utils/constants/protocolConstants.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
 
 XrayConfigModel::XrayConfigModel(QObject* parent) : QAbstractListModel(parent)
@@ -258,7 +258,7 @@ QVariant XrayConfigModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-void XrayConfigModel::updateModel(amnezia::DockerContainer container, const amnezia::XrayProtocolConfig& protocolConfig)
+void XrayConfigModel::updateModel(mugen::DockerContainer container, const mugen::XrayProtocolConfig& protocolConfig)
 {
     const bool wasUnsavedChanges = hasUnsavedChanges();
 
@@ -283,7 +283,7 @@ void XrayConfigModel::updateModel(amnezia::DockerContainer container, const amne
     }
 }
 
-void XrayConfigModel::applyDefaultsToServerConfig(amnezia::XrayServerConfig &config)
+void XrayConfigModel::applyDefaultsToServerConfig(mugen::XrayServerConfig &config)
 {
     if (config.port.isEmpty()) {
         config.port = protocols::xray::defaultPort;
@@ -291,7 +291,7 @@ void XrayConfigModel::applyDefaultsToServerConfig(amnezia::XrayServerConfig &con
 
     if (config.transportProto.isEmpty()) {
         config.transportProto = ProtocolUtils::transportProtoToString(
-            ProtocolUtils::defaultTransportProto(amnezia::Proto::Xray), amnezia::Proto::Xray);
+            ProtocolUtils::defaultTransportProto(mugen::Proto::Xray), mugen::Proto::Xray);
     }
 
     if (config.site.isEmpty()) {
@@ -359,7 +359,7 @@ void XrayConfigModel::applyDefaultsToServerConfig(amnezia::XrayServerConfig &con
     }
 }
 
-amnezia::XrayProtocolConfig XrayConfigModel::getProtocolConfig()
+mugen::XrayProtocolConfig XrayConfigModel::getProtocolConfig()
 {
     const bool serverSettingsChanged =
             !m_protocolConfig.serverConfig.hasEqualServerSettings(m_originalProtocolConfig.serverConfig);
@@ -460,7 +460,7 @@ void XrayConfigModel::resetToDefaults()
     const bool wasUnsavedChanges = hasUnsavedChanges();
 
     beginResetModel();
-    m_protocolConfig.serverConfig = amnezia::XrayServerConfig{};
+    m_protocolConfig.serverConfig = mugen::XrayServerConfig{};
     applyDefaultsToServerConfig(m_protocolConfig.serverConfig);
     endResetModel();
 
@@ -469,7 +469,7 @@ void XrayConfigModel::resetToDefaults()
     }
 }
 
-void XrayConfigModel::applyServerConfig(const amnezia::XrayServerConfig &serverConfig)
+void XrayConfigModel::applyServerConfig(const mugen::XrayServerConfig &serverConfig)
 {
     const bool wasUnsavedChanges = hasUnsavedChanges();
 

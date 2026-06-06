@@ -38,8 +38,8 @@ namespace
 
     namespace serviceType
     {
-        constexpr char amneziaFree[] = "amnezia-free";
-        constexpr char amneziaPremium[] = "amnezia-premium";
+        constexpr char mugenFree[] = "mugen-free";
+        constexpr char mugenPremium[] = "mugen-premium";
     }
 }
 
@@ -69,9 +69,9 @@ QVariant ApiServicesModel::data(const QModelIndex &index, int role) const
         return apiServiceData.serviceInfo.name;
     }
     case CardDescriptionRole: {
-        if (serviceType == serviceType::amneziaPremium) {
+        if (serviceType == serviceType::mugenPremium) {
             return apiServiceData.serviceInfo.cardDescription;
-        } else if (serviceType == serviceType::amneziaFree) {
+        } else if (serviceType == serviceType::mugenFree) {
             QString description = apiServiceData.serviceInfo.cardDescription;
             if (!isServiceAvailable) {
                 description += tr("<p><a style=\"color: #EB5757;\">Not available in your region. If you have VPN enabled, disable it, "
@@ -84,7 +84,7 @@ QVariant ApiServicesModel::data(const QModelIndex &index, int role) const
         return apiServiceData.serviceInfo.description;
     }
     case IsServiceAvailableRole: {
-        if (serviceType == serviceType::amneziaFree) {
+        if (serviceType == serviceType::mugenFree) {
             if (!isServiceAvailable) {
                 return false;
             }
@@ -92,7 +92,7 @@ QVariant ApiServicesModel::data(const QModelIndex &index, int role) const
         return true;
     }
     case IsPremiumRole: {
-        return serviceType == serviceType::amneziaPremium;
+        return serviceType == serviceType::mugenPremium;
     }
     case HasSubscriptionPlansRole: {
         return !apiServiceData.subscriptionPlansJson.isEmpty();
@@ -110,13 +110,13 @@ QVariant ApiServicesModel::data(const QModelIndex &index, int role) const
         return apiServiceData.serviceInfo.privacyPolicyUrl;
     }
     case ShowRecommendedRole: {
-        return serviceType == serviceType::amneziaPremium;
+        return serviceType == serviceType::mugenPremium;
     }
     case OrderRole: {
-        if (serviceType == serviceType::amneziaPremium) {
+        if (serviceType == serviceType::mugenPremium) {
             return 0;
         }
-        if (serviceType == serviceType::amneziaFree) {
+        if (serviceType == serviceType::mugenFree) {
             return 1;
         }
         return QVariant();

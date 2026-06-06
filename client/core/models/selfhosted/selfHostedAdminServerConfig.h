@@ -13,7 +13,7 @@
 #include "core/utils/routeModes.h"
 #include "core/utils/commonStructs.h"
 
-namespace amnezia
+namespace mugen
 {
 
 using namespace ContainerEnumNS;
@@ -41,13 +41,13 @@ struct SelfHostedAdminServerConfig {
 
     void clearCachedClientProfile(DockerContainer container);
 
-    QPair<QString, QString> getDnsPair(bool isAmneziaDnsEnabled, const QString &primaryDns,
+    QPair<QString, QString> getDnsPair(bool isMugenDnsEnabled, const QString &primaryDns,
                                        const QString &secondaryDns) const;
 
     QJsonObject toJson() const;
     static SelfHostedAdminServerConfig fromJson(const QJsonObject &json);
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // SELFHOSTEDADMINSERVERCONFIG_H

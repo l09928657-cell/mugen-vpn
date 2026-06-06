@@ -28,18 +28,18 @@
 #include "core/models/protocols/awgProtocolConfig.h"
 #include <QJsonArray>
 
-using namespace amnezia;
+using namespace mugen;
 
 WireguardConfigurator::WireguardConfigurator(SshSession* sshSession, bool isAwg,
                                              QObject *parent)
     : ConfiguratorBase(sshSession, parent), m_isAwg(isAwg)
 {
     m_serverConfigPath =
-            m_isAwg ? amnezia::protocols::awg::serverConfigPath : amnezia::protocols::wireguard::serverConfigPath;
+            m_isAwg ? mugen::protocols::awg::serverConfigPath : mugen::protocols::wireguard::serverConfigPath;
     m_serverPublicKeyPath =
-            m_isAwg ? amnezia::protocols::awg::serverPublicKeyPath : amnezia::protocols::wireguard::serverPublicKeyPath;
+            m_isAwg ? mugen::protocols::awg::serverPublicKeyPath : mugen::protocols::wireguard::serverPublicKeyPath;
     m_serverPskKeyPath =
-            m_isAwg ? amnezia::protocols::awg::serverPskKeyPath : amnezia::protocols::wireguard::serverPskKeyPath;
+            m_isAwg ? mugen::protocols::awg::serverPskKeyPath : mugen::protocols::wireguard::serverPskKeyPath;
     m_configTemplate = m_isAwg ? ProtocolScriptType::awg_template : ProtocolScriptType::wireguard_template;
 
     m_protocolName = m_isAwg ? configKey::awg : configKey::wireguard;
@@ -123,7 +123,7 @@ WireguardConfigurator::ConnectionData WireguardConfigurator::prepareWireguardCon
 
     QString configPath = m_serverConfigPath;
     if (container == DockerContainer::Awg) {
-        configPath = amnezia::protocols::awg::serverLegacyConfigPath;
+        configPath = mugen::protocols::awg::serverLegacyConfigPath;
     }
     QString getIpsScript = QString("cat %1 | grep AllowedIPs").arg(configPath);
     QString stdOut;
@@ -201,7 +201,7 @@ WireguardConfigurator::ConnectionData WireguardConfigurator::prepareWireguardCon
 
     errorCode = m_sshSession->runScript(
             credentials,
-            m_sshSession->replaceVars(script, amnezia::genBaseVars(credentials, container, dnsSettings.primaryDns, dnsSettings.secondaryDns)));
+            m_sshSession->replaceVars(script, mugen::genBaseVars(credentials, container, dnsSettings.primaryDns, dnsSettings.secondaryDns)));
 
     return connData;
 }
@@ -228,9 +228,9 @@ ProtocolConfig WireguardConfigurator::createConfig(const ServerCredentials &cred
         }
     }
     
-    amnezia::ScriptVars vars = amnezia::genBaseVars(credentials, container, dnsSettings.primaryDns, dnsSettings.secondaryDns);
-    vars.append(amnezia::genProtocolVarsForContainer(container, containerConfig));
-    QString scriptData = amnezia::scriptData(m_configTemplate, container);
+    mugen::ScriptVars vars = mugen::genBaseVars(credentials, container, dnsSettings.primaryDns, dnsSettings.secondaryDns);
+    vars.append(mugen::genProtocolVarsForContainer(container, containerConfig));
+    QString scriptData = mugen::scriptData(m_configTemplate, container);
     QString config = m_sshSession->replaceVars(scriptData, vars);
 
     ConnectionData connData = prepareWireguardConfig(credentials, container, wireguardServerConfig, awgServerConfig, dnsSettings, errorCode);

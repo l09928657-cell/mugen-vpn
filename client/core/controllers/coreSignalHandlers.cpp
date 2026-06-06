@@ -47,7 +47,7 @@
 
 #ifdef Q_OS_IOS
     #include "platforms/ios/ios_controller.h"
-    #include <AmneziaVPN-Swift.h>
+    #include <MugenVPN-Swift.h>
 #endif
 
 CoreSignalHandlers::CoreSignalHandlers(CoreController* coreController, QObject* parent)
@@ -70,7 +70,7 @@ void CoreSignalHandlers::initAllHandlers()
     initTranslationsUpdatedHandler();
     initLanguageHandler();
     initAutoConnectHandler();
-    initAmneziaDnsToggledHandler();
+    initMugenDnsToggledHandler();
     initServersModelUpdateHandler();
     initClientManagementModelUpdateHandler();
     initSitesModelUpdateHandler();
@@ -248,9 +248,9 @@ void CoreSignalHandlers::initAutoConnectHandler()
     }
 }
 
-void CoreSignalHandlers::initAmneziaDnsToggledHandler()
+void CoreSignalHandlers::initMugenDnsToggledHandler()
 {
-    connect(m_coreController->m_appSettingsRepository, &SecureAppSettingsRepository::useAmneziaDnsChanged, m_coreController->m_serversUiController, &ServersUiController::updateModel);
+    connect(m_coreController->m_appSettingsRepository, &SecureAppSettingsRepository::useMugenDnsChanged, m_coreController->m_serversUiController, &ServersUiController::updateModel);
 }
 
 void CoreSignalHandlers::initServersModelUpdateHandler()
@@ -408,7 +408,7 @@ void CoreSignalHandlers::initIosImportHandler()
 void CoreSignalHandlers::initIosSettingsHandler()
 {
 #ifdef Q_OS_IOS
-    connect(m_coreController->m_appSettingsRepository, &SecureAppSettingsRepository::screenshotsEnabledChanged, [](bool enabled) { AmneziaVPN::toggleScreenshots(enabled); });
+    connect(m_coreController->m_appSettingsRepository, &SecureAppSettingsRepository::screenshotsEnabledChanged, [](bool enabled) { MugenVPN::toggleScreenshots(enabled); });
 #endif
 }
 

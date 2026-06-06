@@ -20,7 +20,7 @@ PageType {
     id: root
 
     enum ConfigType {
-        AmneziaConnection,
+        MugenConnection,
         OpenVpn,
         WireGuard,
         Awg,
@@ -46,39 +46,39 @@ PageType {
             var serverId = ServersUiController.processedServerId
 
             switch (type) {
-            case PageShare.ConfigType.AmneziaConnection: {
+            case PageShare.ConfigType.MugenConnection: {
                 ExportController.generateConnectionConfig(serverId, containerIndex, clientNameTextField.textField.text);
-                configCaption = qsTr("Save AmneziaVPN config")
+                configCaption = qsTr("Save MugenVPN config")
                 configExtension = ".vpn"
-                configFileName = "amnezia_config"
+                configFileName = "mugen_config"
                 break;
             }
             case PageShare.ConfigType.OpenVpn: {
                 ExportController.generateOpenVpnConfig(serverId, clientNameTextField.textField.text)
                 configCaption = qsTr("Save OpenVPN config")
                 configExtension = ".ovpn"
-                configFileName = "amnezia_for_openvpn"
+                configFileName = "mugen_for_openvpn"
                 break
             }
             case PageShare.ConfigType.WireGuard: {
                 ExportController.generateWireGuardConfig(serverId, clientNameTextField.textField.text)
                 configCaption = qsTr("Save WireGuard config")
                 configExtension = ".conf"
-                configFileName = "amnezia_for_wireguard"
+                configFileName = "mugen_for_wireguard"
                 break
             }
             case PageShare.ConfigType.Awg: {
                 ExportController.generateAwgConfig(serverId, containerIndex, clientNameTextField.textField.text)
-                configCaption = qsTr("Save AmneziaWG config")
+                configCaption = qsTr("Save MugenWG config")
                 configExtension = ".conf"
-                configFileName = "amnezia_for_awg"
+                configFileName = "mugen_for_awg"
                 break
             }
             case PageShare.ConfigType.Xray: {
                 ExportController.generateXrayConfig(serverId, clientNameTextField.textField.text)
                 configCaption = qsTr("Save XRay config")
                 configExtension = ".json"
-                configFileName = "amnezia_for_xray"
+                configFileName = "mugen_for_xray"
                 break
             }
             }
@@ -99,13 +99,13 @@ PageType {
     property bool showContent: false
     property bool shareButtonEnabled: true
     property list<QtObject> connectionTypesModel: [
-        amneziaConnectionFormat
+        mugenConnectionFormat
     ]
 
     QtObject {
-        id: amneziaConnectionFormat
-        readonly property string name: qsTr("For the AmneziaVPN app")
-        readonly property int type: PageShare.ConfigType.AmneziaConnection
+        id: mugenConnectionFormat
+        readonly property string name: qsTr("For the MugenVPN app")
+        readonly property int type: PageShare.ConfigType.MugenConnection
     }
     QtObject {
         id: openVpnConnectionFormat
@@ -119,7 +119,7 @@ PageType {
     }
     QtObject {
         id: awgConnectionFormat
-        readonly property string name: qsTr("AmneziaWG native format")
+        readonly property string name: qsTr("MugenWG native format")
         readonly property int type: PageShare.ConfigType.Awg
     }
     QtObject {
@@ -216,7 +216,7 @@ PageType {
                 implicitWidth: accessTypeSelectorContent.implicitWidth
                 implicitHeight: accessTypeSelectorContent.implicitHeight
 
-                color: AmneziaStyle.color.onyxBlack
+                color: MugenStyle.color.onyxBlack
                 radius: 16
 
                 RowLayout {
@@ -268,7 +268,7 @@ PageType {
                 visible: accessTypeSelector.currentIndex === 0
 
                 text: qsTr("Share VPN access without the ability to manage the server")
-                color: AmneziaStyle.color.mutedGray
+                color: MugenStyle.color.mutedGray
             }
 
             TextFieldWithHeaderType {
@@ -442,19 +442,19 @@ PageType {
                     }
 
                     function fillConnectionTypeModel() {
-                        root.connectionTypesModel = [amneziaConnectionFormat]
+                        root.connectionTypesModel = [mugenConnectionFormat]
 
                         var index = proxyContainersModel.mapToSource(selectedIndex)
 
-                        if (index === ContainerProps.containerFromString("amnezia-openvpn")) {
+                        if (index === ContainerProps.containerFromString("mugen-openvpn")) {
                             root.connectionTypesModel.push(openVpnConnectionFormat)
-                        } else if (index === ContainerProps.containerFromString("amnezia-wireguard")) {
+                        } else if (index === ContainerProps.containerFromString("mugen-wireguard")) {
                             root.connectionTypesModel.push(wireGuardConnectionFormat)
-                        } else if (index === ContainerProps.containerFromString("amnezia-awg")) {
+                        } else if (index === ContainerProps.containerFromString("mugen-awg")) {
                             root.connectionTypesModel.push(awgConnectionFormat)
-                        } else if (index === ContainerProps.containerFromString("amnezia-awg2")) {
+                        } else if (index === ContainerProps.containerFromString("mugen-awg2")) {
                             root.connectionTypesModel.push(awgConnectionFormat)
-                        } else if (index === ContainerProps.containerFromString("amnezia-xray")) {
+                        } else if (index === ContainerProps.containerFromString("mugen-xray")) {
                             root.connectionTypesModel.push(xrayConnectionFormat)
                         }
                     }
@@ -592,7 +592,7 @@ PageType {
                 ImageButtonType {
                     id: closeSearchButton
                     image: "qrc:/images/controls/close.svg"
-                    imageColor: AmneziaStyle.color.paleGray
+                    imageColor: MugenStyle.color.paleGray
 
                     function clickedFunc() {
                         searchTextField.textField.text = ""
@@ -692,7 +692,7 @@ PageType {
                                 }
 
                                 ParagraphTextType {
-                                    color: AmneziaStyle.color.mutedGray
+                                    color: MugenStyle.color.mutedGray
                                     visible: creationDate
                                     Layout.maximumWidth: parent.width
 
@@ -704,7 +704,7 @@ PageType {
                                 }
 
                                 ParagraphTextType {
-                                    color: AmneziaStyle.color.mutedGray
+                                    color: MugenStyle.color.mutedGray
                                     visible: latestHandshake
                                     Layout.maximumWidth: parent.width
 
@@ -716,7 +716,7 @@ PageType {
                                 }
 
                                 ParagraphTextType {
-                                    color: AmneziaStyle.color.mutedGray
+                                    color: MugenStyle.color.mutedGray
                                     visible: dataReceived
                                     Layout.maximumWidth: parent.width
 
@@ -728,7 +728,7 @@ PageType {
                                 }
 
                                 ParagraphTextType {
-                                    color: AmneziaStyle.color.mutedGray
+                                    color: MugenStyle.color.mutedGray
                                     visible: dataSent
                                     Layout.maximumWidth: parent.width
 
@@ -740,7 +740,7 @@ PageType {
                                 }
 
                                 ParagraphTextType {
-                                    color: AmneziaStyle.color.mutedGray
+                                    color: MugenStyle.color.mutedGray
                                     visible: allowedIps
                                     Layout.maximumWidth: parent.width
 
@@ -754,11 +754,11 @@ PageType {
                                     Layout.fillWidth: true
                                     Layout.topMargin: 24
 
-                                    defaultColor: AmneziaStyle.color.transparent
-                                    hoveredColor: AmneziaStyle.color.translucentWhite
-                                    pressedColor: AmneziaStyle.color.sheerWhite
-                                    disabledColor: AmneziaStyle.color.mutedGray
-                                    textColor: AmneziaStyle.color.paleGray
+                                    defaultColor: MugenStyle.color.transparent
+                                    hoveredColor: MugenStyle.color.translucentWhite
+                                    pressedColor: MugenStyle.color.sheerWhite
+                                    disabledColor: MugenStyle.color.mutedGray
+                                    textColor: MugenStyle.color.paleGray
                                     borderWidth: 1
 
                                     text: qsTr("Rename")
@@ -826,11 +826,11 @@ PageType {
                                     Layout.fillWidth: true
                                     Layout.topMargin: 8
 
-                                    defaultColor: AmneziaStyle.color.transparent
-                                    hoveredColor: AmneziaStyle.color.translucentWhite
-                                    pressedColor: AmneziaStyle.color.sheerWhite
-                                    disabledColor: AmneziaStyle.color.mutedGray
-                                    textColor: AmneziaStyle.color.paleGray
+                                    defaultColor: MugenStyle.color.transparent
+                                    hoveredColor: MugenStyle.color.translucentWhite
+                                    pressedColor: MugenStyle.color.sheerWhite
+                                    disabledColor: MugenStyle.color.mutedGray
+                                    textColor: MugenStyle.color.paleGray
                                     borderWidth: 1
 
                                     text: qsTr("Revoke")

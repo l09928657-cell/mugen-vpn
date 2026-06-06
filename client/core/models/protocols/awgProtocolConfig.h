@@ -6,7 +6,7 @@
 #include <QStringList>
 #include <optional>
 
-namespace amnezia
+namespace mugen
 {
 
 namespace AwgConstant
@@ -97,7 +97,7 @@ struct AwgProtocolConfig {
     static bool isPacketSizeEqual(int s1, int s2, int s3, int s4);
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // AWGPROTOCOLCONFIG_H
 

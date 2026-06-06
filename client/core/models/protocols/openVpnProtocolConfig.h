@@ -5,7 +5,7 @@
 #include <QString>
 #include <optional>
 
-namespace amnezia
+namespace mugen
 {
 
 struct OpenVpnServerConfig {
@@ -49,7 +49,7 @@ struct OpenVpnProtocolConfig {
     void clearClientConfig();
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // OPENVPNPROTOCOLCONFIG_H
 

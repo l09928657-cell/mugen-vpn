@@ -8,7 +8,7 @@
 #include "core/models/serverDescription.h"
 
 #if defined(Q_OS_IOS) || defined(MACOS_NE)
-    #include <AmneziaVPN-Swift.h>
+    #include <MugenVPN-Swift.h>
 #endif
 
 
@@ -64,8 +64,8 @@ bool ServersController::renameServer(const QString &serverId, const QString &nam
         m_serversRepository->editServer(serverId, cfg->toJson(), kind);
         return true;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV2:
-    case serverConfigUtils::ConfigType::AmneziaFreeV3:
+    case serverConfigUtils::ConfigType::MugenPremiumV2:
+    case serverConfigUtils::ConfigType::MugenFreeV3:
     case serverConfigUtils::ConfigType::ExternalPremium: {
         auto cfg = m_serversRepository->apiV2Config(serverId);
         if (!cfg.has_value()) return false;
@@ -75,8 +75,8 @@ bool ServersController::renameServer(const QString &serverId, const QString &nam
         m_serversRepository->editServer(serverId, cfg->toJson(), kind);
         return true;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV1:
-    case serverConfigUtils::ConfigType::AmneziaFreeV2:
+    case serverConfigUtils::ConfigType::MugenPremiumV1:
+    case serverConfigUtils::ConfigType::MugenFreeV2:
     case serverConfigUtils::ConfigType::Invalid:
     default:
         return false;
@@ -118,8 +118,8 @@ void ServersController::setDefaultContainer(const QString &serverId, DockerConta
         m_serversRepository->editServer(serverId, cfg->toJson(), kind);
         return;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV2:
-    case serverConfigUtils::ConfigType::AmneziaFreeV3:
+    case serverConfigUtils::ConfigType::MugenPremiumV2:
+    case serverConfigUtils::ConfigType::MugenFreeV3:
     case serverConfigUtils::ConfigType::ExternalPremium: {
         auto cfg = m_serversRepository->apiV2Config(serverId);
         if (!cfg.has_value()) return;
@@ -127,15 +127,15 @@ void ServersController::setDefaultContainer(const QString &serverId, DockerConta
         m_serversRepository->editServer(serverId, cfg->toJson(), kind);
         return;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV1:
-    case serverConfigUtils::ConfigType::AmneziaFreeV2:
+    case serverConfigUtils::ConfigType::MugenPremiumV1:
+    case serverConfigUtils::ConfigType::MugenFreeV2:
     case serverConfigUtils::ConfigType::Invalid:
     default:
         return;
     }
 }
 
-QVector<ServerDescription> ServersController::buildServerDescriptions(bool isAmneziaDnsEnabled) const
+QVector<ServerDescription> ServersController::buildServerDescriptions(bool isMugenDnsEnabled) const
 {
     QVector<ServerDescription> out;
     const QVector<QString> ids = m_serversRepository->orderedServerIds();
@@ -151,7 +151,7 @@ QVector<ServerDescription> ServersController::buildServerDescriptions(bool isAmn
             if (!cfg) {
                 continue;
             }
-            d = buildServerDescription(*cfg, isAmneziaDnsEnabled);
+            d = buildServerDescription(*cfg, isMugenDnsEnabled);
             break;
         }
         case Kind::SelfHostedUser: {
@@ -159,7 +159,7 @@ QVector<ServerDescription> ServersController::buildServerDescriptions(bool isAmn
             if (!cfg) {
                 continue;
             }
-            d = buildServerDescription(*cfg, isAmneziaDnsEnabled);
+            d = buildServerDescription(*cfg, isMugenDnsEnabled);
             break;
         }
         case Kind::Native: {
@@ -167,26 +167,26 @@ QVector<ServerDescription> ServersController::buildServerDescriptions(bool isAmn
             if (!cfg) {
                 continue;
             }
-            d = buildServerDescription(*cfg, isAmneziaDnsEnabled);
+            d = buildServerDescription(*cfg, isMugenDnsEnabled);
             break;
         }
-        case Kind::AmneziaPremiumV2:
-        case Kind::AmneziaFreeV3:
+        case Kind::MugenPremiumV2:
+        case Kind::MugenFreeV3:
         case Kind::ExternalPremium: {
             const auto cfg = m_serversRepository->apiV2Config(id);
             if (!cfg) {
                 continue;
             }
-            d = buildServerDescription(*cfg, isAmneziaDnsEnabled);
+            d = buildServerDescription(*cfg, isMugenDnsEnabled);
             break;
         }
-        case Kind::AmneziaPremiumV1:
-        case Kind::AmneziaFreeV2: {
+        case Kind::MugenPremiumV1:
+        case Kind::MugenFreeV2: {
             const auto cfg = m_serversRepository->legacyApiConfig(id);
             if (!cfg) {
                 continue;
             }
-            d = buildServerDescription(*cfg, isAmneziaDnsEnabled);
+            d = buildServerDescription(*cfg, isMugenDnsEnabled);
             break;
         }
         case Kind::Invalid:
@@ -215,14 +215,14 @@ QMap<DockerContainer, ContainerConfig> ServersController::getServerContainersMap
         const auto cfg = m_serversRepository->nativeConfig(serverId);
         return cfg.has_value() ? cfg->containers : QMap<DockerContainer, ContainerConfig>{};
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV2:
-    case serverConfigUtils::ConfigType::AmneziaFreeV3:
+    case serverConfigUtils::ConfigType::MugenPremiumV2:
+    case serverConfigUtils::ConfigType::MugenFreeV3:
     case serverConfigUtils::ConfigType::ExternalPremium: {
         const auto cfg = m_serversRepository->apiV2Config(serverId);
         return cfg.has_value() ? cfg->containers : QMap<DockerContainer, ContainerConfig>{};
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV1:
-    case serverConfigUtils::ConfigType::AmneziaFreeV2: {
+    case serverConfigUtils::ConfigType::MugenPremiumV1:
+    case serverConfigUtils::ConfigType::MugenFreeV2: {
         const auto cfg = m_serversRepository->legacyApiConfig(serverId);
         return cfg.has_value() ? cfg->containers : QMap<DockerContainer, ContainerConfig>{};
     }
@@ -247,14 +247,14 @@ DockerContainer ServersController::getDefaultContainer(const QString &serverId) 
         const auto cfg = m_serversRepository->nativeConfig(serverId);
         return cfg.has_value() ? cfg->defaultContainer : DockerContainer::None;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV2:
-    case serverConfigUtils::ConfigType::AmneziaFreeV3:
+    case serverConfigUtils::ConfigType::MugenPremiumV2:
+    case serverConfigUtils::ConfigType::MugenFreeV3:
     case serverConfigUtils::ConfigType::ExternalPremium: {
         const auto cfg = m_serversRepository->apiV2Config(serverId);
         return cfg.has_value() ? cfg->defaultContainer : DockerContainer::None;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV1:
-    case serverConfigUtils::ConfigType::AmneziaFreeV2: {
+    case serverConfigUtils::ConfigType::MugenPremiumV1:
+    case serverConfigUtils::ConfigType::MugenFreeV2: {
         const auto cfg = m_serversRepository->legacyApiConfig(serverId);
         return cfg.has_value() ? cfg->defaultContainer : DockerContainer::None;
     }
@@ -326,8 +326,8 @@ QString ServersController::notificationDisplayName(const QString &serverId) cons
         }
         break;
     }
-    case Kind::AmneziaPremiumV2:
-    case Kind::AmneziaFreeV3:
+    case Kind::MugenPremiumV2:
+    case Kind::MugenFreeV3:
     case Kind::ExternalPremium: {
         if (const auto cfg = m_serversRepository->apiV2Config(serverId)) {
             if (!cfg->displayName.isEmpty()) {
@@ -336,8 +336,8 @@ QString ServersController::notificationDisplayName(const QString &serverId) cons
         }
         break;
     }
-    case Kind::AmneziaPremiumV1:
-    case Kind::AmneziaFreeV2: {
+    case Kind::MugenPremiumV1:
+    case Kind::MugenFreeV2: {
         if (const auto cfg = m_serversRepository->legacyApiConfig(serverId)) {
             if (!cfg->displayName.isEmpty()) {
                 return cfg->displayName;

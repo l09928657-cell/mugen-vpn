@@ -15,7 +15,7 @@
 #include "core/models/containerConfig.h"
 #include "core/models/protocolConfig.h"
 
-using namespace amnezia;
+using namespace mugen;
 
 ExportController::ExportController(SecureServersRepository* serversRepository,
                                    SecureAppSettingsRepository* appSettingsRepository,
@@ -88,7 +88,7 @@ ExportController::ExportResult ExportController::generateConnectionConfig(const 
         }
     }
 
-    const QPair<QString, QString> dns = adminConfig->getDnsPair(m_appSettingsRepository->useAmneziaDns(),
+    const QPair<QString, QString> dns = adminConfig->getDnsPair(m_appSettingsRepository->useMugenDns(),
                                                                m_appSettingsRepository->primaryDns(),
                                                                m_appSettingsRepository->secondaryDns());
 
@@ -133,7 +133,7 @@ ExportController::NativeConfigResult ExportController::generateNativeConfig(cons
         result.errorCode = ErrorCode::InternalError;
         return result;
     }
-    const QPair<QString, QString> dns = adminConfig->getDnsPair(m_appSettingsRepository->useAmneziaDns(),
+    const QPair<QString, QString> dns = adminConfig->getDnsPair(m_appSettingsRepository->useMugenDns(),
                                                                 m_appSettingsRepository->primaryDns(),
                                                                 m_appSettingsRepository->secondaryDns());
 
@@ -280,7 +280,7 @@ ExportController::ExportResult ExportController::generateXrayConfig(const QStrin
 
     // Parse the Xray data to extract VLESS parameters and generate string
     QJsonObject xrayConfig = nativeResult.jsonNativeConfig;
-    QJsonArray outbounds = xrayConfig.value(amnezia::protocols::xray::outbounds).toArray();
+    QJsonArray outbounds = xrayConfig.value(mugen::protocols::xray::outbounds).toArray();
 
     if (outbounds.isEmpty()) {
         result.errorCode = ErrorCode::InternalError;
@@ -288,17 +288,17 @@ ExportController::ExportResult ExportController::generateXrayConfig(const QStrin
     }
 
     QJsonObject outbound = outbounds[0].toObject();
-    QJsonObject settings = outbound.value(amnezia::protocols::xray::settings).toObject();
-    QJsonObject streamSettings = outbound.value(amnezia::protocols::xray::streamSettings).toObject();
+    QJsonObject settings = outbound.value(mugen::protocols::xray::settings).toObject();
+    QJsonObject streamSettings = outbound.value(mugen::protocols::xray::streamSettings).toObject();
 
-    QJsonArray vnext = settings.value(amnezia::protocols::xray::vnext).toArray();
+    QJsonArray vnext = settings.value(mugen::protocols::xray::vnext).toArray();
     if (vnext.isEmpty()) {
         result.errorCode = ErrorCode::InternalError;
         return result;
     }
 
     QJsonObject server = vnext[0].toObject();
-    QJsonArray users = server.value(amnezia::protocols::xray::users).toArray();
+    QJsonArray users = server.value(mugen::protocols::xray::users).toArray();
     if (users.isEmpty()) {
         result.errorCode = ErrorCode::InternalError;
         return result;
@@ -306,27 +306,27 @@ ExportController::ExportResult ExportController::generateXrayConfig(const QStrin
 
     QJsonObject user = users[0].toObject();
 
-    amnezia::serialization::VlessServerObject vlessServer;
-    vlessServer.address = server.value(amnezia::protocols::xray::address).toString();
-    vlessServer.port = server.value(amnezia::protocols::xray::port).toInt();
-    vlessServer.id = user.value(amnezia::protocols::xray::id).toString();
-    vlessServer.flow = user.value(amnezia::protocols::xray::flow).toString("xtls-rprx-vision");
-    vlessServer.encryption = user.value(amnezia::protocols::xray::encryption).toString("none");
+    mugen::serialization::VlessServerObject vlessServer;
+    vlessServer.address = server.value(mugen::protocols::xray::address).toString();
+    vlessServer.port = server.value(mugen::protocols::xray::port).toInt();
+    vlessServer.id = user.value(mugen::protocols::xray::id).toString();
+    vlessServer.flow = user.value(mugen::protocols::xray::flow).toString("xtls-rprx-vision");
+    vlessServer.encryption = user.value(mugen::protocols::xray::encryption).toString("none");
 
-    vlessServer.network = streamSettings.value(amnezia::protocols::xray::network).toString("tcp");
-    vlessServer.security = streamSettings.value(amnezia::protocols::xray::security).toString("reality");
+    vlessServer.network = streamSettings.value(mugen::protocols::xray::network).toString("tcp");
+    vlessServer.security = streamSettings.value(mugen::protocols::xray::security).toString("reality");
 
     if (vlessServer.security == "reality") {
-        QJsonObject realitySettings = streamSettings.value(amnezia::protocols::xray::realitySettings).toObject();
-        vlessServer.serverName = realitySettings.value(amnezia::protocols::xray::serverName).toString();
-        vlessServer.publicKey = realitySettings.value(amnezia::protocols::xray::publicKey).toString();
-        vlessServer.shortId = realitySettings.value(amnezia::protocols::xray::shortId).toString();
-        vlessServer.fingerprint = realitySettings.value(amnezia::protocols::xray::fingerprint).toString("chrome");
-        vlessServer.spiderX = realitySettings.value(amnezia::protocols::xray::spiderX).toString("");
+        QJsonObject realitySettings = streamSettings.value(mugen::protocols::xray::realitySettings).toObject();
+        vlessServer.serverName = realitySettings.value(mugen::protocols::xray::serverName).toString();
+        vlessServer.publicKey = realitySettings.value(mugen::protocols::xray::publicKey).toString();
+        vlessServer.shortId = realitySettings.value(mugen::protocols::xray::shortId).toString();
+        vlessServer.fingerprint = realitySettings.value(mugen::protocols::xray::fingerprint).toString("chrome");
+        vlessServer.spiderX = realitySettings.value(mugen::protocols::xray::spiderX).toString("");
     } else if (vlessServer.security == "tls") {
         QJsonObject tlsSettings = streamSettings.value("tlsSettings").toObject();
-        vlessServer.serverName = tlsSettings.value(amnezia::protocols::xray::serverName).toString();
-        vlessServer.fingerprint = tlsSettings.value(amnezia::protocols::xray::fingerprint).toString();
+        vlessServer.serverName = tlsSettings.value(mugen::protocols::xray::serverName).toString();
+        vlessServer.fingerprint = tlsSettings.value(mugen::protocols::xray::fingerprint).toString();
         // alpn: serialize array back to comma-separated for VLESS URI
         QJsonArray alpnArr = tlsSettings.value("alpn").toArray();
         QStringList alpnList;
@@ -337,7 +337,7 @@ ExportController::ExportResult ExportController::generateXrayConfig(const QStrin
         // VlessServerObject doesn't have alpn field, so we embed in serverName if needed
     }
 
-    result.nativeConfigString = amnezia::serialization::vless::Serialize(vlessServer, "AmneziaVPN");
+    result.nativeConfigString = mugen::serialization::vless::Serialize(vlessServer, "MugenVPN");
 
     return result;
 }

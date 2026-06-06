@@ -11,7 +11,7 @@
 #include "core/utils/utilities.h"
 #include "core/models/protocols/sftpProtocolConfig.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
 
 SftpInstaller::SftpInstaller(QObject *parent)

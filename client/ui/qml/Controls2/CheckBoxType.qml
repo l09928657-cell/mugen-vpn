@@ -11,26 +11,26 @@ CheckBox {
     id: root
 
     property string descriptionText
-    property string descriptionTextColor: AmneziaStyle.color.mutedGray
-    property string descriptionTextDisabledColor: AmneziaStyle.color.charcoalGray
+    property string descriptionTextColor: MugenStyle.color.mutedGray
+    property string descriptionTextDisabledColor: MugenStyle.color.charcoalGray
 
-    property string textColor: AmneziaStyle.color.paleGray
-    property string textDisabledColor: AmneziaStyle.color.mutedGray
+    property string textColor: MugenStyle.color.paleGray
+    property string textDisabledColor: MugenStyle.color.mutedGray
 
-    property string hoveredColor: AmneziaStyle.color.barelyTranslucentWhite
-    property string defaultColor: AmneziaStyle.color.transparent
-    property string pressedColor: AmneziaStyle.color.barelyTranslucentWhite
+    property string hoveredColor: MugenStyle.color.barelyTranslucentWhite
+    property string defaultColor: MugenStyle.color.transparent
+    property string pressedColor: MugenStyle.color.barelyTranslucentWhite
 
-    property string defaultBorderColor: AmneziaStyle.color.paleGray
-    property string checkedBorderColor: AmneziaStyle.color.goldenApricot
-    property string checkedBorderDisabledColor: AmneziaStyle.color.deepBrown
+    property string defaultBorderColor: MugenStyle.color.paleGray
+    property string checkedBorderColor: MugenStyle.color.goldenApricot
+    property string checkedBorderDisabledColor: MugenStyle.color.deepBrown
 
-    property string borderFocusedColor: AmneziaStyle.color.paleGray
+    property string borderFocusedColor: MugenStyle.color.paleGray
 
-    property string checkedImageColor: AmneziaStyle.color.goldenApricot
-    property string pressedImageColor: AmneziaStyle.color.burntOrange
-    property string defaultImageColor: AmneziaStyle.color.transparent
-    property string checkedDisabledImageColor: AmneziaStyle.color.mutedBrown
+    property string checkedImageColor: MugenStyle.color.goldenApricot
+    property string pressedImageColor: MugenStyle.color.burntOrange
+    property string defaultImageColor: MugenStyle.color.transparent
+    property string checkedDisabledImageColor: MugenStyle.color.mutedBrown
 
     property string imageSource: "qrc:/images/controls/check.svg"
 
@@ -64,8 +64,8 @@ CheckBox {
     focusPolicy: Qt.NoFocus
 
     background: Rectangle {
-        color: AmneziaStyle.color.transparent
-        border.color: root.focus ? borderFocusedColor : AmneziaStyle.color.transparent
+        color: MugenStyle.color.transparent
+        border.color: root.focus ? borderFocusedColor : MugenStyle.color.transparent
         border.width: 1
         radius: 16
     }
@@ -96,7 +96,7 @@ CheckBox {
             anchors.centerIn: parent
             width: 24
             height: 24
-            color: AmneziaStyle.color.transparent
+            color: MugenStyle.color.transparent
             border.color: root.checked ?
                               (root.enabled ?
                                    checkedBorderColor :

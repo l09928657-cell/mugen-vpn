@@ -2,9 +2,9 @@
 
 #include "core/utils/constants/configKeys.h"
 
-using namespace amnezia;
+using namespace mugen;
 
-namespace amnezia
+namespace mugen
 {
 
 QJsonObject TorServerConfig::toJson() const
@@ -41,5 +41,5 @@ TorProtocolConfig TorProtocolConfig::fromJson(const QJsonObject& json)
     return config;
 }
 
-} // namespace amnezia
+} // namespace mugen
 

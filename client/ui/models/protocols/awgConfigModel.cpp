@@ -8,7 +8,7 @@
 #include "core/utils/constants/protocolConstants.h"
 #include "core/models/protocols/awgProtocolConfig.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
 
 AwgConfigModel::AwgConfigModel(QObject *parent) : QAbstractListModel(parent)
@@ -109,7 +109,7 @@ QVariant AwgConfigModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void AwgConfigModel::updateModel(amnezia::DockerContainer container, const amnezia::AwgProtocolConfig &protocolConfig)
+void AwgConfigModel::updateModel(mugen::DockerContainer container, const mugen::AwgProtocolConfig &protocolConfig)
 {
     beginResetModel();
     m_container = container;
@@ -119,7 +119,7 @@ void AwgConfigModel::updateModel(amnezia::DockerContainer container, const amnez
     applyDefaultsToServerConfig(m_protocolConfig.serverConfig);
     
     if (!m_protocolConfig.clientConfig.has_value()) {
-        m_protocolConfig.clientConfig = amnezia::AwgClientConfig{};
+        m_protocolConfig.clientConfig = mugen::AwgClientConfig{};
     }
     applyDefaultsToClientConfig(m_protocolConfig.clientConfig.value());
 
@@ -128,7 +128,7 @@ void AwgConfigModel::updateModel(amnezia::DockerContainer container, const amnez
     endResetModel();
 }
 
-void AwgConfigModel::applyDefaultsToServerConfig(amnezia::AwgServerConfig& config)
+void AwgConfigModel::applyDefaultsToServerConfig(mugen::AwgServerConfig& config)
 {
     if (config.subnetAddress.isEmpty()) {
         config.subnetAddress = protocols::wireguard::defaultSubnetAddress;
@@ -138,7 +138,7 @@ void AwgConfigModel::applyDefaultsToServerConfig(amnezia::AwgServerConfig& confi
     }
     if (config.transportProto.isEmpty()) {
         config.transportProto = ProtocolUtils::transportProtoToString(
-            ProtocolUtils::defaultTransportProto(amnezia::Proto::Awg), amnezia::Proto::Awg);
+            ProtocolUtils::defaultTransportProto(mugen::Proto::Awg), mugen::Proto::Awg);
     }
     if (config.junkPacketCount.isEmpty()) {
         config.junkPacketCount = protocols::awg::defaultJunkPacketCount;
@@ -192,7 +192,7 @@ void AwgConfigModel::applyDefaultsToServerConfig(amnezia::AwgServerConfig& confi
     }
 }
 
-void AwgConfigModel::applyDefaultsToClientConfig(amnezia::AwgClientConfig& config)
+void AwgConfigModel::applyDefaultsToClientConfig(mugen::AwgClientConfig& config)
 {
     if (config.mtu.isEmpty()) {
         config.mtu = protocols::awg::defaultMtu;
@@ -239,7 +239,7 @@ void AwgConfigModel::applyDefaultsToClientConfig(amnezia::AwgClientConfig& confi
     }
 }
 
-amnezia::AwgProtocolConfig AwgConfigModel::getProtocolConfig()
+mugen::AwgProtocolConfig AwgConfigModel::getProtocolConfig()
 {
     bool serverSettingsChanged = !m_protocolConfig.serverConfig.hasEqualServerSettings(m_originalProtocolConfig.serverConfig);
     
@@ -272,12 +272,12 @@ bool AwgConfigModel::isServerSettingsEqual()
 
 bool AwgConfigModel::isHeadersEqual(const QString &h1, const QString &h2, const QString &h3, const QString &h4)
 {
-    return amnezia::AwgProtocolConfig::isHeadersEqual(h1, h2, h3, h4);
+    return mugen::AwgProtocolConfig::isHeadersEqual(h1, h2, h3, h4);
 }
 
 bool AwgConfigModel::isPacketSizeEqual(const int s1, const int s2, const int s3, const int s4)
 {
-    return amnezia::AwgProtocolConfig::isPacketSizeEqual(s1, s2, s3, s4);
+    return mugen::AwgProtocolConfig::isPacketSizeEqual(s1, s2, s3, s4);
 }
 
 QHash<int, QByteArray> AwgConfigModel::roleNames() const

@@ -42,7 +42,7 @@ PageType {
 
             Image {
                 id: image
-                source: "qrc:/images/amneziaBigLogo.png"
+                source: "qrc:/images/mugenBigLogo.png"
 
                 Layout.alignment: Qt.AlignCenter
                 Layout.topMargin: 16
@@ -58,7 +58,7 @@ PageType {
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
 
-                text: qsTr("Support Amnezia")
+                text: qsTr("Support Mugen")
                 horizontalAlignment: Text.AlignHCenter
             }
 
@@ -73,8 +73,8 @@ PageType {
                 height: 20
                 font.pixelSize: 14
 
-                text: qsTr("Amnezia is a free and open-source application. You can support the developers if you like it.")
-                color: AmneziaStyle.color.paleGray
+                text: qsTr("Mugen is a free and open-source application. You can support the developers if you like it.")
+                color: MugenStyle.color.paleGray
             }
 
             ParagraphTextType {
@@ -117,7 +117,7 @@ PageType {
                 horizontalAlignment: Text.AlignHCenter
 
                 text: qsTr("Software version: %1").arg(SettingsController.getAppVersion())
-                color: AmneziaStyle.color.mutedGray
+                color: MugenStyle.color.mutedGray
 
                 MouseArea {
                     property int clickCount: 0
@@ -140,16 +140,16 @@ PageType {
                 Layout.bottomMargin: 16
                 implicitHeight: 32
 
-                defaultColor: AmneziaStyle.color.transparent
-                hoveredColor: AmneziaStyle.color.translucentWhite
-                pressedColor: AmneziaStyle.color.sheerWhite
-                disabledColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.goldenApricot
+                defaultColor: MugenStyle.color.transparent
+                hoveredColor: MugenStyle.color.translucentWhite
+                pressedColor: MugenStyle.color.sheerWhite
+                disabledColor: MugenStyle.color.mutedGray
+                textColor: MugenStyle.color.goldenApricot
 
                 text: qsTr("Check for updates")
 
                 clickedFunc: function() {
-                    Qt.openUrlExternally("https://github.com/amnezia-vpn/desktop-client/releases/latest")
+                    Qt.openUrlExternally("https://github.com/mugen-vpn/desktop-client/releases/latest")
                 }
             }
 
@@ -161,11 +161,11 @@ PageType {
                 Layout.topMargin: -15
                 implicitHeight: 25
 
-                defaultColor: AmneziaStyle.color.transparent
-                hoveredColor: AmneziaStyle.color.translucentWhite
-                pressedColor: AmneziaStyle.color.sheerWhite
-                disabledColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.goldenApricot
+                defaultColor: MugenStyle.color.transparent
+                hoveredColor: MugenStyle.color.translucentWhite
+                pressedColor: MugenStyle.color.sheerWhite
+                disabledColor: MugenStyle.color.mutedGray
+                textColor: MugenStyle.color.goldenApricot
 
                 text: qsTr("Privacy Policy")
 
@@ -190,18 +190,18 @@ PageType {
         readonly property string description: qsTr("To discuss features")
         readonly property string imageSource: "qrc:/images/controls/telegram.svg"
         readonly property var handler: function() {
-            Qt.openUrlExternally(qsTr("https://t.me/amnezia_vpn_en"))
+            Qt.openUrlExternally(qsTr("https://t.me/mugen_vpn_en"))
         }
     }
 
     QtObject {
         id: mail
 
-        readonly property string title: qsTr("support@amnezia.org")
+        readonly property string title: qsTr("support@mugen.org")
         readonly property string description: qsTr("For reviews and bug reports")
         readonly property string imageSource: "qrc:/images/controls/mail.svg"
         readonly property var handler: function() {
-            Qt.openUrlExternally(qsTr("mailto:support@amnezia.org"))
+            Qt.openUrlExternally(qsTr("mailto:support@mugen.org"))
         }
     }
 
@@ -212,7 +212,7 @@ PageType {
         readonly property string description: qsTr("Discover the source code")
         readonly property string imageSource: "qrc:/images/controls/github.svg"
         readonly property var handler: function() {
-            Qt.openUrlExternally(qsTr("https://github.com/amnezia-vpn/amnezia-client"))
+            Qt.openUrlExternally(qsTr("https://github.com/mugen-vpn/mugen-client"))
         }
     }
 
@@ -221,7 +221,7 @@ PageType {
 
         readonly property string title: qsTr("Website")
         readonly property string description: qsTr("Visit official website")
-        readonly property string imageSource: "qrc:/images/controls/amnezia.svg"
+        readonly property string imageSource: "qrc:/images/controls/mugen.svg"
         readonly property var handler: function() {
             Qt.openUrlExternally(LanguageUiController.getCurrentSiteUrl())
         }

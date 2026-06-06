@@ -7,7 +7,7 @@
 #include "core/models/containerConfig.h"
 #include "core/models/protocols/torProtocolConfig.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
 
 TorConfigModel::TorConfigModel(QObject *parent) : QAbstractListModel(parent)
@@ -51,7 +51,7 @@ QVariant TorConfigModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TorConfigModel::updateModel(amnezia::DockerContainer container, const amnezia::TorProtocolConfig &protocolConfig)
+void TorConfigModel::updateModel(mugen::DockerContainer container, const mugen::TorProtocolConfig &protocolConfig)
 {
     beginResetModel();
     m_container = container;
@@ -61,7 +61,7 @@ void TorConfigModel::updateModel(amnezia::DockerContainer container, const amnez
     endResetModel();
 }
 
-amnezia::TorProtocolConfig TorConfigModel::getProtocolConfig()
+mugen::TorProtocolConfig TorConfigModel::getProtocolConfig()
 {
     return m_protocolConfig;
 }

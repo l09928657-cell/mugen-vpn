@@ -99,8 +99,8 @@ void VpnConnection::onConnectionStateChanged(Vpn::ConnectionState state)
         }
         break;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV2:
-    case serverConfigUtils::ConfigType::AmneziaFreeV3:
+    case serverConfigUtils::ConfigType::MugenPremiumV2:
+    case serverConfigUtils::ConfigType::MugenFreeV3:
     case serverConfigUtils::ConfigType::ExternalPremium: {
         const auto cfg = m_serversRepository->apiV2Config(defaultServerId);
         if (cfg.has_value()) {
@@ -108,8 +108,8 @@ void VpnConnection::onConnectionStateChanged(Vpn::ConnectionState state)
         }
         break;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV1:
-    case serverConfigUtils::ConfigType::AmneziaFreeV2:
+    case serverConfigUtils::ConfigType::MugenPremiumV1:
+    case serverConfigUtils::ConfigType::MugenFreeV2:
         break;
     case serverConfigUtils::ConfigType::Invalid:
     default:
@@ -132,7 +132,7 @@ void VpnConnection::onConnectionStateChanged(Vpn::ConnectionState state)
                     QString dns2 = m_vpnConfiguration.value(configKey::dns2).toString();
 
 #ifdef Q_OS_MACOS
-                    if (!m_appSettingsRepository->isSitesSplitTunnelingEnabled() || m_appSettingsRepository->routeMode() != amnezia::RouteMode::VpnAllExceptSites) {
+                    if (!m_appSettingsRepository->isSitesSplitTunnelingEnabled() || m_appSettingsRepository->routeMode() != mugen::RouteMode::VpnAllExceptSites) {
                         iface->routeAddList(m_vpnProtocol->vpnGateway(), QStringList() << dns1 << dns2);
                     }
 #else
@@ -142,10 +142,10 @@ void VpnConnection::onConnectionStateChanged(Vpn::ConnectionState state)
                     if (m_appSettingsRepository->isSitesSplitTunnelingEnabled()) {
                         iface->routeDeleteList(m_vpnProtocol->vpnGateway(), QStringList() << "0.0.0.0");
                         RouteMode routeMode = m_appSettingsRepository->routeMode();
-                        if (routeMode == amnezia::RouteMode::VpnOnlyForwardSites) {
+                        if (routeMode == mugen::RouteMode::VpnOnlyForwardSites) {
                             QTimer::singleShot(1000, m_vpnProtocol.data(),
                                                [this, routeMode]() { addSitesRoutes(m_vpnProtocol->vpnGateway(), routeMode); });
-                        } else if (routeMode == amnezia::RouteMode::VpnAllExceptSites) {
+                        } else if (routeMode == mugen::RouteMode::VpnAllExceptSites) {
                             iface->routeAddList(m_vpnProtocol->vpnGateway(), QStringList() << "0.0.0.0/1");
                             iface->routeAddList(m_vpnProtocol->vpnGateway(), QStringList() << "128.0.0.0/1");
 
@@ -200,7 +200,7 @@ void VpnConnection::setRepositories(SecureServersRepository* serversRepository, 
     m_appSettingsRepository = appSettingsRepository;
 }
 
-void VpnConnection::addSitesRoutes(const QString &gw, amnezia::RouteMode mode)
+void VpnConnection::addSitesRoutes(const QString &gw, mugen::RouteMode mode)
 {
 #ifdef AMNEZIA_DESKTOP
     if (!m_appSettingsRepository) {
@@ -424,7 +424,7 @@ void VpnConnection::appendSplitTunnelingConfig()
         }
     }
 
-    amnezia::RouteMode routeMode = amnezia::RouteMode::VpnAllSites;
+    mugen::RouteMode routeMode = mugen::RouteMode::VpnAllSites;
     QJsonArray sitesJsonArray;
     if (m_appSettingsRepository->isSitesSplitTunnelingEnabled()) {
         routeMode = m_appSettingsRepository->routeMode();
@@ -445,9 +445,9 @@ void VpnConnection::appendSplitTunnelingConfig()
             }
 
             if (sitesJsonArray.isEmpty()) {
-                routeMode = amnezia::RouteMode::VpnAllSites;
-            } else if (routeMode == amnezia::RouteMode::VpnOnlyForwardSites) {
-                // Allow traffic to Amnezia DNS
+                routeMode = mugen::RouteMode::VpnAllSites;
+            } else if (routeMode == mugen::RouteMode::VpnOnlyForwardSites) {
+                // Allow traffic to Mugen DNS
                 sitesJsonArray.append(m_vpnConfiguration.value(configKey::dns1).toString());
                 sitesJsonArray.append(m_vpnConfiguration.value(configKey::dns2).toString());
             }
@@ -457,7 +457,7 @@ void VpnConnection::appendSplitTunnelingConfig()
     m_vpnConfiguration.insert(configKey::splitTunnelType, routeMode);
     m_vpnConfiguration.insert(configKey::splitTunnelSites, sitesJsonArray);
 
-    amnezia::AppsRouteMode appsRouteMode = amnezia::AppsRouteMode::VpnAllApps;
+    mugen::AppsRouteMode appsRouteMode = mugen::AppsRouteMode::VpnAllApps;
     QJsonArray appsJsonArray;
     if (m_appSettingsRepository->isAppsSplitTunnelingEnabled()) {
         appsRouteMode = m_appSettingsRepository->appsRouteMode();
@@ -468,7 +468,7 @@ void VpnConnection::appendSplitTunnelingConfig()
         }
 
         if (appsJsonArray.isEmpty()) {
-            appsRouteMode = amnezia::AppsRouteMode::VpnAllApps;
+            appsRouteMode = mugen::AppsRouteMode::VpnAllApps;
         }
     }
 

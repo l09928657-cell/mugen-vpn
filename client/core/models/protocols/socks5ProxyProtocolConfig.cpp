@@ -5,9 +5,9 @@
 #include "../../../core/utils/constants/configKeys.h"
 #include "../../../core/utils/constants/protocolConstants.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
-namespace amnezia
+namespace mugen
 {
 
 QJsonObject Socks5ProxyProtocolConfig::toJson() const
@@ -38,5 +38,5 @@ Socks5ProxyProtocolConfig Socks5ProxyProtocolConfig::fromJson(const QJsonObject&
     return config;
 }
 
-} // namespace amnezia
+} // namespace mugen
 

@@ -145,7 +145,7 @@ PageType {
                 Layout.topMargin: 12
 
                 text: root.subscriptionExpired ? qsTr("Subscription expired") : qsTr("Subscription expiring soon")
-                color: root.subscriptionExpired ? AmneziaStyle.color.vibrantRed : AmneziaStyle.color.goldenApricot
+                color: root.subscriptionExpired ? MugenStyle.color.vibrantRed : MugenStyle.color.goldenApricot
             }
 
             BasicButtonType {
@@ -158,10 +158,10 @@ PageType {
                 Layout.topMargin: 28
                 Layout.bottomMargin: 0
 
-                defaultColor: AmneziaStyle.color.paleGray
-                hoveredColor: AmneziaStyle.color.lightGray
-                pressedColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.midnightBlack
+                defaultColor: MugenStyle.color.paleGray
+                hoveredColor: MugenStyle.color.lightGray
+                pressedColor: MugenStyle.color.mutedGray
+                textColor: MugenStyle.color.midnightBlack
 
                 text: qsTr("Renew subscription")
 
@@ -178,7 +178,7 @@ PageType {
                 Layout.bottomMargin: 8
 
                 text: qsTr("Location for connection")
-                color: AmneziaStyle.color.mutedGray
+                color: MugenStyle.color.mutedGray
             }
         }
 

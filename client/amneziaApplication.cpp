@@ -1,4 +1,4 @@
-#include "amneziaApplication.h"
+#include "mugenApplication.h"
 
 #include <QClipboard>
 #include <QFontDatabase>
@@ -27,9 +27,9 @@
 #include "platforms/ios/QRCodeReaderBase.h"
          
 
-bool AmneziaApplication::m_forceQuit = false;
+bool MugenApplication::m_forceQuit = false;
 
-AmneziaApplication::AmneziaApplication(int &argc, char *argv[]) : AMNEZIA_BASE_CLASS(argc, argv),
+MugenApplication::MugenApplication(int &argc, char *argv[]) : AMNEZIA_BASE_CLASS(argc, argv),
       m_optAutostart({QStringLiteral("a"), QStringLiteral("autostart")}, QStringLiteral("System autostart")),
       m_optCleanup  ({QStringLiteral("c"), QStringLiteral("cleanup")}, QStringLiteral("Cleanup logs")),
       m_optConnect  ({QStringLiteral("connect")}, QStringLiteral("Connect to server by index on startup"), QStringLiteral("index")),
@@ -58,7 +58,7 @@ AmneziaApplication::AmneziaApplication(int &argc, char *argv[]) : AMNEZIA_BASE_C
     m_nam = new QNetworkAccessManager(this);
 }
 
-AmneziaApplication::~AmneziaApplication()
+MugenApplication::~MugenApplication()
 {
 #ifdef AMNEZIA_DESKTOP
     if (m_vpnConnection && m_vpnConnectionThread.isRunning()) {
@@ -94,7 +94,7 @@ namespace {
 }
 #endif
 
-void AmneziaApplication::init()
+void MugenApplication::init()
 {
     m_engine = new QQmlApplicationEngine;
 
@@ -192,12 +192,12 @@ void AmneziaApplication::init()
     }
 }
 
-void AmneziaApplication::registerTypes()
+void MugenApplication::registerTypes()
 {
     qRegisterMetaType<ServerCredentials>("ServerCredentials");
 
     qRegisterMetaType<DockerContainer>("DockerContainer");
-    using namespace amnezia::ProtocolEnumNS;
+    using namespace mugen::ProtocolEnumNS;
     qRegisterMetaType<TransportProto>("TransportProto");
     qRegisterMetaType<Proto>("Proto");
     qRegisterMetaType<ServiceType>("ServiceType");
@@ -215,19 +215,19 @@ void AmneziaApplication::registerTypes()
 
     qmlRegisterType<InstalledAppsModel>("InstalledAppsModel", 1, 0, "InstalledAppsModel");
 
-    amnezia::declareQmlProtocolEnum();
+    mugen::declareQmlProtocolEnum();
     Vpn::declareQmlVpnConnectionStateEnum();
     PageLoader::declareQmlPageEnum();
 }
 
-void AmneziaApplication::loadFonts()
+void MugenApplication::loadFonts()
 {
     QQuickStyle::setStyle("Basic");
 
     QFontDatabase::addApplicationFont(":/fonts/pt-root-ui_vf.ttf");
 }
 
-bool AmneziaApplication::parseCommands()
+bool MugenApplication::parseCommands()
 {
     m_parser.setApplicationDescription(APPLICATION_NAME);
     m_parser.addHelpOption();
@@ -250,8 +250,8 @@ bool AmneziaApplication::parseCommands()
 }
 
 #if !defined(Q_OS_ANDROID) && !defined(Q_OS_IOS) && !defined(MACOS_NE)
-void AmneziaApplication::startLocalServer() {
-    const QString serverName("AmneziaVPNInstance");
+void MugenApplication::startLocalServer() {
+    const QString serverName("MugenVPNInstance");
     QLocalServer::removeServer(serverName);
 
     QLocalServer *server = new QLocalServer(this);
@@ -267,7 +267,7 @@ void AmneziaApplication::startLocalServer() {
 }
 #endif
 
-bool AmneziaApplication::eventFilter(QObject *watched, QEvent *event)
+bool MugenApplication::eventFilter(QObject *watched, QEvent *event)
 {
     if (event->type() == QEvent::Close) {
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
@@ -287,23 +287,23 @@ bool AmneziaApplication::eventFilter(QObject *watched, QEvent *event)
     return QObject::eventFilter(watched, event);
 }
 
-void AmneziaApplication::forceQuit()
+void MugenApplication::forceQuit()
 {
     m_forceQuit = true;
     quit();
 }
 
-QQmlApplicationEngine *AmneziaApplication::qmlEngine() const
+QQmlApplicationEngine *MugenApplication::qmlEngine() const
 {
     return m_engine;
 }
 
-QNetworkAccessManager *AmneziaApplication::networkManager()
+QNetworkAccessManager *MugenApplication::networkManager()
 {
     return m_nam;
 }
 
-QClipboard *AmneziaApplication::getClipboard()
+QClipboard *MugenApplication::getClipboard()
 {
     return this->clipboard();
 }

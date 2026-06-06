@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
-set(PROJECT AmneziaVPN-service)
+set(PROJECT MugenVPN-service)
 project(${PROJECT} VERSION ${AMNEZIAVPN_VERSION})
 
 if (APPLE)
     # CMAKE_INSTALL_BINDIR must be called before find_package(Qt6) for
     # Qt to configure prefixes properly
-    # FIXME: make Amnezia-service a bundle and remove this hack completely
-    set(CMAKE_INSTALL_BINDIR "AmneziaVPN.app/Contents/MacOS")
+    # FIXME: make Mugen-service a bundle and remove this hack completely
+    set(CMAKE_INSTALL_BINDIR "MugenVPN.app/Contents/MacOS")
 endif()
 
 set(CMAKE_CXX_STANDARD 20)
@@ -138,8 +138,8 @@ set(RESOURCES)
 
 if(WIN32)
     configure_file(
-        ${CMAKE_CURRENT_LIST_DIR}/amneziavpn-service.rc.in
-        ${CMAKE_CURRENT_BINARY_DIR}/amneziavpn-service.rc
+        ${CMAKE_CURRENT_LIST_DIR}/mugenvpn-service.rc.in
+        ${CMAKE_CURRENT_BINARY_DIR}/mugenvpn-service.rc
     )
 
     set(HEADERS ${HEADERS}
@@ -183,7 +183,7 @@ if(WIN32)
     )
 
     set(RESOURCES ${RESOURCES}
-        ${CMAKE_CURRENT_BINARY_DIR}/amneziavpn-service.rc
+        ${CMAKE_CURRENT_BINARY_DIR}/mugenvpn-service.rc
     )
 
     set(LIBS
@@ -305,8 +305,8 @@ add_executable(${PROJECT} ${SOURCES} ${HEADERS} ${RESOURCES})
 target_link_libraries(${PROJECT} PRIVATE Qt6::Core Qt6::Widgets Qt6::Network Qt6::RemoteObjects Qt6::Core5Compat Qt6::DBus Qt6::Concurrent ${LIBS})
 target_compile_definitions(${PROJECT} PRIVATE "MZ_$<UPPER_CASE:${MZ_PLATFORM_NAME}>")
 
-find_package(amnezia-xray-bindings REQUIRED)
-target_link_libraries(${PROJECT} PRIVATE amnezia::xray-bindings)
+find_package(mugen-xray-bindings REQUIRED)
+target_link_libraries(${PROJECT} PRIVATE mugen::xray-bindings)
 
 find_package(OpenSSL REQUIRED)
 target_link_libraries(${PROJECT} PRIVATE OpenSSL::SSL OpenSSL::Crypto)
@@ -345,20 +345,20 @@ qt_add_repc_sources(${PROJECT} ${CMAKE_CURRENT_LIST_DIR}/../../ipc/ipc_process_i
 if(APPLE)
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/deploy/data/macos/pf
         DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT AmneziaVPN
+        COMPONENT MugenVPN
     )
 endif()
 
 # install non-linked dependencies
 if(WIN32)
     find_package(awg-windows REQUIRED)
-    list(APPEND CONAN_EXECS $<TARGET_FILE:amnezia::awg-windows>)
+    list(APPEND CONAN_EXECS $<TARGET_FILE:mugen::awg-windows>)
 
     find_package(wintun REQUIRED)
     list(APPEND CONAN_BINS $<TARGET_FILE:zx2c4::wintun>)
 else()
     find_package(awg-go REQUIRED)
-    list(APPEND CONAN_EXECS $<TARGET_FILE:amnezia::awg-go>)
+    list(APPEND CONAN_EXECS $<TARGET_FILE:mugen::awg-go>)
 endif()
 
 find_package(openvpn REQUIRED)
@@ -380,12 +380,12 @@ if(WIN32)
     # to the files so just omit it for it
     install(FILES ${CONAN_EXECS}
         DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT AmneziaVPN
+        COMPONENT MugenVPN
     )
 else()
     install(FILES ${CONAN_EXECS}
         DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT AmneziaVPN
+        COMPONENT MugenVPN
         PERMISSIONS
             OWNER_READ OWNER_EXECUTE
             GROUP_READ GROUP_EXECUTE
@@ -394,7 +394,7 @@ else()
 endif()
 install(FILES ${CONAN_BINS}
     DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT AmneziaVPN
+    COMPONENT MugenVPN
 )
 
 # install drivers
@@ -407,7 +407,7 @@ if (WIN32)
     )
     install(DIRECTORY "${TAP_WINDOWS6_BIN}/"
         DESTINATION "${CMAKE_INSTALL_BINDIR}/tap"
-        COMPONENT AmneziaVPN
+        COMPONENT MugenVPN
     )
 
     find_package(win-split-tunnel REQUIRED)
@@ -418,7 +418,7 @@ if (WIN32)
     )
     install(DIRECTORY "${WIN_SPLIT_TUNNEL_BIN}/"
         DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT AmneziaVPN
+        COMPONENT MugenVPN
     )
 endif()
 
@@ -426,7 +426,7 @@ endif()
 install(TARGETS ${PROJECT}
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     RUNTIME_DEPENDENCY_SET service_deps
-    COMPONENT AmneziaVPN
+    COMPONENT MugenVPN
 )
 
 if(APPLE)
@@ -449,7 +449,7 @@ install(RUNTIME_DEPENDENCY_SET service_deps
         [[^/lib.*]]
         [[^/usr/lib.*]]
     DIRECTORIES ${CONAN_RUNTIME_LIB_DIRS}
-    COMPONENT AmneziaVPN
+    COMPONENT MugenVPN
     DESTINATION "${RUNTIME_DEPS_DIR}"
 )
 
@@ -459,5 +459,5 @@ qt_generate_deploy_app_script(
     NO_UNSUPPORTED_PLATFORM_ERROR
 )
 install(SCRIPT ${QT_DEPLOY_SCRIPT}
-    COMPONENT AmneziaVPN
+    COMPONENT MugenVPN
 )

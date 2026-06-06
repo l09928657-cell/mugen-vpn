@@ -27,8 +27,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 public slots:
-    void updateModel(amnezia::DockerContainer container, const amnezia::WireGuardProtocolConfig &protocolConfig);
-    amnezia::WireGuardProtocolConfig getProtocolConfig();
+    void updateModel(mugen::DockerContainer container, const mugen::WireGuardProtocolConfig &protocolConfig);
+    mugen::WireGuardProtocolConfig getProtocolConfig();
 
     bool isServerSettingsEqual();
 
@@ -36,12 +36,12 @@ protected:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    amnezia::DockerContainer m_container;
-    amnezia::WireGuardProtocolConfig m_protocolConfig;
-    amnezia::WireGuardProtocolConfig m_originalProtocolConfig;
+    mugen::DockerContainer m_container;
+    mugen::WireGuardProtocolConfig m_protocolConfig;
+    mugen::WireGuardProtocolConfig m_originalProtocolConfig;
     
-    void applyDefaultsToServerConfig(amnezia::WireGuardServerConfig& config);
-    void applyDefaultsToClientConfig(amnezia::WireGuardClientConfig& config);
+    void applyDefaultsToServerConfig(mugen::WireGuardServerConfig& config);
+    void applyDefaultsToClientConfig(mugen::WireGuardClientConfig& config);
 };
 
 #endif // WIREGUARDCONFIGMODEL_H

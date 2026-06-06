@@ -1,6 +1,6 @@
 #include "errorStrings.h"
 
-using namespace amnezia;
+using namespace mugen;
 
 QString errorString(ErrorCode code) {
     QString errorMessage;
@@ -11,7 +11,7 @@ QString errorString(ErrorCode code) {
     case(ErrorCode::NoError): errorMessage = QObject::tr("No error"); break;
     case(ErrorCode::UnknownError): errorMessage = QObject::tr("Unknown error"); break;
     case(ErrorCode::NotImplementedError): errorMessage = QObject::tr("Function not implemented"); break;
-    case(ErrorCode::AmneziaServiceNotRunning): errorMessage = QObject::tr("Background service is not running"); break;
+    case(ErrorCode::MugenServiceNotRunning): errorMessage = QObject::tr("Background service is not running"); break;
     case(ErrorCode::NotSupportedOnThisPlatform): errorMessage = QObject::tr("The selected protocol is not supported on the current platform"); break;
 
     // Server errors
@@ -57,7 +57,7 @@ QString errorString(ErrorCode code) {
 
     // Distro errors
     case (ErrorCode::OpenVpnExecutableMissing): errorMessage = QObject::tr("OpenVPN executable missing"); break;
-    case (ErrorCode::AmneziaServiceConnectionFailed): errorMessage = QObject::tr("Amnezia helper service error"); break;
+    case (ErrorCode::MugenServiceConnectionFailed): errorMessage = QObject::tr("Mugen helper service error"); break;
     case (ErrorCode::OpenSslFailed): errorMessage = QObject::tr("OpenSSL failed"); break;
 
     // VPN errors
@@ -68,7 +68,7 @@ QString errorString(ErrorCode code) {
     case (ErrorCode::ImportInvalidConfigError): errorMessage = QObject::tr("The config does not contain any containers and credentials for connecting to the server"); break;
     case (ErrorCode::ImportBackupFileUseRestoreInstead): errorMessage = QObject::tr("Backup files cannot be imported here. Use 'Restore from backup' instead."); break;
     case (ErrorCode::RestoreBackupInvalidError): errorMessage = QObject::tr("Backup file is corrupted or has invalid format"); break;
-    case (ErrorCode::LegacyApiV1NotSupportedError): errorMessage = QObject::tr("This legacy Amnezia subscription format is no longer supported"); break;
+    case (ErrorCode::LegacyApiV1NotSupportedError): errorMessage = QObject::tr("This legacy Mugen subscription format is no longer supported"); break;
     case (ErrorCode::LegacyContainerNotSupportedError): errorMessage = QObject::tr("This protocol is no longer supported. Please select another protocol or remove this container from the server settings."); break;
     case (ErrorCode::ImportOpenConfigError): errorMessage = QObject::tr("Unable to open config file"); break;
     case (ErrorCode::NoInstalledContainersError): errorMessage = QObject::tr("VPN Protocols is not installed.\n Please install VPN container at first"); break;
@@ -89,7 +89,7 @@ QString errorString(ErrorCode code) {
     case (ErrorCode::ApiNotFoundError): errorMessage = QObject::tr("Error when retrieving configuration from API"); break;
     case (ErrorCode::ApiMigrationError): errorMessage = QObject::tr("A migration error has occurred. Please contact our technical support"); break;
     case (ErrorCode::ApiUpdateRequestError): errorMessage = QObject::tr("Please update the application to use this feature"); break;
-    case (ErrorCode::ApiSubscriptionExpiredError): errorMessage = QObject::tr("Your Amnezia Premium subscription has expired.\n Please check your email for renewal instructions.\n If you haven't received an email, please contact our support."); break;
+    case (ErrorCode::ApiSubscriptionExpiredError): errorMessage = QObject::tr("Your Mugen Premium subscription has expired.\n Please check your email for renewal instructions.\n If you haven't received an email, please contact our support."); break;
     case (ErrorCode::ApiPurchaseError): errorMessage = QObject::tr("Unable to process purchase"); break;
     case (ErrorCode::ApiSubscriptionNotActiveError): errorMessage = QObject::tr("No active subscription found"); break;
     case (ErrorCode::ApiNoPurchasedSubscriptionsError): errorMessage = QObject::tr("No purchased subscriptions found. Please purchase a subscription first"); break;

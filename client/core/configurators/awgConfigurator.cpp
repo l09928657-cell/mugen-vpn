@@ -9,7 +9,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-using namespace amnezia;
+using namespace mugen;
 
 AwgConfigurator::AwgConfigurator(SshSession* sshSession, QObject *parent)
     : WireguardConfigurator(sshSession, true, parent)

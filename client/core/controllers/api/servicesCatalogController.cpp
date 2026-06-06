@@ -35,7 +35,7 @@ namespace
 
     namespace serviceType
     {
-        constexpr char amneziaPremium[] = "amnezia-premium";
+        constexpr char mugenPremium[] = "mugen-premium";
     }
 
 #if defined(Q_OS_IOS) || defined(MACOS_NE)
@@ -56,7 +56,7 @@ namespace
         QSet<QString> seenProductIds;
         for (const QJsonValue &serviceValue : services) {
             const QJsonObject serviceObject = serviceValue.toObject();
-            if (serviceObject.value(apiDefs::key::serviceType).toString() != serviceType::amneziaPremium) {
+            if (serviceObject.value(apiDefs::key::serviceType).toString() != serviceType::mugenPremium) {
                 continue;
             }
             const QJsonArray subscriptionPlans =
@@ -138,7 +138,7 @@ namespace
 
         for (int serviceIndex = 0; serviceIndex < services.size(); ++serviceIndex) {
             QJsonObject serviceObject = services.at(serviceIndex).toObject();
-            if (serviceObject.value(apiDefs::key::serviceType).toString() != serviceType::amneziaPremium) {
+            if (serviceObject.value(apiDefs::key::serviceType).toString() != serviceType::mugenPremium) {
                 continue;
             }
 

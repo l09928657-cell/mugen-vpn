@@ -18,7 +18,7 @@
 class SshSession;
 class VpnConfigurationsController;
 
-using namespace amnezia;
+using namespace mugen;
 
 class ExportController : public QObject
 {

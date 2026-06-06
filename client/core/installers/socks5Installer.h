@@ -9,9 +9,9 @@ class Socks5Installer : public InstallerBase
 public:
     explicit Socks5Installer(QObject *parent = nullptr);
 
-    amnezia::ContainerConfig generateConfig(amnezia::DockerContainer container, int port, amnezia::TransportProto transportProto) override;
-    amnezia::ErrorCode extractConfigFromContainer(amnezia::DockerContainer container, const amnezia::ServerCredentials &credentials,
-                                         SshSession* serverController, amnezia::ContainerConfig &config) override;
+    mugen::ContainerConfig generateConfig(mugen::DockerContainer container, int port, mugen::TransportProto transportProto) override;
+    mugen::ErrorCode extractConfigFromContainer(mugen::DockerContainer container, const mugen::ServerCredentials &credentials,
+                                         SshSession* serverController, mugen::ContainerConfig &config) override;
 };
 
 #endif // SOCKS5INSTALLER_H

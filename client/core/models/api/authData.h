@@ -8,7 +8,7 @@
 #include "core/utils/constants/apiKeys.h"
 #include "core/utils/constants/apiConstants.h"
 
-namespace amnezia
+namespace mugen
 {
 
 struct AuthData {
@@ -18,7 +18,7 @@ struct AuthData {
     static AuthData fromJson(const QJsonObject& json);
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // AUTHDATA_H
 

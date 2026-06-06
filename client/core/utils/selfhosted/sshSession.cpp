@@ -97,7 +97,7 @@ ErrorCode SshSession::runContainerScript(const ServerCredentials &credentials, D
                                          const std::function<ErrorCode(const QString &, libssh::Client &)> &cbReadStdOut,
                                          const std::function<ErrorCode(const QString &, libssh::Client &)> &cbReadStdErr)
 {
-    QString fileName = "/opt/amnezia/" + Utils::getRandomString(16) + ".sh";
+    QString fileName = "/opt/mugen/" + Utils::getRandomString(16) + ".sh";
 
     ErrorCode e = uploadTextFileToContainer(container, credentials, script, fileName);
     if (e)
@@ -105,10 +105,10 @@ ErrorCode SshSession::runContainerScript(const ServerCredentials &credentials, D
 
     const bool useSh = container == DockerContainer::Socks5Proxy || container == DockerContainer::MtProxy || container == DockerContainer::Telemt;
     QString runner = QString("sudo docker exec -i $CONTAINER_NAME %2 %1 ").arg(fileName, useSh ? "sh" : "bash");
-    e = runScript(credentials, replaceVars(runner, amnezia::genBaseVars(credentials, container, QString(), QString())), cbReadStdOut, cbReadStdErr);
+    e = runScript(credentials, replaceVars(runner, mugen::genBaseVars(credentials, container, QString(), QString())), cbReadStdOut, cbReadStdErr);
 
     QString remover = QString("sudo docker exec -i $CONTAINER_NAME rm %1 ").arg(fileName);
-    runScript(credentials, replaceVars(remover, amnezia::genBaseVars(credentials, container, QString(), QString())), cbReadStdOut, cbReadStdErr);
+    runScript(credentials, replaceVars(remover, mugen::genBaseVars(credentials, container, QString(), QString())), cbReadStdOut, cbReadStdErr);
 
     return e;
 }
@@ -131,14 +131,14 @@ ErrorCode SshSession::uploadTextFileToContainer(DockerContainer container, const
     // mkdir
     QString mkdir = QString("sudo docker exec -i $CONTAINER_NAME mkdir -p  \"$(dirname %1)\"").arg(path);
 
-    e = runScript(credentials, replaceVars(mkdir, amnezia::genBaseVars(credentials, container, QString(), QString())));
+    e = runScript(credentials, replaceVars(mkdir, mugen::genBaseVars(credentials, container, QString(), QString())));
     if (e)
         return e;
 
     if (overwriteMode == libssh::ScpOverwriteMode::ScpOverwriteExisting) {
         e = runScript(credentials,
                       replaceVars(QStringLiteral("sudo docker cp %1 $CONTAINER_NAME:/%2").arg(tmpFileName, path),
-                                  amnezia::genBaseVars(credentials, container, QString(), QString())),
+                                  mugen::genBaseVars(credentials, container, QString(), QString())),
                       cbReadStd, cbReadStd);
 
         if (e)
@@ -146,7 +146,7 @@ ErrorCode SshSession::uploadTextFileToContainer(DockerContainer container, const
     } else if (overwriteMode == libssh::ScpOverwriteMode::ScpAppendToExisting) {
         e = runScript(credentials,
                       replaceVars(QStringLiteral("sudo docker cp %1 $CONTAINER_NAME:/%2").arg(tmpFileName, tmpFileName),
-                                  amnezia::genBaseVars(credentials, container, QString(), QString())),
+                                  mugen::genBaseVars(credentials, container, QString(), QString())),
                       cbReadStd, cbReadStd);
 
         if (e)
@@ -154,7 +154,7 @@ ErrorCode SshSession::uploadTextFileToContainer(DockerContainer container, const
 
         e = runScript(credentials,
                       replaceVars(QStringLiteral("sudo docker exec -i $CONTAINER_NAME sh -c \"cat %1 >> %2\"").arg(tmpFileName, path),
-                                  amnezia::genBaseVars(credentials, container, QString(), QString())),
+                                  mugen::genBaseVars(credentials, container, QString(), QString())),
                       cbReadStd, cbReadStd);
 
         if (e)
@@ -166,7 +166,7 @@ ErrorCode SshSession::uploadTextFileToContainer(DockerContainer container, const
         return ErrorCode::ServerContainerMissingError;
     }
 
-    runScript(credentials, replaceVars(QString("sudo shred -u %1").arg(tmpFileName), amnezia::genBaseVars(credentials, container, QString(), QString())));
+    runScript(credentials, replaceVars(QString("sudo shred -u %1").arg(tmpFileName), mugen::genBaseVars(credentials, container, QString(), QString())));
     return e;
 }
 
@@ -221,7 +221,7 @@ QString SshSession::checkSshConnection(const ServerCredentials &credentials, Err
         return ErrorCode::NoError;
     };
 
-    errorCode = runScript(credentials, amnezia::scriptData(SharedScriptType::check_connection), cbReadStdOut, cbReadStdErr);
+    errorCode = runScript(credentials, mugen::scriptData(SharedScriptType::check_connection), cbReadStdOut, cbReadStdErr);
 
     return stdOut;
 }

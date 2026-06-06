@@ -8,9 +8,9 @@
 
 #include <algorithm>
 
-using namespace amnezia;
+using namespace mugen;
 
-namespace amnezia {
+namespace mugen {
 
     QJsonObject MtProxyProtocolConfig::toJson() const {
         QJsonObject obj;
@@ -144,4 +144,4 @@ namespace amnezia {
         return aa == bb;
     }
 
-} // namespace amnezia
+} // namespace mugen

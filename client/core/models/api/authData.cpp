@@ -1,6 +1,6 @@
 #include "authData.h"
 
-namespace amnezia
+namespace mugen
 {
 
 QJsonObject AuthData::toJson() const
@@ -19,5 +19,5 @@ AuthData AuthData::fromJson(const QJsonObject& json)
     return data;
 }
 
-} // namespace amnezia
+} // namespace mugen
 

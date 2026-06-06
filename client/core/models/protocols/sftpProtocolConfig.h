@@ -4,7 +4,7 @@
 #include <QJsonObject>
 #include <QString>
 
-namespace amnezia
+namespace mugen
 {
 
 struct SftpProtocolConfig {
@@ -16,7 +16,7 @@ struct SftpProtocolConfig {
     static SftpProtocolConfig fromJson(const QJsonObject& json);
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // SFTPPROTOCOLCONFIG_H
 

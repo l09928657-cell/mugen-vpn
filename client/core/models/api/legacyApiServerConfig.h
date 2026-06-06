@@ -8,7 +8,7 @@
 #include "core/utils/protocolEnum.h"
 #include "core/models/containerConfig.h"
 
-namespace amnezia
+namespace mugen
 {
 
 using namespace ContainerEnumNS;
@@ -33,6 +33,6 @@ struct LegacyApiServerConfig {
     static LegacyApiServerConfig fromJson(const QJsonObject &json);
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // LEGACYAPISERVERCONFIG_H

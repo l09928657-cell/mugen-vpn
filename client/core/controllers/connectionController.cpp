@@ -15,7 +15,7 @@
 #include "core/models/containerConfig.h"
 #include "core/models/protocolConfig.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
 
 ConnectionController::ConnectionController(SecureServersRepository* serversRepository,
@@ -77,8 +77,8 @@ ErrorCode ConnectionController::defaultContainerForServer(const QString &serverI
         container = cfg->defaultContainer;
         return ErrorCode::NoError;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV2:
-    case serverConfigUtils::ConfigType::AmneziaFreeV3:
+    case serverConfigUtils::ConfigType::MugenPremiumV2:
+    case serverConfigUtils::ConfigType::MugenFreeV3:
     case serverConfigUtils::ConfigType::ExternalPremium: {
         const auto cfg = m_serversRepository->apiV2Config(serverId);
         if (!cfg.has_value()) {
@@ -87,8 +87,8 @@ ErrorCode ConnectionController::defaultContainerForServer(const QString &serverI
         container = cfg->defaultContainer;
         return ErrorCode::NoError;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV1:
-    case serverConfigUtils::ConfigType::AmneziaFreeV2:
+    case serverConfigUtils::ConfigType::MugenPremiumV1:
+    case serverConfigUtils::ConfigType::MugenFreeV2:
         return ErrorCode::LegacyApiV1NotSupportedError;
     case serverConfigUtils::ConfigType::Invalid:
     default:
@@ -103,7 +103,7 @@ ErrorCode ConnectionController::isConnectionSupported(const QString &serverId) c
     }
 
     if (!isServiceReady()) {
-        return ErrorCode::AmneziaServiceNotRunning;
+        return ErrorCode::MugenServiceNotRunning;
     }
 
     if (serverConfigUtils::isLegacyApiSubscription(m_serversRepository->serverKind(serverId))) {
@@ -151,7 +151,7 @@ ErrorCode ConnectionController::prepareConnection(const QString &serverId,
         if (!cfg.has_value()) return ErrorCode::InternalError;
         container = cfg->defaultContainer;
         containerConfigModel = cfg->containerConfig(container);
-        dns = cfg->getDnsPair(m_appSettingsRepository->useAmneziaDns(), primaryDns, secondaryDns);
+        dns = cfg->getDnsPair(m_appSettingsRepository->useMugenDns(), primaryDns, secondaryDns);
         hostName = cfg->hostName;
         description = cfg->description;
         break;
@@ -176,8 +176,8 @@ ErrorCode ConnectionController::prepareConnection(const QString &serverId,
         description = cfg->description;
         break;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV2:
-    case serverConfigUtils::ConfigType::AmneziaFreeV3:
+    case serverConfigUtils::ConfigType::MugenPremiumV2:
+    case serverConfigUtils::ConfigType::MugenFreeV3:
     case serverConfigUtils::ConfigType::ExternalPremium: {
         const auto cfg = m_serversRepository->apiV2Config(serverId);
         if (!cfg.has_value()) return ErrorCode::InternalError;
@@ -186,12 +186,12 @@ ErrorCode ConnectionController::prepareConnection(const QString &serverId,
         dns = cfg->getDnsPair(primaryDns, secondaryDns);
         hostName = cfg->hostName;
         description = cfg->description;
-        configVersion = serverConfigUtils::ConfigSource::AmneziaGateway;
+        configVersion = serverConfigUtils::ConfigSource::MugenGateway;
         isApiConfig = true;
         break;
     }
-    case serverConfigUtils::ConfigType::AmneziaPremiumV1:
-    case serverConfigUtils::ConfigType::AmneziaFreeV2:
+    case serverConfigUtils::ConfigType::MugenPremiumV1:
+    case serverConfigUtils::ConfigType::MugenFreeV2:
         return ErrorCode::InternalError;
     case serverConfigUtils::ConfigType::Invalid:
     default:

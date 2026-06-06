@@ -23,7 +23,7 @@
 class SshSession;
 class InstallController;
 
-using namespace amnezia;
+using namespace mugen;
 
 class ServersController : public QObject
 {
@@ -44,7 +44,7 @@ public:
     void setDefaultContainer(const QString &serverId, DockerContainer container);
 
     // Getters
-    QVector<ServerDescription> buildServerDescriptions(bool isAmneziaDnsEnabled) const;
+    QVector<ServerDescription> buildServerDescriptions(bool isMugenDnsEnabled) const;
     int getDefaultServerIndex() const;
     QString getDefaultServerId() const;
     int getServersCount() const;

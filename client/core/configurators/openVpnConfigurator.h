@@ -26,24 +26,24 @@ public:
         QString host;       // host ip
     };
 
-    amnezia::ProtocolConfig createConfig(const amnezia::ServerCredentials &credentials, amnezia::DockerContainer container,
-                               const amnezia::ContainerConfig &containerConfig,
-                               const amnezia::DnsSettings &dnsSettings,
-                               amnezia::ErrorCode &errorCode) override;
+    mugen::ProtocolConfig createConfig(const mugen::ServerCredentials &credentials, mugen::DockerContainer container,
+                               const mugen::ContainerConfig &containerConfig,
+                               const mugen::DnsSettings &dnsSettings,
+                               mugen::ErrorCode &errorCode) override;
 
-    amnezia::ProtocolConfig processConfigWithLocalSettings(const amnezia::ConnectionSettings &settings,
-                                                           amnezia::ProtocolConfig protocolConfig) override;
-    amnezia::ProtocolConfig processConfigWithExportSettings(const amnezia::ExportSettings &settings,
-                                                            amnezia::ProtocolConfig protocolConfig) override;
+    mugen::ProtocolConfig processConfigWithLocalSettings(const mugen::ConnectionSettings &settings,
+                                                           mugen::ProtocolConfig protocolConfig) override;
+    mugen::ProtocolConfig processConfigWithExportSettings(const mugen::ExportSettings &settings,
+                                                            mugen::ProtocolConfig protocolConfig) override;
 
     static ConnectionData createCertRequest();
 
 private:
-    ConnectionData prepareOpenVpnConfig(const amnezia::ServerCredentials &credentials, amnezia::DockerContainer container,
-                                       const amnezia::DnsSettings &dnsSettings,
-                                       amnezia::ErrorCode &errorCode);
-    amnezia::ErrorCode signCert(amnezia::DockerContainer container, const amnezia::ServerCredentials &credentials, 
-                      const amnezia::DnsSettings &dnsSettings, QString clientId);
+    ConnectionData prepareOpenVpnConfig(const mugen::ServerCredentials &credentials, mugen::DockerContainer container,
+                                       const mugen::DnsSettings &dnsSettings,
+                                       mugen::ErrorCode &errorCode);
+    mugen::ErrorCode signCert(mugen::DockerContainer container, const mugen::ServerCredentials &credentials, 
+                      const mugen::DnsSettings &dnsSettings, QString clientId);
 };
 
 #endif // OPENVPN_CONFIGURATOR_H

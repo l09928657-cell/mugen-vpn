@@ -26,16 +26,16 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 public slots:
-    void updateModel(amnezia::DockerContainer container, const amnezia::Ikev2ProtocolConfig &protocolConfig);
-    amnezia::Ikev2ProtocolConfig getProtocolConfig();
+    void updateModel(mugen::DockerContainer container, const mugen::Ikev2ProtocolConfig &protocolConfig);
+    mugen::Ikev2ProtocolConfig getProtocolConfig();
 
 protected:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    amnezia::DockerContainer m_container;
-    amnezia::Ikev2ProtocolConfig m_protocolConfig;
-    amnezia::Ikev2ProtocolConfig m_originalProtocolConfig;
+    mugen::DockerContainer m_container;
+    mugen::Ikev2ProtocolConfig m_protocolConfig;
+    mugen::Ikev2ProtocolConfig m_originalProtocolConfig;
 };
 
 #endif // IKEV2CONFIGMODEL_H

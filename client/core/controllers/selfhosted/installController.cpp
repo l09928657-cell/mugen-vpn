@@ -51,7 +51,7 @@
     #include <windows.h>
 #endif
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
 
 namespace
@@ -73,9 +73,9 @@ namespace
         return false;
     }
 
-    QString buildRemoveContainerScript(const amnezia::ScriptVars &vars, bool removeDataVolume)
+    QString buildRemoveContainerScript(const mugen::ScriptVars &vars, bool removeDataVolume)
     {
-        QString script = SshSession::replaceVars(amnezia::scriptData(SharedScriptType::remove_container), vars);
+        QString script = SshSession::replaceVars(mugen::scriptData(SharedScriptType::remove_container), vars);
         if (removeDataVolume) {
             script += QLatin1String("\nsudo docker volume rm -f $CONTAINER_NAME-data 2>/dev/null || true");
             script = SshSession::replaceVars(script, vars);
@@ -130,8 +130,8 @@ ErrorCode InstallController::setupContainer(const ServerCredentials &credentials
         return e;
     qDebug().noquote() << "InstallController::setupContainer prepareHostWorker finished";
 
-    const amnezia::ScriptVars removeContainerVars =
-            amnezia::genBaseVars(credentials, container, QString(), QString());
+    const mugen::ScriptVars removeContainerVars =
+            mugen::genBaseVars(credentials, container, QString(), QString());
     const bool removeDataVolume = !isUpdate && (container == DockerContainer::MtProxy || container == DockerContainer::Telemt);
     sshSession.runScript(credentials, buildRemoveContainerScript(removeContainerVars, removeDataVolume));
     qDebug().noquote() << "InstallController::setupContainer removeContainer finished";
@@ -463,9 +463,9 @@ ErrorCode InstallController::processContainerForAdmin(DockerContainer container,
 
 ErrorCode InstallController::buildContainerWorker(const ServerCredentials &credentials, DockerContainer container, const ContainerConfig &config, SshSession &sshSession)
 {
-    amnezia::ScriptVars baseVars = amnezia::genBaseVars(credentials, container, QString(), QString());
+    mugen::ScriptVars baseVars = mugen::genBaseVars(credentials, container, QString(), QString());
     
-    QString dockerfilePath = "/opt/amnezia/" + ContainerUtils::containerToString(container) + "/Dockerfile";
+    QString dockerfilePath = "/opt/mugen/" + ContainerUtils::containerToString(container) + "/Dockerfile";
     QString removeScript = QString("sudo rm %1").arg(dockerfilePath);
     
     ErrorCode errorCode = sshSession.runScript(credentials, sshSession.replaceVars(removeScript, baseVars));
@@ -473,7 +473,7 @@ ErrorCode InstallController::buildContainerWorker(const ServerCredentials &crede
         return errorCode;
     }
 
-    errorCode = sshSession.uploadFileToHost(credentials, amnezia::scriptData(ProtocolScriptType::dockerfile, container).toUtf8(), dockerfilePath);
+    errorCode = sshSession.uploadFileToHost(credentials, mugen::scriptData(ProtocolScriptType::dockerfile, container).toUtf8(), dockerfilePath);
     if (errorCode != ErrorCode::NoError) {
         return errorCode;
     }
@@ -488,10 +488,10 @@ ErrorCode InstallController::buildContainerWorker(const ServerCredentials &crede
         return ErrorCode::NoError;
     };
 
-    amnezia::ScriptVars protocolVars = amnezia::genProtocolVarsForContainer(container, config);
+    mugen::ScriptVars protocolVars = mugen::genProtocolVarsForContainer(container, config);
     baseVars.append(protocolVars);
     ErrorCode error = sshSession.runScript(
-            credentials, sshSession.replaceVars(amnezia::scriptData(SharedScriptType::build_container), baseVars), cbReadStdOut,
+            credentials, sshSession.replaceVars(mugen::scriptData(SharedScriptType::build_container), baseVars), cbReadStdOut,
             cbReadStdErr);
 
     if (stdOut.contains("doesn't work on cgroups v2"))
@@ -512,11 +512,11 @@ ErrorCode InstallController::runContainerWorker(const ServerCredentials &credent
         return ErrorCode::NoError;
     };
 
-    amnezia::ScriptVars baseVars = amnezia::genBaseVars(credentials, container, QString(), QString());
-    amnezia::ScriptVars protocolVars = amnezia::genProtocolVarsForContainer(container, config);
+    mugen::ScriptVars baseVars = mugen::genBaseVars(credentials, container, QString(), QString());
+    mugen::ScriptVars protocolVars = mugen::genProtocolVarsForContainer(container, config);
     baseVars.append(protocolVars);
     ErrorCode e = sshSession.runScript(
-            credentials, sshSession.replaceVars(amnezia::scriptData(ProtocolScriptType::run_container, container), baseVars),
+            credentials, sshSession.replaceVars(mugen::scriptData(ProtocolScriptType::run_container, container), baseVars),
             cbReadStdOut);
 
     if (stdOut.contains("address already in use"))
@@ -541,12 +541,12 @@ ErrorCode InstallController::configureContainerWorker(const ServerCredentials &c
         return ErrorCode::NoError;
     };
 
-    amnezia::ScriptVars baseVars = amnezia::genBaseVars(credentials, container, QString(), QString());
-    amnezia::ScriptVars protocolVars = amnezia::genProtocolVarsForContainer(container, config);
+    mugen::ScriptVars baseVars = mugen::genBaseVars(credentials, container, QString(), QString());
+    mugen::ScriptVars protocolVars = mugen::genProtocolVarsForContainer(container, config);
     baseVars.append(protocolVars);
     ErrorCode e = sshSession.runContainerScript(
             credentials, container,
-            sshSession.replaceVars(amnezia::scriptData(ProtocolScriptType::configure_container, container), baseVars),
+            sshSession.replaceVars(mugen::scriptData(ProtocolScriptType::configure_container, container), baseVars),
             cbReadStdOut, cbReadStdErr);
 
     if (e != ErrorCode::NoError) {
@@ -571,24 +571,24 @@ ErrorCode InstallController::configureContainerWorker(const ServerCredentials &c
 
 ErrorCode InstallController::startupContainerWorker(const ServerCredentials &credentials, DockerContainer container, const ContainerConfig &config, SshSession &sshSession)
 {
-    QString script = amnezia::scriptData(ProtocolScriptType::container_startup, container);
+    QString script = mugen::scriptData(ProtocolScriptType::container_startup, container);
 
     if (script.isEmpty()) {
         return ErrorCode::NoError;
     }
 
-    amnezia::ScriptVars baseVars = amnezia::genBaseVars(credentials, container, QString(), QString());
-    amnezia::ScriptVars protocolVars = amnezia::genProtocolVarsForContainer(container, config);
+    mugen::ScriptVars baseVars = mugen::genBaseVars(credentials, container, QString(), QString());
+    mugen::ScriptVars protocolVars = mugen::genProtocolVarsForContainer(container, config);
     baseVars.append(protocolVars);
     ErrorCode e = sshSession.uploadTextFileToContainer(container, credentials, sshSession.replaceVars(script, baseVars),
-                                                                "/opt/amnezia/start.sh");
+                                                                "/opt/mugen/start.sh");
     if (e)
         return e;
 
     return sshSession.runScript(
             credentials,
-            sshSession.replaceVars("sudo docker exec -d $CONTAINER_NAME sh -c \"chmod a+x /opt/amnezia/start.sh && "
-                                            "/opt/amnezia/start.sh\"",
+            sshSession.replaceVars("sudo docker exec -d $CONTAINER_NAME sh -c \"chmod a+x /opt/mugen/start.sh && "
+                                            "/opt/mugen/start.sh\"",
                                             baseVars));
 }
 
@@ -635,7 +635,7 @@ ErrorCode InstallController::isServerPortBusy(const ServerCredentials &credentia
 
         ErrorCode errorCode = sshSession.runScript(
                 credentials,
-                sshSession.replaceVars(tcpProtoScript, amnezia::genBaseVars(credentials, container, QString(), QString())),
+                sshSession.replaceVars(tcpProtoScript, mugen::genBaseVars(credentials, container, QString(), QString())),
                 cbReadStdOut, cbReadStdErr);
         if (errorCode != ErrorCode::NoError) {
             return errorCode;
@@ -643,7 +643,7 @@ ErrorCode InstallController::isServerPortBusy(const ServerCredentials &credentia
 
         errorCode = sshSession.runScript(
                 credentials,
-                sshSession.replaceVars(udpProtoScript, amnezia::genBaseVars(credentials, container, QString(), QString())),
+                sshSession.replaceVars(udpProtoScript, mugen::genBaseVars(credentials, container, QString(), QString())),
                 cbReadStdOut, cbReadStdErr);
         if (errorCode != ErrorCode::NoError) {
             return errorCode;
@@ -662,7 +662,7 @@ ErrorCode InstallController::isServerPortBusy(const ServerCredentials &credentia
     }
 
     ErrorCode errorCode = sshSession.runScript(
-            credentials, sshSession.replaceVars(script, amnezia::genBaseVars(credentials, container, QString(), QString())),
+            credentials, sshSession.replaceVars(script, mugen::genBaseVars(credentials, container, QString(), QString())),
             cbReadStdOut, cbReadStdErr);
     if (errorCode != ErrorCode::NoError) {
         return errorCode;
@@ -829,8 +829,8 @@ ErrorCode InstallController::installDockerWorker(const ServerCredentials &creden
 
     ErrorCode error = sshSession.runScript(
             credentials,
-            sshSession.replaceVars(amnezia::scriptData(SharedScriptType::install_docker),
-                                            amnezia::genBaseVars(credentials, DockerContainer::None, QString(), QString())),
+            sshSession.replaceVars(mugen::scriptData(SharedScriptType::install_docker),
+                                            mugen::genBaseVars(credentials, DockerContainer::None, QString(), QString())),
             cbReadStdOut, cbReadStdErr);
 
     qDebug().noquote() << "InstallController::installDockerWorker" << stdOut;
@@ -860,8 +860,8 @@ ErrorCode InstallController::prepareHostWorker(const ServerCredentials &credenti
 {
     // create folder on host
     return sshSession.runScript(credentials,
-                                         sshSession.replaceVars(amnezia::scriptData(SharedScriptType::prepare_host),
-                                                                         amnezia::genBaseVars(credentials, container, QString(), QString())));
+                                         sshSession.replaceVars(mugen::scriptData(SharedScriptType::prepare_host),
+                                                                         mugen::genBaseVars(credentials, container, QString(), QString())));
 }
 
 ErrorCode InstallController::isUserInSudo(const ServerCredentials &credentials, SshSession &sshSession)
@@ -876,10 +876,10 @@ ErrorCode InstallController::isUserInSudo(const ServerCredentials &credentials, 
         return ErrorCode::NoError;
     };
 
-    const QString scriptData = amnezia::scriptData(SharedScriptType::check_user_in_sudo);
+    const QString scriptData = mugen::scriptData(SharedScriptType::check_user_in_sudo);
     ErrorCode error = sshSession.runScript(
             credentials,
-            sshSession.replaceVars(scriptData, amnezia::genBaseVars(credentials, DockerContainer::None, QString(), QString())),
+            sshSession.replaceVars(scriptData, mugen::genBaseVars(credentials, DockerContainer::None, QString(), QString())),
             cbReadStdOut, cbReadStdErr);
 
     if (credentials.userName != "root" && stdOut.contains("sudo:") && !stdOut.contains("uname:") && stdOut.contains("not found"))
@@ -920,8 +920,8 @@ ErrorCode InstallController::isServerDpkgBusy(const ServerCredentials &credentia
             stdOut.clear();
             sshSession.runScript(
                     credentials,
-                    sshSession.replaceVars(amnezia::scriptData(SharedScriptType::check_server_is_busy),
-                                                    amnezia::genBaseVars(credentials, DockerContainer::None, QString(), QString())),
+                    sshSession.replaceVars(mugen::scriptData(SharedScriptType::check_server_is_busy),
+                                                    mugen::genBaseVars(credentials, DockerContainer::None, QString(), QString())),
                     cbReadStdOut, cbReadStdErr);
 
             if (stdOut.contains("Packet manager not found"))
@@ -956,8 +956,8 @@ ErrorCode InstallController::setupServerFirewall(const ServerCredentials &creden
 {
     return sshSession.runScript(
             credentials,
-            sshSession.replaceVars(amnezia::scriptData(SharedScriptType::setup_host_firewall),
-                                            amnezia::genBaseVars(credentials, DockerContainer::None, QString(), QString())));
+            sshSession.replaceVars(mugen::scriptData(SharedScriptType::setup_host_firewall),
+                                            mugen::genBaseVars(credentials, DockerContainer::None, QString(), QString())));
 }
 
 ErrorCode InstallController::rebootServer(const QString &serverId)
@@ -999,7 +999,7 @@ ErrorCode InstallController::removeAllContainers(const QString &serverId)
         return ErrorCode::InternalError;
     }
     SshSession sshSession(this);
-    ErrorCode errorCode = sshSession.runScript(credentials, amnezia::scriptData(SharedScriptType::remove_all_containers));
+    ErrorCode errorCode = sshSession.runScript(credentials, mugen::scriptData(SharedScriptType::remove_all_containers));
 
     if (errorCode == ErrorCode::NoError) {
         adminConfig->containers.clear();
@@ -1021,8 +1021,8 @@ ErrorCode InstallController::removeContainer(const QString &serverId, DockerCont
         return ErrorCode::InternalError;
     }
     SshSession sshSession(this);
-    const amnezia::ScriptVars removeContainerVars =
-            amnezia::genBaseVars(credentials, container, QString(), QString());
+    const mugen::ScriptVars removeContainerVars =
+            mugen::genBaseVars(credentials, container, QString(), QString());
     const bool removeDataVolume = (container == DockerContainer::MtProxy || container == DockerContainer::Telemt);
     ErrorCode errorCode =
             sshSession.runScript(credentials, buildRemoveContainerScript(removeContainerVars, removeDataVolume));
@@ -1409,7 +1409,7 @@ void InstallController::updateContainerConfigAfterInstallation(DockerContainer c
 
     if (container == DockerContainer::TorWebSite) {
         if (auto* torProtocolConfig = containerConfig.getTorProtocolConfig()) {
-            qDebug() << "amnezia-tor onions" << stdOut;
+            qDebug() << "mugen-tor onions" << stdOut;
 
             QString onion = stdOut;
             onion.replace("\n", "");
@@ -1417,7 +1417,7 @@ void InstallController::updateContainerConfigAfterInstallation(DockerContainer c
         }
     } else if (container == DockerContainer::MtProxy) {
         if (auto* mtProxyConfig = containerConfig.getMtProxyProtocolConfig()) {
-            qDebug() << "amnezia mtproxy" << stdOut;
+            qDebug() << "mugen mtproxy" << stdOut;
 
             static const QRegularExpression reSecret(
                     QStringLiteral(R"(\[\*\]\s+Secret:\s+([0-9a-fA-F]{32}))"),
@@ -1442,7 +1442,7 @@ void InstallController::updateContainerConfigAfterInstallation(DockerContainer c
         }
     } else if (container == DockerContainer::Telemt) {
         if (auto *telemtConfig = containerConfig.getTelemtProtocolConfig()) {
-            qDebug() << "amnezia-telemt configure stdout" << stdOut;
+            qDebug() << "mugen-telemt configure stdout" << stdOut;
 
             static const QRegularExpression reSecret(
                     QStringLiteral(R"(\[\*\]\s+Secret:\s+([0-9a-fA-F]{32}))"),
@@ -1487,8 +1487,8 @@ ErrorCode InstallController::getAlreadyInstalledContainers(const ServerCredentia
         return errorCode;
     }
 
-    const static QRegularExpression containerAndPortRegExp("(amnezia[-a-z0-9]*).*?:([0-9]*)->[0-9]*/(udp|tcp).*");
-    const static QRegularExpression torOrDnsRegExp("(amnezia-(?:torwebsite|dns)).*?([0-9]*)/(udp|tcp).*");
+    const static QRegularExpression containerAndPortRegExp("(mugen[-a-z0-9]*).*?:([0-9]*)->[0-9]*/(udp|tcp).*");
+    const static QRegularExpression torOrDnsRegExp("(mugen-(?:torwebsite|dns)).*?([0-9]*)/(udp|tcp).*");
 
     QStringList containerInfos = stdOut.split("\n");
     for (const QString &containerInfo : containerInfos) {

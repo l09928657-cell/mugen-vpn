@@ -11,7 +11,7 @@
 #include "core/protocols/protocolUtils.h"
 #include "core/models/protocols/awgProtocolConfig.h"
 
-using namespace amnezia;
+using namespace mugen;
 
 namespace
 {
@@ -33,24 +33,24 @@ ServerDescription buildBaseDescription(const T &server)
     ServerDescription row;
     row.hostName = server.hostName;
     row.defaultContainer = server.defaultContainer;
-    row.primaryDnsIsAmnezia = (server.dns1 == protocols::dns::amneziaDnsIp);
+    row.primaryDnsIsMugen = (server.dns1 == protocols::dns::mugenDnsIp);
     row.hasInstalledVpnContainers = computeHasInstalledVpnContainers(server.containers);
     return row;
 }
 
 QString getBaseDescription(const QMap<DockerContainer, ContainerConfig> &containers,
-                         bool isAmneziaDnsEnabled,
+                         bool isMugenDnsEnabled,
                          bool hasWriteAccess,
-                         bool primaryDnsIsAmnezia)
+                         bool primaryDnsIsMugen)
 {
     QString description;
     if (hasWriteAccess) {
         const bool isDnsInstalled = containers.contains(DockerContainer::Dns);
-        if (isAmneziaDnsEnabled && isDnsInstalled) {
-            description += QStringLiteral("Amnezia DNS | ");
+        if (isMugenDnsEnabled && isDnsInstalled) {
+            description += QStringLiteral("Mugen DNS | ");
         }
-    } else if (primaryDnsIsAmnezia) {
-        description += QStringLiteral("Amnezia DNS | ");
+    } else if (primaryDnsIsMugen) {
+        description += QStringLiteral("Mugen DNS | ");
     }
     return description;
 }
@@ -66,7 +66,7 @@ QString getProtocolName(DockerContainer defaultContainer, const QMap<DockerConta
             if (const AwgProtocolConfig *awg = it->getAwgProtocolConfig()) {
                 protocolVersion = ProtocolUtils::getProtocolVersionString(awg->toJson());
                 if (defaultContainer == DockerContainer::Awg && !awg->serverConfig.isThirdPartyConfig) {
-                    containerName = QStringLiteral("AmneziaWG Legacy");
+                    containerName = QStringLiteral("MugenWG Legacy");
                 }
             }
         }
@@ -77,10 +77,10 @@ QString getProtocolName(DockerContainer defaultContainer, const QMap<DockerConta
 
 } // namespace
 
-namespace amnezia
+namespace mugen
 {
 
-ServerDescription buildServerDescription(const SelfHostedAdminServerConfig &server, bool isAmneziaDnsEnabled)
+ServerDescription buildServerDescription(const SelfHostedAdminServerConfig &server, bool isMugenDnsEnabled)
 {
     ServerDescription row = buildBaseDescription(server);
     row.selfHostedSshCredentials.hostName = server.hostName;
@@ -92,7 +92,7 @@ ServerDescription buildServerDescription(const SelfHostedAdminServerConfig &serv
                          && !row.selfHostedSshCredentials.secretData.isEmpty();
 
     row.serverName = server.displayName;
-    row.baseDescription = getBaseDescription(server.containers, isAmneziaDnsEnabled, row.hasWriteAccess, row.primaryDnsIsAmnezia);
+    row.baseDescription = getBaseDescription(server.containers, isMugenDnsEnabled, row.hasWriteAccess, row.primaryDnsIsMugen);
 
     const QString protocolName = getProtocolName(server.defaultContainer, server.containers);
     row.expandedServerDescription = row.baseDescription + row.hostName;
@@ -100,7 +100,7 @@ ServerDescription buildServerDescription(const SelfHostedAdminServerConfig &serv
     return row;
 }
 
-ServerDescription buildServerDescription(const SelfHostedUserServerConfig &server, bool isAmneziaDnsEnabled)
+ServerDescription buildServerDescription(const SelfHostedUserServerConfig &server, bool isMugenDnsEnabled)
 {
     ServerDescription row = buildBaseDescription(server);
     row.selfHostedSshCredentials.hostName = server.hostName;
@@ -108,7 +108,7 @@ ServerDescription buildServerDescription(const SelfHostedUserServerConfig &serve
     row.hasWriteAccess = false;
 
     row.serverName = server.displayName;
-    row.baseDescription = getBaseDescription(server.containers, isAmneziaDnsEnabled, row.hasWriteAccess, row.primaryDnsIsAmnezia);
+    row.baseDescription = getBaseDescription(server.containers, isMugenDnsEnabled, row.hasWriteAccess, row.primaryDnsIsMugen);
 
     const QString protocolName = getProtocolName(server.defaultContainer, server.containers);
     row.expandedServerDescription = row.baseDescription + row.hostName;
@@ -116,13 +116,13 @@ ServerDescription buildServerDescription(const SelfHostedUserServerConfig &serve
     return row;
 }
 
-ServerDescription buildServerDescription(const NativeServerConfig &server, bool isAmneziaDnsEnabled)
+ServerDescription buildServerDescription(const NativeServerConfig &server, bool isMugenDnsEnabled)
 {
     ServerDescription row = buildBaseDescription(server);
     row.hasWriteAccess = false;
 
     row.serverName = server.displayName;
-    row.baseDescription = getBaseDescription(server.containers, isAmneziaDnsEnabled, row.hasWriteAccess, row.primaryDnsIsAmnezia);
+    row.baseDescription = getBaseDescription(server.containers, isMugenDnsEnabled, row.hasWriteAccess, row.primaryDnsIsMugen);
 
     const QString protocolName = getProtocolName(server.defaultContainer, server.containers);
     row.expandedServerDescription = row.baseDescription + row.hostName;
@@ -130,7 +130,7 @@ ServerDescription buildServerDescription(const NativeServerConfig &server, bool 
     return row;
 }
 
-ServerDescription buildServerDescription(const LegacyApiServerConfig &server, bool /*isAmneziaDnsEnabled*/)
+ServerDescription buildServerDescription(const LegacyApiServerConfig &server, bool /*isMugenDnsEnabled*/)
 {
     ServerDescription row = buildBaseDescription(server);
     row.configVersion = serverConfigUtils::ConfigSource::Telegram;
@@ -147,10 +147,10 @@ ServerDescription buildServerDescription(const LegacyApiServerConfig &server, bo
     return row;
 }
 
-ServerDescription buildServerDescription(const ApiV2ServerConfig &server, bool /*isAmneziaDnsEnabled*/)
+ServerDescription buildServerDescription(const ApiV2ServerConfig &server, bool /*isMugenDnsEnabled*/)
 {
     ServerDescription row = buildBaseDescription(server);
-    row.configVersion = serverConfigUtils::ConfigSource::AmneziaGateway;
+    row.configVersion = serverConfigUtils::ConfigSource::MugenGateway;
     row.isApiV2 = true;
     row.isServerFromGatewayApi = true;
     row.isPremium = server.isPremium() || server.isExternalPremium();
@@ -184,4 +184,4 @@ ServerDescription buildServerDescription(const ApiV2ServerConfig &server, bool /
     return row;
 }
 
-} // namespace amnezia
+} // namespace mugen

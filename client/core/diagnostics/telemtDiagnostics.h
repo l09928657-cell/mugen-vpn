@@ -5,7 +5,7 @@
 
 #include <QString>
 
-namespace amnezia
+namespace mugen
 {
     struct TelemtDiagnostics : ContainerDiagnostics
     {
@@ -15,6 +15,6 @@ namespace amnezia
         QString statsEndpoint;
     };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // TELEMTDIAGNOSTICS_H

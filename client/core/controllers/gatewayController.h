@@ -24,8 +24,8 @@ public:
     explicit GatewayController(const QString &gatewayEndpoint, const bool isDevEnvironment, const int requestTimeoutMsecs,
                                const bool isStrictKillSwitchEnabled, QObject *parent = nullptr);
 
-    amnezia::ErrorCode post(const QString &endpoint, const QJsonObject apiPayload, QByteArray &responseBody);
-    QFuture<QPair<amnezia::ErrorCode, QByteArray>> postAsync(const QString &endpoint, const QJsonObject apiPayload);
+    mugen::ErrorCode post(const QString &endpoint, const QJsonObject apiPayload, QByteArray &responseBody);
+    QFuture<QPair<mugen::ErrorCode, QByteArray>> postAsync(const QString &endpoint, const QJsonObject apiPayload);
 
 private:
     struct EncryptedRequestData
@@ -35,7 +35,7 @@ private:
         QByteArray key;
         QByteArray iv;
         QByteArray salt;
-        amnezia::ErrorCode errorCode;
+        mugen::ErrorCode errorCode;
     };
 
     struct DecryptionResult

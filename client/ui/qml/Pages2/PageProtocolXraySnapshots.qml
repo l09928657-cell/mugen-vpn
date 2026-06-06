@@ -25,12 +25,12 @@ PageType {
     function saveConfigToFile(json) {
         var fileName = ""
         if (GC.isMobile()) {
-            fileName = "amnezia_xray_config.json"
+            fileName = "mugen_xray_config.json"
         } else {
             fileName = SystemController.getFileName(
                 qsTr("Save XRay configuration"),
                 qsTr("JSON files (*.json)"),
-                StandardPaths.standardLocations(StandardPaths.DocumentsLocation) + "/amnezia_xray_config",
+                StandardPaths.standardLocations(StandardPaths.DocumentsLocation) + "/mugen_xray_config",
                 true,
                 ".json")
         }
@@ -138,7 +138,7 @@ PageType {
                 Layout.topMargin: 24
                 Layout.bottomMargin: 8
                 text: qsTr("Configurations")
-                color: AmneziaStyle.color.mutedGray
+                color: MugenStyle.color.mutedGray
                 visible: listView.count > 0
             }
         }
@@ -158,7 +158,7 @@ PageType {
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
                 text: qsTr("No saved configurations yet.\nCreate one from the current settings.")
-                color: AmneziaStyle.color.mutedGray
+                color: MugenStyle.color.mutedGray
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
             }
@@ -264,7 +264,7 @@ PageType {
             LabelWithButtonType {
                 Layout.fillWidth: true
                 text: qsTr("Delete configuration")
-                textColor: AmneziaStyle.color.vibrantRed
+                textColor: MugenStyle.color.vibrantRed
                 clickedFunction: function () {
                     configActionsDrawer.closeTriggered()
                     var yesButtonFunction = function () {

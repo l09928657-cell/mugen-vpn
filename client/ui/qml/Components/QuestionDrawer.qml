@@ -75,11 +75,11 @@ DrawerType2 {
             Layout.rightMargin: 16
             Layout.leftMargin: 16
 
-            defaultColor: AmneziaStyle.color.transparent
-            hoveredColor: AmneziaStyle.color.translucentWhite
-            pressedColor: AmneziaStyle.color.sheerWhite
-            disabledColor: AmneziaStyle.color.mutedGray
-            textColor: AmneziaStyle.color.paleGray
+            defaultColor: MugenStyle.color.transparent
+            hoveredColor: MugenStyle.color.translucentWhite
+            pressedColor: MugenStyle.color.sheerWhite
+            disabledColor: MugenStyle.color.mutedGray
+            textColor: MugenStyle.color.paleGray
             borderWidth: 1
 
             visible: root.noButtonText !== ""

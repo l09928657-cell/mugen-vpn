@@ -14,11 +14,11 @@ Popup {
     visible: false
 
     Overlay.modal: Rectangle {
-        color: AmneziaStyle.color.translucentMidnightBlack
+        color: MugenStyle.color.translucentMidnightBlack
     }
 
     background: Rectangle {
-        color: AmneziaStyle.color.transparent
+        color: MugenStyle.color.transparent
     }
 
     BusyIndicator {
@@ -42,8 +42,8 @@ Popup {
                 layer.samples: 4
 
                 ShapePath {
-                    fillColor: AmneziaStyle.color.transparent
-                    strokeColor: AmneziaStyle.color.charcoalGray
+                    fillColor: MugenStyle.color.transparent
+                    strokeColor: MugenStyle.color.charcoalGray
                     strokeWidth: 3
                     capStyle: ShapePath.RoundCap
 

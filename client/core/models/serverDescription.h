@@ -12,7 +12,7 @@
 #include "core/models/api/legacyApiServerConfig.h"
 #include "core/models/api/apiV2ServerConfig.h"
 
-namespace amnezia
+namespace mugen
 {
 
 struct ServerDescription
@@ -28,7 +28,7 @@ struct ServerDescription
     ServerCredentials selfHostedSshCredentials;
     bool hasWriteAccess = false;
 
-    bool primaryDnsIsAmnezia = false;
+    bool primaryDnsIsMugen = false;
     DockerContainer defaultContainer = DockerContainer::None;
     bool hasInstalledVpnContainers = false;
 
@@ -53,12 +53,12 @@ struct ServerDescription
     QString expandedServerDescription;
 };
 
-ServerDescription buildServerDescription(const SelfHostedAdminServerConfig &server, bool isAmneziaDnsEnabled);
-ServerDescription buildServerDescription(const SelfHostedUserServerConfig &server, bool isAmneziaDnsEnabled);
-ServerDescription buildServerDescription(const NativeServerConfig &server, bool isAmneziaDnsEnabled);
-ServerDescription buildServerDescription(const LegacyApiServerConfig &server, bool isAmneziaDnsEnabled);
-ServerDescription buildServerDescription(const ApiV2ServerConfig &server, bool isAmneziaDnsEnabled);
+ServerDescription buildServerDescription(const SelfHostedAdminServerConfig &server, bool isMugenDnsEnabled);
+ServerDescription buildServerDescription(const SelfHostedUserServerConfig &server, bool isMugenDnsEnabled);
+ServerDescription buildServerDescription(const NativeServerConfig &server, bool isMugenDnsEnabled);
+ServerDescription buildServerDescription(const LegacyApiServerConfig &server, bool isMugenDnsEnabled);
+ServerDescription buildServerDescription(const ApiV2ServerConfig &server, bool isMugenDnsEnabled);
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif

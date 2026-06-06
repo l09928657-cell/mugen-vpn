@@ -3,7 +3,7 @@
 #include "core/utils/constants/apiKeys.h"
 #include "core/utils/constants/configKeys.h"
 
-namespace amnezia
+namespace mugen
 {
 
 bool LegacyApiServerConfig::hasContainers() const
@@ -38,4 +38,4 @@ LegacyApiServerConfig LegacyApiServerConfig::fromJson(const QJsonObject &json)
     return config;
 }
 
-} // namespace amnezia
+} // namespace mugen

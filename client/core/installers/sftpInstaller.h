@@ -9,9 +9,9 @@ class SftpInstaller : public InstallerBase
 public:
     explicit SftpInstaller(QObject *parent = nullptr);
 
-    amnezia::ContainerConfig generateConfig(amnezia::DockerContainer container, int port, amnezia::TransportProto transportProto) override;
-    amnezia::ErrorCode extractConfigFromContainer(amnezia::DockerContainer container, const amnezia::ServerCredentials &credentials,
-                                         SshSession* serverController, amnezia::ContainerConfig &config) override;
+    mugen::ContainerConfig generateConfig(mugen::DockerContainer container, int port, mugen::TransportProto transportProto) override;
+    mugen::ErrorCode extractConfigFromContainer(mugen::DockerContainer container, const mugen::ServerCredentials &credentials,
+                                         SshSession* serverController, mugen::ContainerConfig &config) override;
 };
 
 #endif // SFTPINSTALLER_H

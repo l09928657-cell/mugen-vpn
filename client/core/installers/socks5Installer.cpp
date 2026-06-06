@@ -12,7 +12,7 @@
 
 #include <QRegularExpression>
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
 
 Socks5Installer::Socks5Installer(QObject *parent)

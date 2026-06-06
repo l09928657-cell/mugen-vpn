@@ -26,7 +26,7 @@ private:
     void initTranslationsUpdatedHandler();
     void initLanguageHandler();
     void initAutoConnectHandler();
-    void initAmneziaDnsToggledHandler();
+    void initMugenDnsToggledHandler();
     void initServersModelUpdateHandler();
     void initClientManagementModelUpdateHandler();
     void initSitesModelUpdateHandler();

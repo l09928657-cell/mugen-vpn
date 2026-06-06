@@ -28,7 +28,7 @@
 #include "core/utils/constants/protocolConstants.h"
 #include "core/utils/qrCodeUtils.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
 
 namespace
@@ -45,21 +45,21 @@ namespace
         const QString xrayConfigPatternInbound = "inbounds";
         const QString xrayConfigPatternOutbound = "outbounds";
 
-        const QString amneziaConfigPattern = "containers";
-        const QString amneziaConfigPatternHostName = "hostName";
-        const QString amneziaConfigPatternUserName = "userName";
-        const QString amneziaConfigPatternPassword = "password";
-        const QString amneziaFreeConfigPattern = "api_key";
-        const QString amneziaPremiumConfigPattern = "auth_data";
+        const QString mugenConfigPattern = "containers";
+        const QString mugenConfigPatternHostName = "hostName";
+        const QString mugenConfigPatternUserName = "userName";
+        const QString mugenConfigPatternPassword = "password";
+        const QString mugenFreeConfigPattern = "api_key";
+        const QString mugenPremiumConfigPattern = "auth_data";
         const QString backupPattern = "Servers/serversList";
 
         if (config.contains(backupPattern)) {
             return ConfigTypes::Backup;
-        } else if (config.contains(amneziaConfigPattern) || config.contains(amneziaFreeConfigPattern)
-                   || config.contains(amneziaPremiumConfigPattern)
-                   || (config.contains(amneziaConfigPatternHostName) && config.contains(amneziaConfigPatternUserName)
-                       && config.contains(amneziaConfigPatternPassword))) {
-            return ConfigTypes::Amnezia;
+        } else if (config.contains(mugenConfigPattern) || config.contains(mugenFreeConfigPattern)
+                   || config.contains(mugenPremiumConfigPattern)
+                   || (config.contains(mugenConfigPatternHostName) && config.contains(mugenConfigPatternUserName)
+                       && config.contains(mugenConfigPatternPassword))) {
+            return ConfigTypes::Mugen;
         } else if (config.contains(wireguardConfigPatternSectionInterface) && config.contains(wireguardConfigPatternSectionPeer)) {
             return ConfigTypes::WireGuard;
         } else if ((config.contains(xrayConfigPatternInbound)) && (config.contains(xrayConfigPatternOutbound))) {
@@ -204,7 +204,7 @@ ImportController::ImportResult ImportController::extractConfigFromData(const QSt
         result.errorCode = ErrorCode::ImportInvalidConfigError;
         return result;
     }
-    case ConfigTypes::Amnezia: {
+    case ConfigTypes::Mugen: {
         result.config = QJsonDocument::fromJson(config.toUtf8()).object();
 
         if (serverConfigUtils::isServerFromApi(result.config)) {
@@ -219,7 +219,7 @@ ImportController::ImportResult ImportController::extractConfigFromData(const QSt
             return result;
         }
 
-        processAmneziaConfig(result.config);
+        processMugenConfig(result.config);
         if (!result.config.empty()) {
             checkForMaliciousStrings(result.config, result.maliciousWarningText);
             return result;
@@ -255,7 +255,7 @@ ImportController::ImportResult ImportController::extractConfigFromQr(const QByte
     QJsonObject dataObj = QJsonDocument::fromJson(data).object();
     if (!dataObj.isEmpty()) {
         result.config = dataObj;
-        result.configType = ConfigTypes::Amnezia;
+        result.configType = ConfigTypes::Mugen;
         return result;
     }
 
@@ -266,7 +266,7 @@ ImportController::ImportResult ImportController::extractConfigFromQr(const QByte
             result.errorCode = ErrorCode::ImportInvalidConfigError;
             return result;
         }
-        result.configType = ConfigTypes::Amnezia;
+        result.configType = ConfigTypes::Mugen;
         return result;
     }
 
@@ -283,7 +283,7 @@ ImportController::ImportResult ImportController::extractConfigFromQr(const QByte
             result.errorCode = ErrorCode::ImportInvalidConfigError;
             return result;
         }
-        result.configType = ConfigTypes::Amnezia;
+        result.configType = ConfigTypes::Mugen;
         return result;
     }
 
@@ -470,7 +470,7 @@ QJsonObject ImportController::extractOpenVpnConfig(const QString &data) const
     lastConfig[configKey::isThirdPartyConfig] = true;
 
     QJsonObject containers;
-    containers.insert(configKey::container, QJsonValue(configKey::amneziaOpenvpn));
+    containers.insert(configKey::container, QJsonValue(configKey::mugenOpenvpn));
     containers.insert(configKey::openvpn, QJsonValue(lastConfig));
 
     QJsonArray arr;
@@ -485,7 +485,7 @@ QJsonObject ImportController::extractOpenVpnConfig(const QString &data) const
 
     QJsonObject config;
     config[configKey::containers] = arr;
-    config[configKey::defaultContainer] = configKey::amneziaOpenvpn;
+    config[configKey::defaultContainer] = configKey::mugenOpenvpn;
     config[configKey::description] = m_serversRepository->nextAvailableServerName();
 
     const static QRegularExpression dnsRegExp("dhcp-option DNS (\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b)");
@@ -635,7 +635,7 @@ QJsonObject ImportController::extractWireGuardConfig(const QString &data, Config
     }
 
     QJsonObject containers;
-    QString containerName = (protocolName == configKey::awg) ? configKey::amneziaAwg : configKey::amneziaWireguard;
+    QString containerName = (protocolName == configKey::awg) ? configKey::mugenAwg : configKey::mugenWireguard;
     containers.insert(configKey::container, QJsonValue(containerName));
     containers.insert(protocolName, QJsonValue(wireguardConfig));
 
@@ -676,9 +676,9 @@ QJsonObject ImportController::extractXrayConfig(const QString &data, ConfigTypes
     QJsonObject containers;
     if (configType == ConfigTypes::ShadowSocks) {
         containers.insert(configKey::ssxray, QJsonValue(lastConfig));
-        containers.insert(configKey::container, QJsonValue(configKey::amneziaSsxray));
+        containers.insert(configKey::container, QJsonValue(configKey::mugenSsxray));
     } else {
-        containers.insert(configKey::container, QJsonValue(configKey::amneziaXray));
+        containers.insert(configKey::container, QJsonValue(configKey::mugenXray));
         containers.insert(configKey::xray, QJsonValue(lastConfig));
     }
 
@@ -696,8 +696,8 @@ QJsonObject ImportController::extractXrayConfig(const QString &data, ConfigTypes
     QJsonObject config;
     config[configKey::containers] = arr;
     config[configKey::defaultContainer] = (configType == ConfigTypes::ShadowSocks)
-            ? configKey::amneziaSsxray
-            : configKey::amneziaXray;
+            ? configKey::mugenSsxray
+            : configKey::mugenXray;
     if (description.isEmpty()) {
         config[configKey::description] = m_serversRepository->nextAvailableServerName();
     } else {
@@ -750,7 +750,7 @@ void ImportController::checkForMaliciousStrings(const QJsonObject &serverConfig,
     }
 }
 
-void ImportController::processAmneziaConfig(QJsonObject &config) const
+void ImportController::processMugenConfig(QJsonObject &config) const
 {
     auto containers = config.value(configKey::containers).toArray();
     for (auto i = 0; i < containers.size(); i++) {

@@ -12,16 +12,16 @@ namespace
 
 bool hasThirdPartyConfig(const QJsonObject &json)
 {
-    const QJsonArray containersArray = json.value(amnezia::configKey::containers).toArray();
+    const QJsonArray containersArray = json.value(mugen::configKey::containers).toArray();
     for (const QJsonValue &val : containersArray) {
         const QJsonObject containerObj = val.toObject();
         for (auto it = containerObj.begin(); it != containerObj.end(); ++it) {
-            if (it.key() == amnezia::configKey::container) {
+            if (it.key() == mugen::configKey::container) {
                 continue;
             }
             const QJsonObject protocolObj = it.value().toObject();
-            if (protocolObj.contains(amnezia::configKey::isThirdPartyConfig)
-                && protocolObj.value(amnezia::configKey::isThirdPartyConfig).toBool()) {
+            if (protocolObj.contains(mugen::configKey::isThirdPartyConfig)
+                && protocolObj.value(mugen::configKey::isThirdPartyConfig).toBool()) {
                 return true;
             }
         }
@@ -36,10 +36,10 @@ namespace serverConfigUtils
 
 bool isServerFromApi(const QJsonObject &serverConfigObject)
 {
-    const int configVersion = serverConfigObject.value(amnezia::configKey::configVersion).toInt();
+    const int configVersion = serverConfigObject.value(mugen::configKey::configVersion).toInt();
     switch (configVersion) {
     case ConfigSource::Telegram:
-    case ConfigSource::AmneziaGateway:
+    case ConfigSource::MugenGateway:
         return true;
     default:
         return false;
@@ -48,12 +48,12 @@ bool isServerFromApi(const QJsonObject &serverConfigObject)
 
 ConfigSource getConfigSource(const QJsonObject &serverConfigObject)
 {
-    return static_cast<ConfigSource>(serverConfigObject.value(amnezia::configKey::configVersion).toInt());
+    return static_cast<ConfigSource>(serverConfigObject.value(mugen::configKey::configVersion).toInt());
 }
 
 ConfigType configTypeFromJson(const QJsonObject &serverConfigObject)
 {
-    const int configVersion = serverConfigObject.value(amnezia::configKey::configVersion).toInt();
+    const int configVersion = serverConfigObject.value(mugen::configKey::configVersion).toInt();
 
     switch (configVersion) {
     case ConfigSource::Telegram: {
@@ -63,26 +63,26 @@ ConfigType configTypeFromJson(const QJsonObject &serverConfigObject)
         const QString apiEndpointValue = serverConfigObject.value(apiDefs::key::apiEndpoint).toString();
 
         if (apiEndpointValue.contains(premiumV1Endpoint)) {
-            return ConfigType::AmneziaPremiumV1;
+            return ConfigType::MugenPremiumV1;
         }
         if (apiEndpointValue.contains(freeV2Endpoint)) {
-            return ConfigType::AmneziaFreeV2;
+            return ConfigType::MugenFreeV2;
         }
     }
         [[fallthrough]];
-    case ConfigSource::AmneziaGateway: {
-        constexpr QLatin1String servicePremium("amnezia-premium");
-        constexpr QLatin1String serviceFree("amnezia-free");
+    case ConfigSource::MugenGateway: {
+        constexpr QLatin1String servicePremium("mugen-premium");
+        constexpr QLatin1String serviceFree("mugen-free");
         constexpr QLatin1String serviceExternalPremium("external-premium");
 
         const QJsonObject apiConfigObject = serverConfigObject.value(apiDefs::key::apiConfig).toObject();
         const QString serviceTypeStr = apiConfigObject.value(apiDefs::key::serviceType).toString();
 
         if (serviceTypeStr == servicePremium) {
-            return ConfigType::AmneziaPremiumV2;
+            return ConfigType::MugenPremiumV2;
         }
         if (serviceTypeStr == serviceFree) {
-            return ConfigType::AmneziaFreeV3;
+            return ConfigType::MugenFreeV3;
         }
         if (serviceTypeStr == serviceExternalPremium) {
             return ConfigType::ExternalPremium;
@@ -97,21 +97,21 @@ ConfigType configTypeFromJson(const QJsonObject &serverConfigObject)
         return ConfigType::Native;
     }
 
-    const amnezia::SelfHostedAdminServerConfig adminProbe =
-            amnezia::SelfHostedAdminServerConfig::fromJson(serverConfigObject);
+    const mugen::SelfHostedAdminServerConfig adminProbe =
+            mugen::SelfHostedAdminServerConfig::fromJson(serverConfigObject);
     return adminProbe.hasCredentials() ? ConfigType::SelfHostedAdmin : ConfigType::SelfHostedUser;
 }
 
 bool isLegacyApiSubscription(ConfigType configType)
 {
-    return configType == ConfigType::AmneziaPremiumV1 || configType == ConfigType::AmneziaFreeV2;
+    return configType == ConfigType::MugenPremiumV1 || configType == ConfigType::MugenFreeV2;
 }
 
 bool isApiV2Subscription(ConfigType configType)
 {
     switch (configType) {
-    case ConfigType::AmneziaPremiumV2:
-    case ConfigType::AmneziaFreeV3:
+    case ConfigType::MugenPremiumV2:
+    case ConfigType::MugenFreeV3:
     case ConfigType::ExternalPremium:
         return true;
     default:

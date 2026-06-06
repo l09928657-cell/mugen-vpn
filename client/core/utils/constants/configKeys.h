@@ -3,7 +3,7 @@
 
 #include <QLatin1String>
 
-namespace amnezia
+namespace mugen
 {
     namespace configKey
     {
@@ -112,11 +112,11 @@ namespace amnezia
 
         constexpr QLatin1String nameOverriddenByUser("nameOverriddenByUser");
 
-        constexpr QLatin1String amneziaOpenvpn("amnezia-openvpn");
-        constexpr QLatin1String amneziaWireguard("amnezia-wireguard");
-        constexpr QLatin1String amneziaAwg("amnezia-awg");
-        constexpr QLatin1String amneziaXray("amnezia-xray");
-        constexpr QLatin1String amneziaSsxray("amnezia-ssxray");
+        constexpr QLatin1String mugenOpenvpn("mugen-openvpn");
+        constexpr QLatin1String mugenWireguard("mugen-wireguard");
+        constexpr QLatin1String mugenAwg("mugen-awg");
+        constexpr QLatin1String mugenXray("mugen-xray");
+        constexpr QLatin1String mugenSsxray("mugen-ssxray");
 
         constexpr QLatin1String clientName("clientName");
         constexpr QLatin1String userData("userData");

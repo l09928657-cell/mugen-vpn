@@ -12,7 +12,7 @@
 #include "core/models/protocols/mtProxyProtocolConfig.h"
 #include "core/models/protocols/telemtProtocolConfig.h"
 
-namespace amnezia
+namespace mugen
 {
 
 using namespace ProtocolEnumNS;
@@ -322,4 +322,4 @@ ProtocolConfig ProtocolConfig::fromJson(const QJsonObject& json, Proto type)
     }
 }
 
-} // namespace amnezia
+} // namespace mugen

@@ -16,7 +16,7 @@
 #include <QtGlobal>
 #include <qqml.h>
 
-using namespace amnezia;
+using namespace mugen;
 
 MtProxyConfigModel::MtProxyConfigModel(QObject *parent) : QAbstractListModel(parent) {
     qmlRegisterType<PublicHostInputValidator>("MtProxyConfig", 1, 0, "PublicHostInputValidator");
@@ -178,8 +178,8 @@ QVariant MtProxyConfigModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
-void MtProxyConfigModel::updateModel(amnezia::DockerContainer container,
-                                     const amnezia::MtProxyProtocolConfig &protocolConfig) {
+void MtProxyConfigModel::updateModel(mugen::DockerContainer container,
+                                     const mugen::MtProxyProtocolConfig &protocolConfig) {
     beginResetModel();
     m_container = container;
     m_protocolConfig = protocolConfig;
@@ -709,6 +709,6 @@ QHash<int, QByteArray> MtProxyConfigModel::roleNames() const {
     return roles;
 }
 
-amnezia::MtProxyProtocolConfig MtProxyConfigModel::getProtocolConfig() {
+mugen::MtProxyProtocolConfig MtProxyConfigModel::getProtocolConfig() {
     return m_protocolConfig;
 }

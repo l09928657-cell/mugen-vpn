@@ -13,18 +13,18 @@ Button {
     property string bodyText
     property string footerText
 
-    property color headerTextColor: AmneziaStyle.color.paleGray
-    property color bodyTextColor: AmneziaStyle.color.mutedGray
+    property color headerTextColor: MugenStyle.color.paleGray
+    property color bodyTextColor: MugenStyle.color.mutedGray
     property bool showRecommendedBadge: false
     property string recommendedText: ""
 
-    property string hoveredColor: AmneziaStyle.color.slateGray
-    property string defaultColor: AmneziaStyle.color.onyxBlack
+    property string hoveredColor: MugenStyle.color.slateGray
+    property string defaultColor: MugenStyle.color.onyxBlack
 
-    property string textColor: AmneziaStyle.color.midnightBlack
+    property string textColor: MugenStyle.color.midnightBlack
 
     property string rightImageSource
-    property string rightImageColor: AmneziaStyle.color.paleGray
+    property string rightImageColor: MugenStyle.color.paleGray
 
     property string leftImageSource
 
@@ -83,7 +83,7 @@ Button {
                     anchors.verticalCenter: parent.top
 
                     radius: 10
-                    color: AmneziaStyle.color.softViolet
+                    color: MugenStyle.color.softViolet
                     implicitHeight: recLabel.implicitHeight + 8
                     implicitWidth: recLabel.implicitWidth + 16
 
@@ -155,7 +155,7 @@ Button {
                         text: root.footerText
                         visible: text !== ""
 
-                        color: AmneziaStyle.color.mutedGray
+                        color: MugenStyle.color.mutedGray
 
                         Layout.fillWidth: true
                         Layout.rightMargin: 16

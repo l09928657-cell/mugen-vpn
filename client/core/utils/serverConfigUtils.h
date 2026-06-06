@@ -7,10 +7,10 @@ namespace serverConfigUtils
 {
 
 enum ConfigType {
-    AmneziaFreeV2 = 0,
-    AmneziaFreeV3,
-    AmneziaPremiumV1,
-    AmneziaPremiumV2,
+    MugenFreeV2 = 0,
+    MugenFreeV3,
+    MugenPremiumV1,
+    MugenPremiumV2,
     SelfHosted,
     ExternalPremium,
 
@@ -22,7 +22,7 @@ enum ConfigType {
 
 enum ConfigSource {
     Telegram = 1,
-    AmneziaGateway
+    MugenGateway
 };
 
 bool isServerFromApi(const QJsonObject &serverConfigObject);

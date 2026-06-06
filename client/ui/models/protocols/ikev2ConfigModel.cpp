@@ -6,7 +6,7 @@
 #include "core/utils/constants/protocolConstants.h"
 #include "core/models/protocols/ikev2ProtocolConfig.h"
 
-using namespace amnezia;
+using namespace mugen;
 
 Ikev2ConfigModel::Ikev2ConfigModel(QObject *parent) : QAbstractListModel(parent)
 {
@@ -55,7 +55,7 @@ QVariant Ikev2ConfigModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void Ikev2ConfigModel::updateModel(amnezia::DockerContainer container, const amnezia::Ikev2ProtocolConfig &protocolConfig)
+void Ikev2ConfigModel::updateModel(mugen::DockerContainer container, const mugen::Ikev2ProtocolConfig &protocolConfig)
 {
     beginResetModel();
     m_container = container;
@@ -65,7 +65,7 @@ void Ikev2ConfigModel::updateModel(amnezia::DockerContainer container, const amn
     endResetModel();
 }
 
-amnezia::Ikev2ProtocolConfig Ikev2ConfigModel::getProtocolConfig()
+mugen::Ikev2ProtocolConfig Ikev2ConfigModel::getProtocolConfig()
 {
     return m_protocolConfig;
 }

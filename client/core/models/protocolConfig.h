@@ -25,7 +25,7 @@
 #include "core/models/protocols/mtProxyProtocolConfig.h"
 #include "core/models/protocols/telemtProtocolConfig.h"
 
-namespace amnezia
+namespace mugen
 {
 
 using Proto = ProtocolEnumNS::Proto;
@@ -87,6 +87,6 @@ struct ProtocolConfig {
     }
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // PROTOCOLCONFIG_H

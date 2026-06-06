@@ -7,7 +7,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
-using namespace amnezia;
+using namespace mugen;
 
 namespace
 {
@@ -76,7 +76,7 @@ bool apiUtils::isSubscriptionExpiringSoon(const QString &subscriptionEndDate, in
     return endDate <= nowUtc.addDays(withinDays);
 }
 
-amnezia::ErrorCode apiUtils::checkNetworkReplyErrors(const QList<QSslError> &sslErrors, const QString &replyErrorString,
+mugen::ErrorCode apiUtils::checkNetworkReplyErrors(const QList<QSslError> &sslErrors, const QString &replyErrorString,
                                                      const QNetworkReply::NetworkError &replyError, const int httpStatusCode,
                                                      const QByteArray &responseBody)
 {
@@ -90,16 +90,16 @@ amnezia::ErrorCode apiUtils::checkNetworkReplyErrors(const QList<QSslError> &ssl
 
     if (!sslErrors.empty()) {
         qDebug().noquote() << sslErrors;
-        return amnezia::ErrorCode::ApiConfigSslError;
+        return mugen::ErrorCode::ApiConfigSslError;
     }
     if (replyError == QNetworkReply::NetworkError::OperationCanceledError
         || replyError == QNetworkReply::NetworkError::TimeoutError) {
         qDebug() << replyError;
-        return amnezia::ErrorCode::ApiConfigTimeoutError;
+        return mugen::ErrorCode::ApiConfigTimeoutError;
     }
     if (replyError == QNetworkReply::NetworkError::OperationNotImplementedError) {
         qDebug() << replyError;
-        return amnezia::ErrorCode::ApiUpdateRequestError;
+        return mugen::ErrorCode::ApiUpdateRequestError;
     }
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(responseBody);
@@ -108,68 +108,68 @@ amnezia::ErrorCode apiUtils::checkNetworkReplyErrors(const QList<QSslError> &ssl
         const int httpStatusFromBody = jsonObj.value(QStringLiteral("http_status")).toInt(-1);
 
         if (httpStatusFromBody == httpStatusCodeTooManyRequests) {
-            return amnezia::ErrorCode::ApiRateLimitError;
+            return mugen::ErrorCode::ApiRateLimitError;
         }
         if (httpStatusFromBody == httpStatusCodeConflict) {
             if (apiErrorMessageFromJson(jsonObj).contains(trialAlreadyUsedMessage, Qt::CaseInsensitive)) {
-                return amnezia::ErrorCode::ApiTrialAlreadyUsedError;
+                return mugen::ErrorCode::ApiTrialAlreadyUsedError;
             }
-            return amnezia::ErrorCode::ApiConfigLimitError;
+            return mugen::ErrorCode::ApiConfigLimitError;
         }
         if (httpStatusFromBody == httpStatusCodeNotFound) {
-            return amnezia::ErrorCode::ApiNotFoundError;
+            return mugen::ErrorCode::ApiNotFoundError;
         }
         if (httpStatusFromBody == httpStatusCodeRequestTimeout) {
-            return amnezia::ErrorCode::ApiConfigTimeoutError;
+            return mugen::ErrorCode::ApiConfigTimeoutError;
         }
         if (httpStatusFromBody == httpStatusCodeNotImplemented) {
-            return amnezia::ErrorCode::ApiUpdateRequestError;
+            return mugen::ErrorCode::ApiUpdateRequestError;
         }
         if (httpStatusFromBody == httpStatusCodeUnprocessableEntity) {
             if (apiErrorMessageFromJson(jsonObj) == unprocessableSubscriptionMessage) {
-                return amnezia::ErrorCode::ApiSubscriptionExpiredError;
+                return mugen::ErrorCode::ApiSubscriptionExpiredError;
             }
-            return amnezia::ErrorCode::ApiConfigDownloadError;
+            return mugen::ErrorCode::ApiConfigDownloadError;
         }
         if (httpStatusFromBody == httpStatusCodePaymentRequired) {
             const QString message = apiErrorMessageFromJson(jsonObj);
             if (message.contains(QLatin1String("refresh_captcha"), Qt::CaseInsensitive)) {
-                return amnezia::ErrorCode::ApiCaptchaRefreshError;
+                return mugen::ErrorCode::ApiCaptchaRefreshError;
             }
             if (message.contains(QLatin1String("invalid_captcha"), Qt::CaseInsensitive)) {
-                return amnezia::ErrorCode::ApiCaptchaInvalidError;
+                return mugen::ErrorCode::ApiCaptchaInvalidError;
             }
             if (jsonObj.contains(QStringLiteral("captcha_id")) || jsonObj.contains(QStringLiteral("captcha_image"))
                 || message.compare(QLatin1String("rate_limit_exceeded"), Qt::CaseInsensitive) == 0
                 || message.contains(QLatin1String("rate_limit_exceeded"), Qt::CaseInsensitive)) {
-                return amnezia::ErrorCode::ApiCaptchaRequiredError;
+                return mugen::ErrorCode::ApiCaptchaRequiredError;
             }
-            return amnezia::ErrorCode::ApiSubscriptionNotActiveError;
+            return mugen::ErrorCode::ApiSubscriptionNotActiveError;
         }
 
         if (httpStatusFromBody >= 300) {
-            return amnezia::ErrorCode::ApiConfigDownloadError;
+            return mugen::ErrorCode::ApiConfigDownloadError;
         }
     }
 
     if (replyError == QNetworkReply::NoError) {
-        return amnezia::ErrorCode::NoError;
+        return mugen::ErrorCode::NoError;
     }
 
     qDebug() << "something went wrong";
-    return amnezia::ErrorCode::ApiConfigDownloadError;
+    return mugen::ErrorCode::ApiConfigDownloadError;
 }
 
 bool apiUtils::isPremiumServer(const QJsonObject &serverConfigObject)
 {
-    static const QSet<serverConfigUtils::ConfigType> premiumTypes = { serverConfigUtils::ConfigType::AmneziaPremiumV1, serverConfigUtils::ConfigType::AmneziaPremiumV2,
+    static const QSet<serverConfigUtils::ConfigType> premiumTypes = { serverConfigUtils::ConfigType::MugenPremiumV1, serverConfigUtils::ConfigType::MugenPremiumV2,
                                                             serverConfigUtils::ConfigType::ExternalPremium };
     return premiumTypes.contains(serverConfigUtils::configTypeFromJson(serverConfigObject));
 }
 
 QString apiUtils::getPremiumV1VpnKey(const QJsonObject &serverConfigObject)
 {
-    if (serverConfigUtils::configTypeFromJson(serverConfigObject) != serverConfigUtils::ConfigType::AmneziaPremiumV1) {
+    if (serverConfigUtils::configTypeFromJson(serverConfigObject) != serverConfigUtils::ConfigType::MugenPremiumV1) {
         return {};
     }
 
@@ -208,7 +208,7 @@ QString apiUtils::getPremiumV1VpnKey(const QJsonObject &serverConfigObject)
 QString apiUtils::getPremiumV2VpnKey(const QJsonObject &serverConfigObject)
 {
     auto configType = serverConfigUtils::configTypeFromJson(serverConfigObject);
-    if (configType != serverConfigUtils::ConfigType::AmneziaPremiumV2 && configType != serverConfigUtils::ConfigType::ExternalPremium) {
+    if (configType != serverConfigUtils::ConfigType::MugenPremiumV2 && configType != serverConfigUtils::ConfigType::ExternalPremium) {
         return {};
     }
 

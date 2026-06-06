@@ -5,9 +5,9 @@
 #include "../../../core/utils/constants/configKeys.h"
 #include "../../../core/utils/constants/protocolConstants.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
-namespace amnezia
+namespace mugen
 {
 
 QJsonObject SftpProtocolConfig::toJson() const
@@ -38,5 +38,5 @@ SftpProtocolConfig SftpProtocolConfig::fromJson(const QJsonObject& json)
     return config;
 }
 
-} // namespace amnezia
+} // namespace mugen
 

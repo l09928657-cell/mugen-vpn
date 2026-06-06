@@ -8,9 +8,9 @@
 #include "../../../core/utils/constants/configKeys.h"
 #include "../../../core/utils/constants/protocolConstants.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
-namespace amnezia
+namespace mugen
 {
 
 QJsonObject WireGuardServerConfig::toJson() const
@@ -183,5 +183,5 @@ void WireGuardProtocolConfig::clearClientConfig()
     clientConfig.reset();
 }
 
-} // namespace amnezia
+} // namespace mugen
 

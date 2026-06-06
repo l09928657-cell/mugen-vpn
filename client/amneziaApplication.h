@@ -19,7 +19,7 @@
 #include "ui/models/containerProps.h"
 #include "ui/models/protocolProps.h"
 
-#define amnApp (static_cast<AmneziaApplication *>(QCoreApplication::instance()))
+#define amnApp (static_cast<MugenApplication *>(QCoreApplication::instance()))
 
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
   #define AMNEZIA_BASE_CLASS QGuiApplication
@@ -27,12 +27,12 @@
   #define AMNEZIA_BASE_CLASS QApplication
 #endif
 
-class AmneziaApplication : public AMNEZIA_BASE_CLASS
+class MugenApplication : public AMNEZIA_BASE_CLASS
 {
     Q_OBJECT
 public:
-    AmneziaApplication(int &argc, char *argv[]);
-    virtual ~AmneziaApplication();
+    MugenApplication(int &argc, char *argv[]);
+    virtual ~MugenApplication();
 
     void init();
     void registerTypes();

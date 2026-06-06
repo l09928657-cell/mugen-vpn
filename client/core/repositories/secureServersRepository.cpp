@@ -10,7 +10,7 @@
 #include "core/utils/constants/apiKeys.h"
 #include "core/utils/constants/configKeys.h"
 
-using namespace amnezia;
+using namespace mugen;
 
 namespace {
 
@@ -52,15 +52,15 @@ QString storedServerDisplayName(const SecureServersRepository *repository, const
             return cfg->displayName;
         }
         break;
-    case Kind::AmneziaPremiumV2:
-    case Kind::AmneziaFreeV3:
+    case Kind::MugenPremiumV2:
+    case Kind::MugenFreeV3:
     case Kind::ExternalPremium:
         if (const auto cfg = repository->apiV2Config(serverId)) {
             return cfg->displayName;
         }
         break;
-    case Kind::AmneziaPremiumV1:
-    case Kind::AmneziaFreeV2:
+    case Kind::MugenPremiumV1:
+    case Kind::MugenFreeV2:
         if (const auto cfg = repository->legacyApiConfig(serverId)) {
             return cfg->displayName;
         }

@@ -27,17 +27,17 @@ static const QString tunName = "tun2";
 
 XrayProtocol::XrayProtocol(const QJsonObject &configuration, QObject *parent) : VpnProtocol(configuration, parent)
 {
-    m_vpnGateway = amnezia::protocols::xray::defaultLocalAddr;
-    m_vpnLocalAddress = amnezia::protocols::xray::defaultLocalAddr;
+    m_vpnGateway = mugen::protocols::xray::defaultLocalAddr;
+    m_vpnLocalAddress = mugen::protocols::xray::defaultLocalAddr;
     m_routeGateway = NetworkUtilities::getGatewayAndIface().first;
 
-    m_routeMode = static_cast<amnezia::RouteMode>(configuration.value(amnezia::configKey::splitTunnelType).toInt());
-    m_remoteAddress = NetworkUtilities::getIPAddress(m_rawConfig.value(amnezia::configKey::hostName).toString());
+    m_routeMode = static_cast<mugen::RouteMode>(configuration.value(mugen::configKey::splitTunnelType).toInt());
+    m_remoteAddress = NetworkUtilities::getIPAddress(m_rawConfig.value(mugen::configKey::hostName).toString());
 
-    const QString primaryDns = configuration.value(amnezia::configKey::dns1).toString();
+    const QString primaryDns = configuration.value(mugen::configKey::dns1).toString();
     m_dnsServers.push_back(QHostAddress(primaryDns));
-    if (primaryDns != amnezia::protocols::dns::amneziaDnsIp) {
-        const QString secondaryDns = configuration.value(amnezia::configKey::dns2).toString();
+    if (primaryDns != mugen::protocols::dns::mugenDnsIp) {
+        const QString secondaryDns = configuration.value(mugen::configKey::dns2).toString();
         m_dnsServers.push_back(QHostAddress(secondaryDns));
     }
 
@@ -51,7 +51,7 @@ XrayProtocol::XrayProtocol(const QJsonObject &configuration, QObject *parent) : 
         m_xrayConfig = {};
     }
 
-    m_xrayConfig = QJsonDocument::fromJson(xrayConfiguration.value(amnezia::configKey::config).toString().toUtf8()).object();
+    m_xrayConfig = QJsonDocument::fromJson(xrayConfiguration.value(mugen::configKey::config).toString().toUtf8()).object();
     if (m_xrayConfig.isEmpty()) {
         qWarning() << "Xray config string is not a valid JSON object";
         m_xrayConfig = {};
@@ -70,9 +70,9 @@ ErrorCode XrayProtocol::start()
 
     // Inject SOCKS5 auth into the inbound before starting xray.
     // Re-uses existing credentials if the config already has them (e.g. imported config).
-    amnezia::serialization::inbounds::InboundCredentials creds;
+    mugen::serialization::inbounds::InboundCredentials creds;
     try {
-        creds = amnezia::serialization::inbounds::EnsureInboundAuth(m_xrayConfig);
+        creds = mugen::serialization::inbounds::EnsureInboundAuth(m_xrayConfig);
     } catch (const std::exception &e) {
         qCritical() << "EnsureInboundAuth failed:" << e.what();
         return ErrorCode::InternalError;
@@ -90,17 +90,17 @@ ErrorCode XrayProtocol::start()
     // Fix fingerprint: old configs may contain "Mozilla/5.0" which xray-core rejects.
     // Replace with the correct default at runtime so stale stored configs still work.
     if (xrayConfigStr.contains("Mozilla/5.0", Qt::CaseInsensitive)) {
-        xrayConfigStr.replace("Mozilla/5.0", amnezia::protocols::xray::defaultFingerprint,
+        xrayConfigStr.replace("Mozilla/5.0", mugen::protocols::xray::defaultFingerprint,
                               Qt::CaseInsensitive);
         qDebug() << "XrayProtocol: patched legacy fingerprint to"
-                 << amnezia::protocols::xray::defaultFingerprint;
+                 << mugen::protocols::xray::defaultFingerprint;
     }
 
     // Fix inbound listen address: old configs may use "10.33.0.2" which doesn't exist
     // until TUN is created. xray must listen on 127.0.0.1 so tun2socks can connect.
-    if (xrayConfigStr.contains(amnezia::protocols::xray::defaultLocalAddr)) {
-        xrayConfigStr.replace(amnezia::protocols::xray::defaultLocalAddr,
-                              amnezia::protocols::xray::defaultLocalListenAddr);
+    if (xrayConfigStr.contains(mugen::protocols::xray::defaultLocalAddr)) {
+        xrayConfigStr.replace(mugen::protocols::xray::defaultLocalAddr,
+                              mugen::protocols::xray::defaultLocalListenAddr);
         qDebug() << "XrayProtocol: patched legacy inbound listen address to 127.0.0.1";
     }
 
@@ -113,7 +113,7 @@ ErrorCode XrayProtocol::start()
                 }
                 return startTun2Socks();
             },
-            []() { return ErrorCode::AmneziaServiceConnectionFailed; });
+            []() { return ErrorCode::MugenServiceConnectionFailed; });
 }
 
 void XrayProtocol::stop()
@@ -169,7 +169,7 @@ ErrorCode XrayProtocol::startTun2Socks()
 {
     m_tun2socksProcess = IpcClient::CreatePrivilegedProcess();
     if (!m_tun2socksProcess->waitForSource()) {
-        return ErrorCode::AmneziaServiceConnectionFailed;
+        return ErrorCode::MugenServiceConnectionFailed;
     }
 
     const QString proxyUrl = QString("socks5://%1:%2@127.0.0.1:%3").arg(m_socksUser, m_socksPassword, QString::number(m_socksPort));
@@ -255,7 +255,7 @@ ErrorCode XrayProtocol::setupRouting()
 #ifdef Q_OS_WIN
                 const int inetAdapterIndex = NetworkUtilities::AdapterIndexTo(QHostAddress(m_remoteAddress));
 #endif
-                auto createTun = iface->createTun(tunName, amnezia::protocols::xray::defaultLocalAddr);
+                auto createTun = iface->createTun(tunName, mugen::protocols::xray::defaultLocalAddr);
                 if (!createTun.waitForFinished() || !createTun.returnValue()) {
                     qCritical() << "Failed to assign IP address for TUN";
                     return ErrorCode::InternalError;
@@ -294,7 +294,7 @@ ErrorCode XrayProtocol::setupRouting()
                         qWarning() << "Failed to get vpnAdapterIndex. Killswitch disabled";
                 }
 
-                if (m_routeMode == amnezia::RouteMode::VpnAllSites) {
+                if (m_routeMode == mugen::RouteMode::VpnAllSites) {
                     static const QStringList subnets = { "1.0.0.0/8",  "2.0.0.0/7",  "4.0.0.0/6",  "8.0.0.0/5",
                                                          "16.0.0.0/4", "32.0.0.0/3", "64.0.0.0/2", "128.0.0.0/1" };
 
@@ -329,5 +329,5 @@ ErrorCode XrayProtocol::setupRouting()
 #endif
                 return ErrorCode::NoError;
             },
-            []() { return ErrorCode::AmneziaServiceConnectionFailed; });
+            []() { return ErrorCode::MugenServiceConnectionFailed; });
 }

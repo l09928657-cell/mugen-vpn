@@ -11,31 +11,31 @@ Item {
     id: root
 
     property string text
-    property string textColor: AmneziaStyle.color.paleGray
-    property string textDisabledColor: AmneziaStyle.color.mutedGray
+    property string textColor: MugenStyle.color.paleGray
+    property string textDisabledColor: MugenStyle.color.mutedGray
     property int textMaximumLineCount: 2
     property int textElide: Qt.ElideRight
 
     property string descriptionText
-    property string descriptionTextColor: AmneziaStyle.color.mutedGray
-    property string descriptionTextDisabledColor: AmneziaStyle.color.charcoalGray
+    property string descriptionTextColor: MugenStyle.color.mutedGray
+    property string descriptionTextDisabledColor: MugenStyle.color.charcoalGray
 
     property string headerText
     property string headerBackButtonImage
 
     property var rootButtonClickedFunction
     property string rootButtonImage: "qrc:/images/controls/chevron-down.svg"
-    property string rootButtonImageColor: AmneziaStyle.color.paleGray
-    property string rootButtonBackgroundColor: AmneziaStyle.color.onyxBlack
-    property string rootButtonBackgroundHoveredColor: AmneziaStyle.color.onyxBlack
-    property string rootButtonBackgroundPressedColor: AmneziaStyle.color.onyxBlack
+    property string rootButtonImageColor: MugenStyle.color.paleGray
+    property string rootButtonBackgroundColor: MugenStyle.color.onyxBlack
+    property string rootButtonBackgroundHoveredColor: MugenStyle.color.onyxBlack
+    property string rootButtonBackgroundPressedColor: MugenStyle.color.onyxBlack
 
-    property string borderFocusedColor: AmneziaStyle.color.paleGray
+    property string borderFocusedColor: MugenStyle.color.paleGray
     property int borderFocusedWidth: 1
 
-    property string rootButtonHoveredBorderColor: AmneziaStyle.color.charcoalGray
-    property string rootButtonDefaultBorderColor: AmneziaStyle.color.slateGray
-    property string rootButtonPressedBorderColor: AmneziaStyle.color.paleGray
+    property string rootButtonHoveredBorderColor: MugenStyle.color.charcoalGray
+    property string rootButtonDefaultBorderColor: MugenStyle.color.slateGray
+    property string rootButtonPressedBorderColor: MugenStyle.color.paleGray
 
     property int rootButtonTextLeftMargins: 16
     property int rootButtonTextTopMargin: 16
@@ -112,8 +112,8 @@ Item {
     Rectangle {
         id: focusBorder
 
-        color: AmneziaStyle.color.transparent
-        border.color: root.activeFocus ? root.borderFocusedColor : AmneziaStyle.color.transparent
+        color: MugenStyle.color.transparent
+        border.color: root.activeFocus ? root.borderFocusedColor : MugenStyle.color.transparent
         border.width: root.activeFocus ? root.borderFocusedWidth : 0
         anchors.fill: rootButtonContent
         radius: 16
@@ -133,7 +133,7 @@ Item {
                     }
                     return root.hovered ? root.rootButtonBackgroundHoveredColor : root.rootButtonBackgroundColor
                 } else {
-                    return AmneziaStyle.color.transparent
+                    return MugenStyle.color.transparent
                 }
             }
 

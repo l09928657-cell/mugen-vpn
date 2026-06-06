@@ -10,14 +10,14 @@
 #include "core/utils/commonStructs.h"
 #include "logger.h"
 #include "systemController.h"
-#include "amneziaApplication.h"
+#include "mugenApplication.h"
 #include "version.h"
 #ifdef Q_OS_ANDROID
     #include "platforms/android/android_controller.h"
 #endif
 
 #if defined(Q_OS_IOS) || defined(MACOS_NE)
-    #include <AmneziaVPN-Swift.h>
+    #include <MugenVPN-Swift.h>
 #endif
 
 SettingsUiController::SettingsUiController(SettingsController* settingsController,
@@ -39,15 +39,15 @@ SettingsUiController::SettingsUiController(SettingsController* settingsControlle
     }
 }
 
-void SettingsUiController::toggleAmneziaDns(bool enable)
+void SettingsUiController::toggleMugenDns(bool enable)
 {
-    m_settingsController->toggleAmneziaDns(enable);
-    emit amneziaDnsToggled(enable);
+    m_settingsController->toggleMugenDns(enable);
+    emit mugenDnsToggled(enable);
 }
 
-bool SettingsUiController::isAmneziaDnsEnabled()
+bool SettingsUiController::isMugenDnsEnabled()
 {
-    return m_settingsController->isAmneziaDnsEnabled();
+    return m_settingsController->isMugenDnsEnabled();
 }
 
 QString SettingsUiController::getPrimaryDns()
@@ -81,7 +81,7 @@ void SettingsUiController::toggleLogging(bool enable)
 {
     m_settingsController->toggleLogging(enable);
 #if defined(Q_OS_IOS)
-    AmneziaVPN::toggleLogging(enable);
+    MugenVPN::toggleLogging(enable);
 #endif
     if (enable == true) {
         qInfo().noquote() << QString("Logging has enabled on %1 version %2 %3").arg(APPLICATION_NAME, APP_VERSION, GIT_COMMIT_HASH);
@@ -157,8 +157,8 @@ void SettingsUiController::restoreAppConfigFromData(const QByteArray &data)
     if (errorCode == ErrorCode::NoError) {
         emit appLanguageChanged();
 
-        bool amneziaDnsEnabled = m_settingsController->isAmneziaDnsEnabled();
-        emit amneziaDnsToggled(amneziaDnsEnabled);
+        bool mugenDnsEnabled = m_settingsController->isMugenDnsEnabled();
+        emit mugenDnsToggled(mugenDnsEnabled);
 
         emit restoreBackupFinished();
         emit autoStartChanged();
@@ -183,7 +183,7 @@ void SettingsUiController::clearSettings()
     emit changeSettingsFinished(tr("All settings have been reset to default values"));
 
 #if defined(Q_OS_IOS) || defined(MACOS_NE)
-    AmneziaVPN::clearSettings();
+    MugenVPN::clearSettings();
 #endif
 }
 

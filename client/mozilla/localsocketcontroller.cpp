@@ -103,11 +103,11 @@ void LocalSocketController::initializeInternal() {
   m_daemonState = eInitializing;
 
 #ifdef MZ_WINDOWS
-  QString path = "\\\\.\\pipe\\amneziavpn";
+  QString path = "\\\\.\\pipe\\mugenvpn";
 #else
-  QString path = "/var/run/amneziavpn/daemon.socket";
+  QString path = "/var/run/mugenvpn/daemon.socket";
   if (!QFileInfo::exists(path)) {
-    path = "/tmp/amneziavpn.socket";
+    path = "/tmp/mugenvpn.socket";
   }
 #endif
 
@@ -127,18 +127,18 @@ void LocalSocketController::activate(const QJsonObject &rawConfig) {
   int splitTunnelType = rawConfig.value("splitTunnelType").toInt();
   QJsonArray splitTunnelSites = rawConfig.value("splitTunnelSites").toArray();
 
-  int appSplitTunnelType = rawConfig.value(amnezia::configKey::appSplitTunnelType).toInt();
-  QJsonArray splitTunnelApps = rawConfig.value(amnezia::configKey::splitTunnelApps).toArray();
-  QJsonArray allowedDns = rawConfig.value(amnezia::configKey::allowedDnsServers).toArray();
+  int appSplitTunnelType = rawConfig.value(mugen::configKey::appSplitTunnelType).toInt();
+  QJsonArray splitTunnelApps = rawConfig.value(mugen::configKey::splitTunnelApps).toArray();
+  QJsonArray allowedDns = rawConfig.value(mugen::configKey::allowedDnsServers).toArray();
 
   QJsonObject wgConfig = rawConfig.value(protocolName + "_config_data").toObject();
 
   QJsonObject json;
   json.insert("type", "activate");
   //  json.insert("hopindex", QJsonValue((double)hop.m_hopindex));
-  json.insert("privateKey", wgConfig.value(amnezia::configKey::clientPrivKey));
-  json.insert("deviceIpv4Address", wgConfig.value(amnezia::configKey::clientIp));
-  m_deviceIpv4 = wgConfig.value(amnezia::configKey::clientIp).toString();
+  json.insert("privateKey", wgConfig.value(mugen::configKey::clientPrivKey));
+  json.insert("deviceIpv4Address", wgConfig.value(mugen::configKey::clientIp));
+  m_deviceIpv4 = wgConfig.value(mugen::configKey::clientIp).toString();
 
   // set up IPv6 unique-local-address, ULA, with "fd00::/8" prefix, not globally routable.
   // this will be default IPv6 gateway, OS recognizes that IPv6 link is local and switches to IPv4.
@@ -149,27 +149,27 @@ void LocalSocketController::activate(const QJsonObject &rawConfig) {
   // simply "dead::1" is globally-routable, don't use it
   json.insert("deviceIpv6Address", "fd58:baa6:dead::1");
 
-  json.insert("serverPublicKey", wgConfig.value(amnezia::configKey::serverPubKey));
-  json.insert("serverPskKey", wgConfig.value(amnezia::configKey::pskKey));
-  json.insert("serverIpv4AddrIn", wgConfig.value(amnezia::configKey::hostName));
+  json.insert("serverPublicKey", wgConfig.value(mugen::configKey::serverPubKey));
+  json.insert("serverPskKey", wgConfig.value(mugen::configKey::pskKey));
+  json.insert("serverIpv4AddrIn", wgConfig.value(mugen::configKey::hostName));
   //  json.insert("serverIpv6AddrIn", QJsonValue(hop.m_server.ipv6AddrIn()));
-  json.insert("deviceMTU", wgConfig.value(amnezia::configKey::mtu));
+  json.insert("deviceMTU", wgConfig.value(mugen::configKey::mtu));
 
-  json.insert("serverPort", wgConfig.value(amnezia::configKey::port).toInt());
-  json.insert("serverIpv4Gateway", wgConfig.value(amnezia::configKey::hostName));
+  json.insert("serverPort", wgConfig.value(mugen::configKey::port).toInt());
+  json.insert("serverIpv4Gateway", wgConfig.value(mugen::configKey::hostName));
   //  json.insert("serverIpv6Gateway", QJsonValue(hop.m_server.ipv6Gateway()));
 
-  json.insert("primaryDnsServer", rawConfig.value(amnezia::configKey::dns1));
+  json.insert("primaryDnsServer", rawConfig.value(mugen::configKey::dns1));
 
-  // We don't use secondary DNS if primary DNS is AmneziaDNS
-  if (!rawConfig.value(amnezia::configKey::dns1).toString().
-    contains(amnezia::protocols::dns::amneziaDnsIp)) {
-    json.insert("secondaryDnsServer", rawConfig.value(amnezia::configKey::dns2));
+  // We don't use secondary DNS if primary DNS is MugenDNS
+  if (!rawConfig.value(mugen::configKey::dns1).toString().
+    contains(mugen::protocols::dns::mugenDnsIp)) {
+    json.insert("secondaryDnsServer", rawConfig.value(mugen::configKey::dns2));
   }
 
   QJsonArray jsAllowedIPAddesses;
 
-  QJsonArray plainAllowedIP = wgConfig.value(amnezia::configKey::allowedIps).toArray();
+  QJsonArray plainAllowedIP = wgConfig.value(mugen::configKey::allowedIps).toArray();
   QJsonArray defaultAllowedIP = { "0.0.0.0/0", "::/0" };
 
   if (plainAllowedIP != defaultAllowedIP && !plainAllowedIP.isEmpty()) {
@@ -230,7 +230,7 @@ void LocalSocketController::activate(const QJsonObject &rawConfig) {
   json.insert("allowedIPAddressRanges", jsAllowedIPAddesses);
 
   QJsonArray jsExcludedAddresses;
-  jsExcludedAddresses.append(wgConfig.value(amnezia::configKey::hostName));
+  jsExcludedAddresses.append(wgConfig.value(mugen::configKey::hostName));
   if (splitTunnelType == 2) {
     for (auto v : splitTunnelSites) {
           QString ipRange = v.toString();
@@ -244,52 +244,52 @@ void LocalSocketController::activate(const QJsonObject &rawConfig) {
 
   json.insert("allowedDnsServers", allowedDns);
 
-  json.insert(amnezia::configKey::killSwitchOption, rawConfig.value(amnezia::configKey::killSwitchOption));
+  json.insert(mugen::configKey::killSwitchOption, rawConfig.value(mugen::configKey::killSwitchOption));
 
-  if (protocolName == amnezia::configKey::awg) {
-    json.insert(amnezia::configKey::junkPacketCount, wgConfig.value(amnezia::configKey::junkPacketCount));
-    json.insert(amnezia::configKey::junkPacketMinSize, wgConfig.value(amnezia::configKey::junkPacketMinSize));
-    json.insert(amnezia::configKey::junkPacketMaxSize, wgConfig.value(amnezia::configKey::junkPacketMaxSize));
-    json.insert(amnezia::configKey::initPacketJunkSize, wgConfig.value(amnezia::configKey::initPacketJunkSize));
-    json.insert(amnezia::configKey::responsePacketJunkSize, wgConfig.value(amnezia::configKey::responsePacketJunkSize));
-    json.insert(amnezia::configKey::cookieReplyPacketJunkSize, wgConfig.value(amnezia::configKey::cookieReplyPacketJunkSize));
-    json.insert(amnezia::configKey::transportPacketJunkSize, wgConfig.value(amnezia::configKey::transportPacketJunkSize));
-    json.insert(amnezia::configKey::initPacketMagicHeader, wgConfig.value(amnezia::configKey::initPacketMagicHeader));
-    json.insert(amnezia::configKey::responsePacketMagicHeader, wgConfig.value(amnezia::configKey::responsePacketMagicHeader));
-    json.insert(amnezia::configKey::underloadPacketMagicHeader, wgConfig.value(amnezia::configKey::underloadPacketMagicHeader));
-    json.insert(amnezia::configKey::transportPacketMagicHeader, wgConfig.value(amnezia::configKey::transportPacketMagicHeader));
-    json.insert(amnezia::configKey::specialJunk1, wgConfig.value(amnezia::configKey::specialJunk1));
-    json.insert(amnezia::configKey::specialJunk2, wgConfig.value(amnezia::configKey::specialJunk2));
-    json.insert(amnezia::configKey::specialJunk3, wgConfig.value(amnezia::configKey::specialJunk3));
-    json.insert(amnezia::configKey::specialJunk4, wgConfig.value(amnezia::configKey::specialJunk4));
-    json.insert(amnezia::configKey::specialJunk5, wgConfig.value(amnezia::configKey::specialJunk5));
-  } else if (!wgConfig.value(amnezia::configKey::junkPacketCount).isUndefined()
-             && !wgConfig.value(amnezia::configKey::junkPacketMinSize).isUndefined()
-             && !wgConfig.value(amnezia::configKey::junkPacketMaxSize).isUndefined()
-             && !wgConfig.value(amnezia::configKey::initPacketJunkSize).isUndefined()
-             && !wgConfig.value(amnezia::configKey::responsePacketJunkSize).isUndefined()
-             && !wgConfig.value(amnezia::configKey::cookieReplyPacketJunkSize).isUndefined()
-             && !wgConfig.value(amnezia::configKey::transportPacketJunkSize).isUndefined()
-             && !wgConfig.value(amnezia::configKey::initPacketMagicHeader).isUndefined()
-             && !wgConfig.value(amnezia::configKey::responsePacketMagicHeader).isUndefined()
-             && !wgConfig.value(amnezia::configKey::underloadPacketMagicHeader).isUndefined()
-             && !wgConfig.value(amnezia::configKey::transportPacketMagicHeader).isUndefined()) {
-    json.insert(amnezia::configKey::junkPacketCount, wgConfig.value(amnezia::configKey::junkPacketCount));
-    json.insert(amnezia::configKey::junkPacketMinSize, wgConfig.value(amnezia::configKey::junkPacketMinSize));
-    json.insert(amnezia::configKey::junkPacketMaxSize, wgConfig.value(amnezia::configKey::junkPacketMaxSize));
-    json.insert(amnezia::configKey::initPacketJunkSize, wgConfig.value(amnezia::configKey::initPacketJunkSize));
-    json.insert(amnezia::configKey::responsePacketJunkSize, wgConfig.value(amnezia::configKey::responsePacketJunkSize));
-    json.insert(amnezia::configKey::cookieReplyPacketJunkSize, wgConfig.value(amnezia::configKey::cookieReplyPacketJunkSize));
-    json.insert(amnezia::configKey::transportPacketJunkSize, wgConfig.value(amnezia::configKey::transportPacketJunkSize));
-    json.insert(amnezia::configKey::initPacketMagicHeader, wgConfig.value(amnezia::configKey::initPacketMagicHeader));
-    json.insert(amnezia::configKey::responsePacketMagicHeader, wgConfig.value(amnezia::configKey::responsePacketMagicHeader));
-    json.insert(amnezia::configKey::underloadPacketMagicHeader, wgConfig.value(amnezia::configKey::underloadPacketMagicHeader));
-    json.insert(amnezia::configKey::transportPacketMagicHeader, wgConfig.value(amnezia::configKey::transportPacketMagicHeader));
-    json.insert(amnezia::configKey::specialJunk1, wgConfig.value(amnezia::configKey::specialJunk1));
-    json.insert(amnezia::configKey::specialJunk2, wgConfig.value(amnezia::configKey::specialJunk2));
-    json.insert(amnezia::configKey::specialJunk3, wgConfig.value(amnezia::configKey::specialJunk3));
-    json.insert(amnezia::configKey::specialJunk4, wgConfig.value(amnezia::configKey::specialJunk4));
-    json.insert(amnezia::configKey::specialJunk5, wgConfig.value(amnezia::configKey::specialJunk5));
+  if (protocolName == mugen::configKey::awg) {
+    json.insert(mugen::configKey::junkPacketCount, wgConfig.value(mugen::configKey::junkPacketCount));
+    json.insert(mugen::configKey::junkPacketMinSize, wgConfig.value(mugen::configKey::junkPacketMinSize));
+    json.insert(mugen::configKey::junkPacketMaxSize, wgConfig.value(mugen::configKey::junkPacketMaxSize));
+    json.insert(mugen::configKey::initPacketJunkSize, wgConfig.value(mugen::configKey::initPacketJunkSize));
+    json.insert(mugen::configKey::responsePacketJunkSize, wgConfig.value(mugen::configKey::responsePacketJunkSize));
+    json.insert(mugen::configKey::cookieReplyPacketJunkSize, wgConfig.value(mugen::configKey::cookieReplyPacketJunkSize));
+    json.insert(mugen::configKey::transportPacketJunkSize, wgConfig.value(mugen::configKey::transportPacketJunkSize));
+    json.insert(mugen::configKey::initPacketMagicHeader, wgConfig.value(mugen::configKey::initPacketMagicHeader));
+    json.insert(mugen::configKey::responsePacketMagicHeader, wgConfig.value(mugen::configKey::responsePacketMagicHeader));
+    json.insert(mugen::configKey::underloadPacketMagicHeader, wgConfig.value(mugen::configKey::underloadPacketMagicHeader));
+    json.insert(mugen::configKey::transportPacketMagicHeader, wgConfig.value(mugen::configKey::transportPacketMagicHeader));
+    json.insert(mugen::configKey::specialJunk1, wgConfig.value(mugen::configKey::specialJunk1));
+    json.insert(mugen::configKey::specialJunk2, wgConfig.value(mugen::configKey::specialJunk2));
+    json.insert(mugen::configKey::specialJunk3, wgConfig.value(mugen::configKey::specialJunk3));
+    json.insert(mugen::configKey::specialJunk4, wgConfig.value(mugen::configKey::specialJunk4));
+    json.insert(mugen::configKey::specialJunk5, wgConfig.value(mugen::configKey::specialJunk5));
+  } else if (!wgConfig.value(mugen::configKey::junkPacketCount).isUndefined()
+             && !wgConfig.value(mugen::configKey::junkPacketMinSize).isUndefined()
+             && !wgConfig.value(mugen::configKey::junkPacketMaxSize).isUndefined()
+             && !wgConfig.value(mugen::configKey::initPacketJunkSize).isUndefined()
+             && !wgConfig.value(mugen::configKey::responsePacketJunkSize).isUndefined()
+             && !wgConfig.value(mugen::configKey::cookieReplyPacketJunkSize).isUndefined()
+             && !wgConfig.value(mugen::configKey::transportPacketJunkSize).isUndefined()
+             && !wgConfig.value(mugen::configKey::initPacketMagicHeader).isUndefined()
+             && !wgConfig.value(mugen::configKey::responsePacketMagicHeader).isUndefined()
+             && !wgConfig.value(mugen::configKey::underloadPacketMagicHeader).isUndefined()
+             && !wgConfig.value(mugen::configKey::transportPacketMagicHeader).isUndefined()) {
+    json.insert(mugen::configKey::junkPacketCount, wgConfig.value(mugen::configKey::junkPacketCount));
+    json.insert(mugen::configKey::junkPacketMinSize, wgConfig.value(mugen::configKey::junkPacketMinSize));
+    json.insert(mugen::configKey::junkPacketMaxSize, wgConfig.value(mugen::configKey::junkPacketMaxSize));
+    json.insert(mugen::configKey::initPacketJunkSize, wgConfig.value(mugen::configKey::initPacketJunkSize));
+    json.insert(mugen::configKey::responsePacketJunkSize, wgConfig.value(mugen::configKey::responsePacketJunkSize));
+    json.insert(mugen::configKey::cookieReplyPacketJunkSize, wgConfig.value(mugen::configKey::cookieReplyPacketJunkSize));
+    json.insert(mugen::configKey::transportPacketJunkSize, wgConfig.value(mugen::configKey::transportPacketJunkSize));
+    json.insert(mugen::configKey::initPacketMagicHeader, wgConfig.value(mugen::configKey::initPacketMagicHeader));
+    json.insert(mugen::configKey::responsePacketMagicHeader, wgConfig.value(mugen::configKey::responsePacketMagicHeader));
+    json.insert(mugen::configKey::underloadPacketMagicHeader, wgConfig.value(mugen::configKey::underloadPacketMagicHeader));
+    json.insert(mugen::configKey::transportPacketMagicHeader, wgConfig.value(mugen::configKey::transportPacketMagicHeader));
+    json.insert(mugen::configKey::specialJunk1, wgConfig.value(mugen::configKey::specialJunk1));
+    json.insert(mugen::configKey::specialJunk2, wgConfig.value(mugen::configKey::specialJunk2));
+    json.insert(mugen::configKey::specialJunk3, wgConfig.value(mugen::configKey::specialJunk3));
+    json.insert(mugen::configKey::specialJunk4, wgConfig.value(mugen::configKey::specialJunk4));
+    json.insert(mugen::configKey::specialJunk5, wgConfig.value(mugen::configKey::specialJunk5));
   }
 
   write(json);

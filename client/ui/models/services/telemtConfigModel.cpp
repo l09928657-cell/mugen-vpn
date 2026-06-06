@@ -7,7 +7,7 @@
 #include "core/utils/constants/protocolConstants.h"
 #include "qrcodegen.hpp"
 
-using namespace amnezia;
+using namespace mugen;
 
 TelemtConfigModel::TelemtConfigModel(QObject *parent) : QAbstractListModel(parent) {}
 

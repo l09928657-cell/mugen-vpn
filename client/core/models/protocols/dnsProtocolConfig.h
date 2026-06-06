@@ -3,7 +3,7 @@
 
 #include <QJsonObject>
 
-namespace amnezia
+namespace mugen
 {
 
 struct DnsProtocolConfig {
@@ -11,7 +11,7 @@ struct DnsProtocolConfig {
     static DnsProtocolConfig fromJson(const QJsonObject& json);
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // DNSPROTOCOLCONFIG_H
 

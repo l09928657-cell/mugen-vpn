@@ -14,19 +14,19 @@ RadioButton {
     property int textElide: Qt.ElideRight
     property string descriptionText
 
-    property string hoveredColor: AmneziaStyle.color.barelyTranslucentWhite
-    property string defaultColor: AmneziaStyle.color.transparent
-    property string disabledColor: AmneziaStyle.color.transparent
-    property string selectedColor: AmneziaStyle.color.transparent
+    property string hoveredColor: MugenStyle.color.barelyTranslucentWhite
+    property string defaultColor: MugenStyle.color.transparent
+    property string disabledColor: MugenStyle.color.transparent
+    property string selectedColor: MugenStyle.color.transparent
 
-    property string textColor: AmneziaStyle.color.paleGray
-    property string textDisabledColor: AmneziaStyle.color.mutedGray
-    property string selectedTextColor: AmneziaStyle.color.goldenApricot
-    property string selectedTextDisabledColor: AmneziaStyle.color.burntOrange
-    property string descriptionColor: AmneziaStyle.color.mutedGray
-    property string descriptionDisabledColor: AmneziaStyle.color.charcoalGray
+    property string textColor: MugenStyle.color.paleGray
+    property string textDisabledColor: MugenStyle.color.mutedGray
+    property string selectedTextColor: MugenStyle.color.goldenApricot
+    property string selectedTextDisabledColor: MugenStyle.color.burntOrange
+    property string descriptionColor: MugenStyle.color.mutedGray
+    property string descriptionDisabledColor: MugenStyle.color.charcoalGray
 
-    property string borderFocusedColor: AmneziaStyle.color.paleGray
+    property string borderFocusedColor: MugenStyle.color.paleGray
     property int borderFocusedWidth: 1
 
     property string imageSource
@@ -71,7 +71,7 @@ RadioButton {
 
         anchors.verticalCenter: parent.verticalCenter
 
-        border.color: root.focus ? root.borderFocusedColor : AmneziaStyle.color.transparent
+        border.color: root.focus ? root.borderFocusedColor : MugenStyle.color.transparent
         border.width: root.focus ? root.borderFocusedWidth : 0
 
         implicitWidth: 56

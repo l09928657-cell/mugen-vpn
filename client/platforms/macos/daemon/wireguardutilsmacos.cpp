@@ -19,7 +19,7 @@
 #include "killswitch.h"
 
 constexpr const int WG_TUN_PROC_TIMEOUT = 5000;
-constexpr const char* WG_RUNTIME_DIR = "/var/run/amneziawg";
+constexpr const char* WG_RUNTIME_DIR = "/var/run/mugenwg";
 
 namespace {
 Logger logger("WireguardUtilsMacos");
@@ -79,7 +79,7 @@ bool WireguardUtilsMacos::addInterface(const InterfaceConfig& config) {
 
   QDir appPath(QCoreApplication::applicationDirPath());
   QStringList wgArgs = {"-f", "utun"};
-  m_tunnel.start(appPath.filePath("amneziawg-go"), wgArgs);
+  m_tunnel.start(appPath.filePath("mugenwg-go"), wgArgs);
   if (!m_tunnel.waitForStarted(WG_TUN_PROC_TIMEOUT)) {
     logger.error() << "Unable to start tunnel process due to timeout";
     m_tunnel.kill();

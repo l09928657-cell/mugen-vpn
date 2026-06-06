@@ -38,7 +38,7 @@ public:
 signals:
 
 private:
-    amnezia::PermittedProcess m_program = amnezia::PermittedProcess::Invalid;
+    mugen::PermittedProcess m_program = mugen::PermittedProcess::Invalid;
     QSharedPointer<QProcess> m_process;
 };
 

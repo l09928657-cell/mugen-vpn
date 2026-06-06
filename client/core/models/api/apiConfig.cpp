@@ -6,7 +6,7 @@
 #include "core/utils/api/apiUtils.h"
 #include "core/utils/constants/apiKeys.h"
 
-namespace amnezia
+namespace mugen
 {
 
 QJsonObject ApiConfig::Subscription::toJson() const
@@ -71,12 +71,12 @@ ApiConfig::PublicKeyInfo ApiConfig::PublicKeyInfo::fromJson(const QJsonObject& j
 
 bool ApiConfig::isPremium() const
 {
-    return serviceType == "amnezia-premium";
+    return serviceType == "mugen-premium";
 }
 
 bool ApiConfig::isFree() const
 {
-    return serviceType == "amnezia-free";
+    return serviceType == "mugen-free";
 }
 
 bool ApiConfig::isExternalPremium() const
@@ -219,5 +219,5 @@ ApiConfig ApiConfig::fromJson(const QJsonObject& json)
     return config;
 }
 
-} // namespace amnezia
+} // namespace mugen
 

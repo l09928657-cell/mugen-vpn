@@ -4,7 +4,7 @@
 #include <QJsonObject>
 #include <QObject>
 
-using namespace amnezia;
+using namespace mugen;
 
 QList<Proto> ProtocolUtils::allProtocols()
 {
@@ -60,7 +60,7 @@ QMap<Proto, QString> ProtocolUtils::protocolHumanNames()
 {
     return { { Proto::OpenVpn, "OpenVPN" },
              { Proto::WireGuard, "WireGuard" },
-             { Proto::Awg, "AmneziaWG" },
+             { Proto::Awg, "MugenWG" },
              { Proto::Ikev2, "IKEv2" },
              { Proto::Xray, "XRay" },
              { Proto::SSXray, "Shadowsocks"},

@@ -13,11 +13,11 @@
 
 #include <QtGlobal>
 
-using namespace amnezia;
+using namespace mugen;
 
 namespace {
-    constexpr QLatin1String kTelemtClientJsonPath("/data/amnezia-telemt-client.json");
-    constexpr QLatin1String kTelemtClientJsonUploadPath("data/amnezia-telemt-client.json");
+    constexpr QLatin1String kTelemtClientJsonPath("/data/mugen-telemt-client.json");
+    constexpr QLatin1String kTelemtClientJsonUploadPath("data/mugen-telemt-client.json");
     constexpr QLatin1String kTelemtSecretPath("/data/secret");
 }
 

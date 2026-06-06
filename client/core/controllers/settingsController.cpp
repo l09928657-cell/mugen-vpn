@@ -40,14 +40,14 @@ SettingsController::SettingsController(SecureServersRepository* serversRepositor
     m_isDevModeEnabled = m_appSettingsRepository->isDevGatewayEnv();
 }
 
-void SettingsController::toggleAmneziaDns(bool enable)
+void SettingsController::toggleMugenDns(bool enable)
 {
-    m_appSettingsRepository->setUseAmneziaDns(enable);
+    m_appSettingsRepository->setUseMugenDns(enable);
 }
 
-bool SettingsController::isAmneziaDnsEnabled() const
+bool SettingsController::isMugenDnsEnabled() const
 {
-    return m_appSettingsRepository->useAmneziaDns();
+    return m_appSettingsRepository->useMugenDns();
 }
 
 QString SettingsController::getPrimaryDns() const
@@ -114,7 +114,7 @@ QByteArray SettingsController::backupAppConfig() const
     config["Conf/autoStart"] = isAutoStartEnabled();
     config["Conf/killSwitchEnabled"] = isKillSwitchEnabled();
     config["Conf/strictKillSwitchEnabled"] = isStrictKillSwitchEnabled();
-    config["Conf/useAmneziaDns"] = isAmneziaDnsEnabled();
+    config["Conf/useMugenDns"] = isMugenDnsEnabled();
 
     return QJsonDocument(config).toJson();
 }

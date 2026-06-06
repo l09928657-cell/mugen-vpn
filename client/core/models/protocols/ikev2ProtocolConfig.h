@@ -6,7 +6,7 @@
 #include <QByteArray>
 #include <optional>
 
-namespace amnezia
+namespace mugen
 {
 
 struct Ikev2ServerConfig {
@@ -41,7 +41,7 @@ struct Ikev2ProtocolConfig {
     void clearClientConfig();
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // IKEV2PROTOCOLCONFIG_H
 

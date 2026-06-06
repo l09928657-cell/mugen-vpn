@@ -29,7 +29,7 @@ Ikev2Configurator::ConnectionData Ikev2Configurator::prepareIkev2Config(const Se
     connData.clientId = Utils::getRandomString(16);
     connData.password = "";
 
-    QString certFileName = "/opt/amnezia/ikev2/clients/" + connData.clientId + ".p12";
+    QString certFileName = "/opt/mugen/ikev2/clients/" + connData.clientId + ".p12";
 
     QString scriptCreateCert = QString("certutil -z <(head -c 1024 /dev/urandom) "
                                        "-S -c \"IKEv2 VPN CA\" -n \"%1\" "

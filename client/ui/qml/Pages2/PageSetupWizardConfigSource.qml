@@ -104,11 +104,11 @@ PageType {
                             clickedFunction: function() {
                                 var fileName = ""
                                 if (GC.isMobile()) {
-                                    fileName = "AmneziaVPN.log"
+                                    fileName = "MugenVPN.log"
                                 } else {
                                     fileName = SystemController.getFileName(qsTr("Save"),
                                                                             qsTr("Logs files (*.log)"),
-                                                                            StandardPaths.standardLocations(StandardPaths.DocumentsLocation) + "/AmneziaVPN",
+                                                                            StandardPaths.standardLocations(StandardPaths.DocumentsLocation) + "/MugenVPN",
                                                                             true,
                                                                             ".log")
                                 }
@@ -132,7 +132,7 @@ PageType {
                             descriptionOnTop: true
 
                             rightImageSource: "qrc:/images/controls/copy.svg"
-                            rightImageColor: AmneziaStyle.color.paleGray
+                            rightImageColor: MugenStyle.color.paleGray
 
                             visible: SettingsController.getInstallationUuid() !== ""
                             clickedFunction: function() {
@@ -201,7 +201,7 @@ PageType {
                 Layout.leftMargin: 16
                 Layout.bottomMargin: 24
 
-                color: AmneziaStyle.color.charcoalGray
+                color: MugenStyle.color.charcoalGray
                 text: qsTr("Other connection options")
             }
         }
@@ -222,8 +222,8 @@ PageType {
                 headerText: title
                 bodyText: description
 
-                showRecommendedBadge: featuredAmneziaConnection
-                recommendedText: featuredAmneziaConnection ? qsTr("Recommended") : ""
+                showRecommendedBadge: featuredMugenConnection
+                recommendedText: featuredMugenConnection ? qsTr("Recommended") : ""
 
                 rightImageSource: "qrc:/images/controls/chevron-right.svg"
                 leftImageSource: imageSource
@@ -247,13 +247,13 @@ PageType {
 
                 visible: Qt.platform.os !== "ios" && !IsMacOsNeBuild
 
-                defaultColor: AmneziaStyle.color.transparent
-                hoveredColor: AmneziaStyle.color.translucentWhite
-                pressedColor: AmneziaStyle.color.sheerWhite
-                disabledColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.goldenApricot
+                defaultColor: MugenStyle.color.transparent
+                hoveredColor: MugenStyle.color.translucentWhite
+                pressedColor: MugenStyle.color.sheerWhite
+                disabledColor: MugenStyle.color.mutedGray
+                textColor: MugenStyle.color.goldenApricot
 
-                text: qsTr("Site Amnezia")
+                text: qsTr("Site Mugen")
 
                 rightImageSource: "qrc:/images/controls/external-link.svg"
 
@@ -265,7 +265,7 @@ PageType {
     }
 
     property list<QtObject> variants: [
-        amneziaVpn,
+        mugenVpn,
         selfHostVpn,
         backupRestore,
         fileOpen,
@@ -275,12 +275,12 @@ PageType {
     ]
     
     QtObject {
-        id: amneziaVpn
+        id: mugenVpn
 
-        property string title: qsTr("VPN by Amnezia")
+        property string title: qsTr("VPN by Mugen")
         property string description: qsTr("The easiest way to connect to the VPN")
-        property string imageSource: "qrc:/images/controls/amnezia.svg"
-        property bool featuredAmneziaConnection: true
+        property string imageSource: "qrc:/images/controls/mugen.svg"
+        property bool featuredMugenConnection: true
         property bool isVisible: true
         property var handler: function() {
             PageController.showBusyIndicator(true)
@@ -295,9 +295,9 @@ PageType {
     QtObject {
         id: selfHostVpn
 
-        property bool featuredAmneziaConnection: false
+        property bool featuredMugenConnection: false
         property string title: qsTr("Self-hosted VPN")
-        property string description: qsTr("Configure Amnezia VPN on your own server")
+        property string description: qsTr("Configure Mugen VPN on your own server")
         property string imageSource: "qrc:/images/controls/server.svg"
         property bool isVisible: true
         property var handler: function() {
@@ -308,7 +308,7 @@ PageType {
     QtObject {
         id: backupRestore
 
-        property bool featuredAmneziaConnection: false
+        property bool featuredMugenConnection: false
         property string title: qsTr("Restore from backup")
         property string description: qsTr("")
         property string imageSource: "qrc:/images/controls/archive-restore.svg"
@@ -327,7 +327,7 @@ PageType {
     QtObject {
         id: fileOpen
 
-        property bool featuredAmneziaConnection: false
+        property bool featuredMugenConnection: false
         property string title: qsTr("File with connection settings")
         property string description: qsTr("")
         property string imageSource: "qrc:/images/controls/folder-search-2.svg"
@@ -346,7 +346,7 @@ PageType {
     QtObject {
         id: qrScan
 
-        property bool featuredAmneziaConnection: false
+        property bool featuredMugenConnection: false
         property string title: qsTr("QR code")
         property string description: qsTr("")
         property string imageSource: "qrc:/images/controls/scan-line.svg"
@@ -362,7 +362,7 @@ PageType {
     QtObject {
         id: restorePurchases
 
-        property bool featuredAmneziaConnection: false
+        property bool featuredMugenConnection: false
         property string title: qsTr("Restore purchases")
         property string description: qsTr("")
         property string imageSource: "qrc:/images/controls/refresh-cw.svg"
@@ -377,7 +377,7 @@ PageType {
     QtObject {
         id: siteLink
 
-        property bool featuredAmneziaConnection: false
+        property bool featuredMugenConnection: false
         property string title: qsTr("I have nothing")
         property string description: qsTr("")
         property string imageSource: "qrc:/images/controls/help-circle.svg"

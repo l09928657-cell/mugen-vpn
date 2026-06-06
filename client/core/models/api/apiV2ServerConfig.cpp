@@ -15,7 +15,7 @@
 #include "core/models/api/authData.h"
 #include "core/utils/networkUtilities.h"
 
-namespace amnezia
+namespace mugen
 {
 
 using namespace ContainerEnumNS;
@@ -185,5 +185,5 @@ ApiV2ServerConfig ApiV2ServerConfig::fromJson(const QJsonObject& json)
     return config;
 }
 
-} // namespace amnezia
+} // namespace mugen
 

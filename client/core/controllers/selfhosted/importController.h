@@ -15,7 +15,7 @@
 namespace
 {
     enum class ConfigTypes {
-        Amnezia,
+        Mugen,
         OpenVpn,
         WireGuard,
         Awg,
@@ -26,7 +26,7 @@ namespace
     };
 }
 
-using namespace amnezia;
+using namespace mugen;
 
 class ImportController : public QObject
 {
@@ -77,7 +77,7 @@ private:
     QJsonObject extractWireGuardConfig(const QString &data, ConfigTypes &configType) const;
     QJsonObject extractXrayConfig(const QString &data, ConfigTypes configType, const QString &description = "") const;
     void checkForMaliciousStrings(const QJsonObject &serverConfig, QString &warningText) const;
-    void processAmneziaConfig(QJsonObject &config) const;
+    void processMugenConfig(QJsonObject &config) const;
 
     SecureServersRepository* m_serversRepository;
     SecureAppSettingsRepository* m_appSettingsRepository;

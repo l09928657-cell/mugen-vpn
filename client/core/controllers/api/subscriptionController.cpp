@@ -32,10 +32,10 @@
 
 #if defined(Q_OS_IOS) || defined(MACOS_NE)
     #include "platforms/ios/ios_controller.h"
-    #include <AmneziaVPN-Swift.h>
+    #include <MugenVPN-Swift.h>
 #endif
 
-using namespace amnezia;
+using namespace mugen;
 
 namespace
 {
@@ -196,7 +196,7 @@ void SubscriptionController::updateApiConfigInJson(QJsonObject &serverConfigJson
     apiConfig[apiDefs::key::serviceProtocol] = serviceProtocol;
     apiConfig[apiDefs::key::userCountryCode] = userCountryCode;
     
-    if (serverConfigJson.value(configKey::configVersion).toInt() == serverConfigUtils::ConfigSource::AmneziaGateway) {
+    if (serverConfigJson.value(configKey::configVersion).toInt() == serverConfigUtils::ConfigSource::MugenGateway) {
         QJsonObject responseObj = QJsonDocument::fromJson(apiResponseBody).object();
         if (responseObj.contains(apiDefs::key::supportedProtocols)) {
             apiConfig.insert(apiDefs::key::supportedProtocols, responseObj.value(apiDefs::key::supportedProtocols).toArray());
@@ -260,7 +260,7 @@ ErrorCode SubscriptionController::importServiceFromGateway(const QString &userCo
 
     updateApiConfigInJson(serverConfigJson, serviceType, serviceProtocol, userCountryCode, responseBody);
 
-    if (serverConfigJson.value(configKey::configVersion).toInt() != serverConfigUtils::ConfigSource::AmneziaGateway) {
+    if (serverConfigJson.value(configKey::configVersion).toInt() != serverConfigUtils::ConfigSource::MugenGateway) {
         return ErrorCode::InternalError;
     }
 
@@ -317,7 +317,7 @@ ErrorCode SubscriptionController::importTrialFromGateway(const QString &userCoun
     }
 
     QJsonObject configObject = QJsonDocument::fromJson(configBytes).object();
-    if (configObject.value(configKey::configVersion).toInt() != serverConfigUtils::ConfigSource::AmneziaGateway) {
+    if (configObject.value(configKey::configVersion).toInt() != serverConfigUtils::ConfigSource::MugenGateway) {
         return ErrorCode::InternalError;
     }
 
@@ -392,7 +392,7 @@ ErrorCode SubscriptionController::importServiceFromAppStore(const QString &userC
 
     quint16 crc = qChecksum(QJsonDocument(configObject).toJson());
     
-    if (configObject.value(configKey::configVersion).toInt() != serverConfigUtils::ConfigSource::AmneziaGateway) {
+    if (configObject.value(configKey::configVersion).toInt() != serverConfigUtils::ConfigSource::MugenGateway) {
         return ErrorCode::InternalError;
     }
 
@@ -458,7 +458,7 @@ ErrorCode SubscriptionController::updateServiceFromGateway(const QString &server
     
     updateApiConfigInJson(serverConfigJson, apiV2->apiConfig.serviceType, serviceProtocol, apiV2->apiConfig.userCountryCode, responseBody);
     
-    if (serverConfigJson.value(configKey::configVersion).toInt() != serverConfigUtils::ConfigSource::AmneziaGateway) {
+    if (serverConfigJson.value(configKey::configVersion).toInt() != serverConfigUtils::ConfigSource::MugenGateway) {
         return ErrorCode::InternalError;
     }
 
@@ -681,7 +681,7 @@ void SubscriptionController::removeApiConfig(const QString &serverId)
                                .arg(hostName)
                                .arg("");
 
-    AmneziaVPN::removeVPNC(vpncName.toStdString());
+    MugenVPN::removeVPNC(vpncName.toStdString());
 #endif
 
     apiV2->dns1.clear();
@@ -1033,7 +1033,7 @@ ErrorCode SubscriptionController::resolveImportServiceCaptcha(const QString &use
 
     updateApiConfigInJson(serverConfigJson, serviceType, serviceProtocol, userCountryCode, responseBody);
 
-    if (serverConfigJson.value(configKey::configVersion).toInt() != serverConfigUtils::ConfigSource::AmneziaGateway) {
+    if (serverConfigJson.value(configKey::configVersion).toInt() != serverConfigUtils::ConfigSource::MugenGateway) {
         return ErrorCode::InternalError;
     }
 

@@ -142,7 +142,7 @@ public slots:
     int getImeHeight();
 
 private slots:
-    void onShowErrorMessage(amnezia::ErrorCode errorCode);
+    void onShowErrorMessage(mugen::ErrorCode errorCode);
 
 signals:
     void goToPage(PageLoader::PageEnum page, bool slide = true);
@@ -159,7 +159,7 @@ signals:
 
     void restorePageHomeState(bool isContainerInstalled = false);
 
-    void showErrorMessage(amnezia::ErrorCode);
+    void showErrorMessage(mugen::ErrorCode);
     void showErrorMessage(const QString &errorMessage);
     void showNotificationMessage(const QString &message);
 

@@ -9,19 +9,19 @@ import "TextTypes"
 RadioButton {
     id: root
 
-    property string hoveredColor: AmneziaStyle.color.barelyTranslucentWhite
-    property string defaultColor: AmneziaStyle.color.transparent
-    property string checkedColor: AmneziaStyle.color.transparent
-    property string disabledColor: AmneziaStyle.color.transparent
+    property string hoveredColor: MugenStyle.color.barelyTranslucentWhite
+    property string defaultColor: MugenStyle.color.transparent
+    property string checkedColor: MugenStyle.color.transparent
+    property string disabledColor: MugenStyle.color.transparent
 
-    property string textColor: AmneziaStyle.color.paleGray
-    property string textDisabledColor: AmneziaStyle.color.mutedGray
+    property string textColor: MugenStyle.color.paleGray
+    property string textDisabledColor: MugenStyle.color.mutedGray
 
-    property string pressedBorderColor: AmneziaStyle.color.charcoalGray
-    property string checkedBorderColor: AmneziaStyle.color.goldenApricot
-    property string defaultBodredColor: AmneziaStyle.color.transparent
-    property string checkedDisabledBorderColor: AmneziaStyle.color.mutedBrown
-    property string borderFocusedColor: AmneziaStyle.color.paleGray
+    property string pressedBorderColor: MugenStyle.color.charcoalGray
+    property string checkedBorderColor: MugenStyle.color.goldenApricot
+    property string defaultBodredColor: MugenStyle.color.transparent
+    property string checkedDisabledBorderColor: MugenStyle.color.mutedBrown
+    property string borderFocusedColor: MugenStyle.color.paleGray
     property int borderWidth: 0
 
     implicitWidth: content.implicitWidth

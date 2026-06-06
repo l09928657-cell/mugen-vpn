@@ -4,7 +4,7 @@
 
 #include "core/models/protocolConfig.h"
 
-using namespace amnezia;
+using namespace mugen;
 
 ContainersModel::ContainersModel(QObject *parent) : QAbstractListModel(parent)
 {
@@ -32,13 +32,13 @@ QVariant ContainersModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case NameRole: {
         if (container == DockerContainer::Awg && !isThirdPartyConfig) {
-            return "AmneziaWG Legacy";
+            return "MugenWG Legacy";
         }
         return ContainerUtils::containerHumanNames().value(container);
     }
     case DescriptionRole: {
         if (container == DockerContainer::Awg && !isThirdPartyConfig) {
-            return QObject::tr("AmneziaWG is a special protocol from Amnezia based on WireGuard. "
+            return QObject::tr("MugenWG is a special protocol from Mugen based on WireGuard. "
                            "It provides high connection speed and ensures stable operation even in the most challenging network conditions.");
         }
 

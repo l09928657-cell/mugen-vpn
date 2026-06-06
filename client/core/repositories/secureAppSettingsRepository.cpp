@@ -14,10 +14,10 @@
 #include "core/utils/constants/configKeys.h"
 #include "core/utils/networkUtilities.h"
 
-using namespace amnezia;
+using namespace mugen;
 
 namespace {
-    constexpr char gatewayEndpoint[] = "http://gw.amnezia.org:80/";
+    constexpr char gatewayEndpoint[] = "http://gw.mugen.org:80/";
 }
 
 SecureAppSettingsRepository::SecureAppSettingsRepository(SecureQSettings* settings, QObject *parent)
@@ -49,15 +49,15 @@ void SecureAppSettingsRepository::setAppLanguage(QLocale locale)
     emit appLanguageChanged(locale);
 }
 
-bool SecureAppSettingsRepository::useAmneziaDns() const
+bool SecureAppSettingsRepository::useMugenDns() const
 {
-    return value("Conf/useAmneziaDns", true).toBool();
+    return value("Conf/useMugenDns", true).toBool();
 }
 
-void SecureAppSettingsRepository::setUseAmneziaDns(bool enabled)
+void SecureAppSettingsRepository::setUseMugenDns(bool enabled)
 {
-    setValue("Conf/useAmneziaDns", enabled);
-    emit useAmneziaDnsChanged(enabled);
+    setValue("Conf/useMugenDns", enabled);
+    emit useMugenDnsChanged(enabled);
 }
 
 QStringList SecureAppSettingsRepository::getAllowedDnsServers() const

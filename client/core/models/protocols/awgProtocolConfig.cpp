@@ -8,9 +8,9 @@
 #include "../../../core/utils/constants/configKeys.h"
 #include "../../../core/utils/constants/protocolConstants.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
-namespace amnezia
+namespace mugen
 {
 
 QJsonObject AwgServerConfig::toJson() const
@@ -341,5 +341,5 @@ bool AwgProtocolConfig::isPacketSizeEqual(int s1, int s2, int s3, int s4)
             || responseSize == transportSize || cookieSize == transportSize);
 }
 
-} // namespace amnezia
+} // namespace mugen
 

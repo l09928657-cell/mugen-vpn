@@ -4,7 +4,7 @@
 #include <QJsonObject>
 #include <QString>
 
-namespace amnezia
+namespace mugen
 {
 
 struct TorServerConfig {
@@ -21,7 +21,7 @@ struct TorProtocolConfig {
     static TorProtocolConfig fromJson(const QJsonObject& json);
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // TORPROTOCOLCONFIG_H
 

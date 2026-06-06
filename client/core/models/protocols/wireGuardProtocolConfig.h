@@ -6,7 +6,7 @@
 #include <QStringList>
 #include <optional>
 
-namespace amnezia
+namespace mugen
 {
 
 struct WireGuardServerConfig {
@@ -54,7 +54,7 @@ struct WireGuardProtocolConfig {
     void clearClientConfig();
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // WIREGUARDPROTOCOLCONFIG_H
 

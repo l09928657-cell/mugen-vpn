@@ -174,8 +174,8 @@ PageType {
     QtObject {
         id: about
 
-        property string title: qsTr("About AmneziaVPN")
-        readonly property string leftImagePath: "qrc:/images/controls/amnezia.svg"
+        property string title: qsTr("About MugenVPN")
+        readonly property string leftImagePath: "qrc:/images/controls/mugen.svg"
         property bool isVisible: true
         readonly property var clickedHandler: function() {
             PageController.goToPage(PageEnum.PageSettingsAbout)

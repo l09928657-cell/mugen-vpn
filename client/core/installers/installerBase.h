@@ -18,12 +18,12 @@ class InstallerBase : public QObject
 public:
     explicit InstallerBase(QObject *parent = nullptr);
 
-    virtual amnezia::ContainerConfig generateConfig(amnezia::DockerContainer container, int port, amnezia::TransportProto transportProto);
+    virtual mugen::ContainerConfig generateConfig(mugen::DockerContainer container, int port, mugen::TransportProto transportProto);
 
-    virtual amnezia::ErrorCode extractConfigFromContainer(amnezia::DockerContainer container, const amnezia::ServerCredentials &credentials,
-                                                 SshSession* sshSession, amnezia::ContainerConfig &config);
+    virtual mugen::ErrorCode extractConfigFromContainer(mugen::DockerContainer container, const mugen::ServerCredentials &credentials,
+                                                 SshSession* sshSession, mugen::ContainerConfig &config);
 
-    amnezia::ContainerConfig createBaseConfig(amnezia::DockerContainer container, int port, amnezia::TransportProto transportProto);
+    mugen::ContainerConfig createBaseConfig(mugen::DockerContainer container, int port, mugen::TransportProto transportProto);
 
 protected:
 };

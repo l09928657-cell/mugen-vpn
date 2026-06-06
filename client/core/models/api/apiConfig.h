@@ -10,7 +10,7 @@
 #include "core/utils/constants/apiKeys.h"
 #include "core/utils/constants/apiConstants.h"
 
-namespace amnezia
+namespace mugen
 {
 
 struct ApiConfig
@@ -71,7 +71,7 @@ struct ApiConfig
     static ApiConfig fromJson(const QJsonObject& json);
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // APICONFIG_H
 

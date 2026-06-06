@@ -7,9 +7,9 @@
 #include <QDebug>
 #include <QQmlEngine>
 
-namespace amnezia {
+namespace mugen {
 
-using namespace amnezia::ProtocolEnumNS;
+using namespace mugen::ProtocolEnumNS;
 
 void declareQmlProtocolEnum() {
     qmlRegisterUncreatableMetaObject(
@@ -37,6 +37,6 @@ void declareQmlProtocolEnum() {
         );
 }
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // QML_REGISTER_PROTOCOLS_H

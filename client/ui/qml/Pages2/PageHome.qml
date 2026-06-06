@@ -73,11 +73,11 @@ PageType {
 
                 implicitHeight: 36
 
-                defaultColor: AmneziaStyle.color.transparent
-                hoveredColor: AmneziaStyle.color.translucentWhite
-                pressedColor: AmneziaStyle.color.sheerWhite
-                disabledColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.mutedGray
+                defaultColor: MugenStyle.color.transparent
+                hoveredColor: MugenStyle.color.translucentWhite
+                pressedColor: MugenStyle.color.sheerWhite
+                disabledColor: MugenStyle.color.mutedGray
+                textColor: MugenStyle.color.mutedGray
                 borderWidth: 0
 
                 visible: isLoggingEnabled ? true : false
@@ -101,11 +101,11 @@ PageType {
 
                 implicitHeight: 36
 
-                defaultColor: AmneziaStyle.color.transparent
-                hoveredColor: AmneziaStyle.color.translucentWhite
-                pressedColor: AmneziaStyle.color.sheerWhite
-                disabledColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.mutedGray
+                defaultColor: MugenStyle.color.transparent
+                hoveredColor: MugenStyle.color.translucentWhite
+                pressedColor: MugenStyle.color.sheerWhite
+                disabledColor: MugenStyle.color.mutedGray
+                textColor: MugenStyle.color.mutedGray
                 borderWidth: 0
 
                 visible: SettingsController.isDevModeEnabled && isDevGatewayEnabled
@@ -137,11 +137,11 @@ PageType {
 
                 implicitHeight: 36
 
-                defaultColor: AmneziaStyle.color.transparent
-                hoveredColor: AmneziaStyle.color.translucentWhite
-                pressedColor: AmneziaStyle.color.sheerWhite
-                disabledColor: AmneziaStyle.color.mutedGray
-                textColor: AmneziaStyle.color.mutedGray
+                defaultColor: MugenStyle.color.transparent
+                hoveredColor: MugenStyle.color.translucentWhite
+                pressedColor: MugenStyle.color.sheerWhite
+                disabledColor: MugenStyle.color.mutedGray
+                textColor: MugenStyle.color.mutedGray
                 borderWidth: 0
 
                 buttonTextLabel.lineHeight: 20
@@ -287,7 +287,7 @@ PageType {
 
                         hoverEnabled: false
                         image: "qrc:/images/controls/chevron-down.svg"
-                        imageColor: AmneziaStyle.color.paleGray
+                        imageColor: MugenStyle.color.paleGray
 
                         icon.width: 18
                         icon.height: 18
@@ -323,11 +323,11 @@ PageType {
                         leftPadding: 16
                         rightPadding: 16
 
-                        defaultColor: AmneziaStyle.color.transparent
-                        hoveredColor: AmneziaStyle.color.translucentWhite
-                        pressedColor: AmneziaStyle.color.sheerWhite
-                        disabledColor: AmneziaStyle.color.transparent
-                        textColor: AmneziaStyle.color.mutedGray
+                        defaultColor: MugenStyle.color.transparent
+                        hoveredColor: MugenStyle.color.translucentWhite
+                        pressedColor: MugenStyle.color.sheerWhite
+                        disabledColor: MugenStyle.color.transparent
+                        textColor: MugenStyle.color.mutedGray
 
                         buttonTextLabel.lineHeight: 16
                         buttonTextLabel.font.pixelSize: 13
@@ -387,19 +387,19 @@ PageType {
 
                         Component.onCompleted: root.containersDropDownRef = containersDropDown
 
-                        rootButtonImageColor: AmneziaStyle.color.midnightBlack
-                        rootButtonBackgroundColor: AmneziaStyle.color.paleGray
-                        rootButtonBackgroundHoveredColor: AmneziaStyle.color.mistyGray
-                        rootButtonBackgroundPressedColor: AmneziaStyle.color.cloudyGray
-                        rootButtonHoveredBorderColor: AmneziaStyle.color.transparent
-                        rootButtonDefaultBorderColor: AmneziaStyle.color.transparent
+                        rootButtonImageColor: MugenStyle.color.midnightBlack
+                        rootButtonBackgroundColor: MugenStyle.color.paleGray
+                        rootButtonBackgroundHoveredColor: MugenStyle.color.mistyGray
+                        rootButtonBackgroundPressedColor: MugenStyle.color.cloudyGray
+                        rootButtonHoveredBorderColor: MugenStyle.color.transparent
+                        rootButtonDefaultBorderColor: MugenStyle.color.transparent
                         rootButtonTextTopMargin: 8
                         rootButtonTextBottomMargin: 8
 
                         enabled: drawer.isOpened
 
                         text: ServersUiController.defaultServerDefaultContainerName
-                        textColor: AmneziaStyle.color.midnightBlack
+                        textColor: MugenStyle.color.midnightBlack
                         headerText: qsTr("VPN protocol")
                         headerBackButtonImage: "qrc:/images/controls/arrow-left.svg"
 

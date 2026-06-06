@@ -17,7 +17,7 @@
 #include "core/utils/utilities.h"
 #include "core/models/protocols/awgProtocolConfig.h"
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
 
 AwgInstaller::AwgInstaller(QObject *parent)
@@ -57,13 +57,13 @@ void AwgInstaller::generateAwgParameters(AwgServerConfig &serverConfig, bool isA
     QSet<int> usedValues;
     usedValues.insert(s1);
 
-    while (usedValues.contains(s2) || s1 + amnezia::AwgConstant::messageInitiationSize == s2 + amnezia::AwgConstant::messageResponseSize) {
+    while (usedValues.contains(s2) || s1 + mugen::AwgConstant::messageInitiationSize == s2 + mugen::AwgConstant::messageResponseSize) {
         s2 = QRandomGenerator::global()->bounded(15, 150);
     }
     usedValues.insert(s2);
 
-    while (usedValues.contains(s3) || s1 + amnezia::AwgConstant::messageInitiationSize == s3 + amnezia::AwgConstant::messageCookieReplySize
-           || s2 + amnezia::AwgConstant::messageResponseSize == s3 + amnezia::AwgConstant::messageCookieReplySize) {
+    while (usedValues.contains(s3) || s1 + mugen::AwgConstant::messageInitiationSize == s3 + mugen::AwgConstant::messageCookieReplySize
+           || s2 + mugen::AwgConstant::messageResponseSize == s3 + mugen::AwgConstant::messageCookieReplySize) {
         s3 = QRandomGenerator::global()->bounded(0, 64);
     }
     usedValues.insert(s3);

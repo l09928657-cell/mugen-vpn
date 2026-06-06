@@ -16,45 +16,45 @@ class XrayConfigurator : public ConfiguratorBase
 public:
     XrayConfigurator(SshSession* sshSession, QObject *parent = nullptr);
 
-    amnezia::ProtocolConfig createConfig(const amnezia::ServerCredentials &credentials, amnezia::DockerContainer container, const amnezia::ContainerConfig &containerConfig,
-                                const amnezia::DnsSettings &dnsSettings,
-                                amnezia::ErrorCode &errorCode) override;
+    mugen::ProtocolConfig createConfig(const mugen::ServerCredentials &credentials, mugen::DockerContainer container, const mugen::ContainerConfig &containerConfig,
+                                const mugen::DnsSettings &dnsSettings,
+                                mugen::ErrorCode &errorCode) override;
 
-    amnezia::ProtocolConfig processConfigWithLocalSettings(const amnezia::ConnectionSettings &settings,
-                                                           amnezia::ProtocolConfig protocolConfig) override;
+    mugen::ProtocolConfig processConfigWithLocalSettings(const mugen::ConnectionSettings &settings,
+                                                           mugen::ProtocolConfig protocolConfig) override;
 
-    amnezia::ErrorCode applyServerSettingsToRemote(const amnezia::ServerCredentials &credentials,
-                                                   amnezia::DockerContainer container,
-                                                   amnezia::ContainerConfig &containerConfig,
-                                                   const amnezia::DnsSettings &dnsSettings,
+    mugen::ErrorCode applyServerSettingsToRemote(const mugen::ServerCredentials &credentials,
+                                                   mugen::DockerContainer container,
+                                                   mugen::ContainerConfig &containerConfig,
+                                                   const mugen::DnsSettings &dnsSettings,
                                                    bool appendNewClient,
                                                    QString *outClientId = nullptr);
 
 private:
-    QString prepareServerConfig(const amnezia::ServerCredentials &credentials, amnezia::DockerContainer container, const amnezia::ContainerConfig &containerConfig,
-                                const amnezia::DnsSettings &dnsSettings,
-                                amnezia::ErrorCode &errorCode);
+    QString prepareServerConfig(const mugen::ServerCredentials &credentials, mugen::DockerContainer container, const mugen::ContainerConfig &containerConfig,
+                                const mugen::DnsSettings &dnsSettings,
+                                mugen::ErrorCode &errorCode);
 
-    amnezia::ErrorCode uploadServerConfigJson(const amnezia::ServerCredentials &credentials, amnezia::DockerContainer container,
-                                              const amnezia::DnsSettings &dnsSettings, const QJsonObject &serverConfig) const;
+    mugen::ErrorCode uploadServerConfigJson(const mugen::ServerCredentials &credentials, mugen::DockerContainer container,
+                                              const mugen::DnsSettings &dnsSettings, const QJsonObject &serverConfig) const;
 
-    amnezia::XrayProtocolConfig buildClientProtocolConfig(const amnezia::ServerCredentials &credentials,
-                                                          amnezia::DockerContainer container,
-                                                          const amnezia::XrayServerConfig &srv,
+    mugen::XrayProtocolConfig buildClientProtocolConfig(const mugen::ServerCredentials &credentials,
+                                                          mugen::DockerContainer container,
+                                                          const mugen::XrayServerConfig &srv,
                                                           const QString &clientId,
-                                                          amnezia::ErrorCode &errorCode,
+                                                          mugen::ErrorCode &errorCode,
                                                           const QString &prefetchedRealityPublicKey = {},
                                                           const QString &prefetchedRealityShortId = {}) const;
 
-    amnezia::ErrorCode readRealityKeyFiles(amnezia::DockerContainer container,
-                                           const amnezia::ServerCredentials &credentials,
+    mugen::ErrorCode readRealityKeyFiles(mugen::DockerContainer container,
+                                           const mugen::ServerCredentials &credentials,
                                            QString &outPublicKey,
                                            QString &outShortId) const;
 
-    QJsonObject mergeStreamSettingsForServerInbound(const amnezia::XrayServerConfig &srv,
+    QJsonObject mergeStreamSettingsForServerInbound(const mugen::XrayServerConfig &srv,
                                                     const QJsonObject &existingStreamSettings) const;
 
-    QJsonObject buildStreamSettings(const amnezia::XrayServerConfig &srv,
+    QJsonObject buildStreamSettings(const mugen::XrayServerConfig &srv,
                                     const QString &clientId) const;
 };
 

@@ -56,8 +56,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 public slots:
-    void updateModel(amnezia::DockerContainer container, const amnezia::AwgProtocolConfig &protocolConfig);
-    amnezia::AwgProtocolConfig getProtocolConfig();
+    void updateModel(mugen::DockerContainer container, const mugen::AwgProtocolConfig &protocolConfig);
+    mugen::AwgProtocolConfig getProtocolConfig();
     bool isServerSettingsEqual();
     
     bool isHeadersEqual(const QString &h1, const QString &h2, const QString &h3, const QString &h4);
@@ -67,12 +67,12 @@ protected:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    amnezia::DockerContainer m_container;
-    amnezia::AwgProtocolConfig m_protocolConfig;
-    amnezia::AwgProtocolConfig m_originalProtocolConfig;
+    mugen::DockerContainer m_container;
+    mugen::AwgProtocolConfig m_protocolConfig;
+    mugen::AwgProtocolConfig m_originalProtocolConfig;
     
-    void applyDefaultsToServerConfig(amnezia::AwgServerConfig& config);
-    void applyDefaultsToClientConfig(amnezia::AwgClientConfig& config);
+    void applyDefaultsToServerConfig(mugen::AwgServerConfig& config);
+    void applyDefaultsToClientConfig(mugen::AwgClientConfig& config);
 };
 
 #endif // AWGCONFIGMODEL_H

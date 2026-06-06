@@ -2,7 +2,7 @@
 #include <QTimer>
 #include <libssh/libssh.h>
 
-#include "amneziaApplication.h"
+#include "mugenApplication.h"
 #include "core/utils/osSignalHandler.h"
 #include "core/utils/migrations.h"
 #include "version.h"
@@ -19,9 +19,9 @@
 bool isAnotherInstanceRunning()
 {
     QLocalSocket socket;
-    socket.connectToServer("AmneziaVPNInstance");
+    socket.connectToServer("MugenVPNInstance");
     if (socket.waitForConnected(500)) {
-        qWarning() << "AmneziaVPN is already running";
+        qWarning() << "MugenVPN is already running";
         return true;
     }
     return false;
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     qputenv("ANDROID_OPENSSL_SUFFIX", "_3");
 #endif
 
-    AmneziaApplication app(argc, argv);
+    MugenApplication app(argc, argv);
     OsSignalHandler::setup();
 
     ssh_init();

@@ -119,12 +119,12 @@ public:
     Q_INVOKABLE static QString mkcpDefaultWriteBufferSize();
 
 public slots:
-    void updateModel(amnezia::DockerContainer container, const amnezia::XrayProtocolConfig& protocolConfig);
-    amnezia::XrayProtocolConfig getProtocolConfig();
+    void updateModel(mugen::DockerContainer container, const mugen::XrayProtocolConfig& protocolConfig);
+    mugen::XrayProtocolConfig getProtocolConfig();
     bool isServerSettingsEqual() const;
     bool hasUnsavedChanges() const;
     void resetToDefaults();
-    void applyServerConfig(const amnezia::XrayServerConfig &serverConfig);
+    void applyServerConfig(const mugen::XrayServerConfig &serverConfig);
 
 signals:
     void hasUnsavedChangesChanged();
@@ -133,11 +133,11 @@ protected:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    amnezia::DockerContainer m_container;
-    amnezia::XrayProtocolConfig m_protocolConfig;
-    amnezia::XrayProtocolConfig m_originalProtocolConfig;
+    mugen::DockerContainer m_container;
+    mugen::XrayProtocolConfig m_protocolConfig;
+    mugen::XrayProtocolConfig m_originalProtocolConfig;
 
-    void applyDefaultsToServerConfig(amnezia::XrayServerConfig& config);
+    void applyDefaultsToServerConfig(mugen::XrayServerConfig& config);
 };
 
 #endif // XRAYCONFIGMODEL_H

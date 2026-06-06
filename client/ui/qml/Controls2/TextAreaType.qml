@@ -11,12 +11,12 @@ Rectangle {
     property alias textArea: textArea
     property alias textAreaText: textArea.text
 
-    property string borderHoveredColor: AmneziaStyle.color.charcoalGray
-    property string borderNormalColor: AmneziaStyle.color.slateGray
-    property string borderFocusedColor: AmneziaStyle.color.paleGray
+    property string borderHoveredColor: MugenStyle.color.charcoalGray
+    property string borderNormalColor: MugenStyle.color.slateGray
+    property string borderFocusedColor: MugenStyle.color.paleGray
 
     height: 148
-    color: AmneziaStyle.color.onyxBlack
+    color: MugenStyle.color.onyxBlack
     border.width: 1
     border.color: getBorderColor(borderNormalColor)
     radius: 16
@@ -71,10 +71,10 @@ Rectangle {
                     FocusController.nextKeyRightItem()
                 }
 
-                color: AmneziaStyle.color.paleGray
-                selectionColor:  AmneziaStyle.color.richBrown
-                selectedTextColor: AmneziaStyle.color.paleGray
-                placeholderTextColor: AmneziaStyle.color.mutedGray
+                color: MugenStyle.color.paleGray
+                selectionColor:  MugenStyle.color.richBrown
+                selectedTextColor: MugenStyle.color.paleGray
+                placeholderTextColor: MugenStyle.color.mutedGray
 
                 font.pixelSize: 16
                 font.weight: Font.Medium

@@ -18,7 +18,7 @@ namespace
 {
     Logger logger("XrayInstaller");
 
-    // Xray expects uTLS preset names (chrome, firefox, …). Old Amnezia/server templates used "Mozilla/5.0".
+    // Xray expects uTLS preset names (chrome, firefox, …). Old Mugen/server templates used "Mozilla/5.0".
     QString normalizeXrayFingerprint(const QString &fp)
     {
         if (fp.isEmpty() || fp.contains(QLatin1String("Mozilla/5.0"), Qt::CaseInsensitive)) {
@@ -28,7 +28,7 @@ namespace
     }
 }
 
-using namespace amnezia;
+using namespace mugen;
 using namespace ProtocolUtils;
 
 XrayInstaller::XrayInstaller(QObject *parent)
@@ -42,7 +42,7 @@ ErrorCode XrayInstaller::extractConfigFromContainer(DockerContainer container, c
     ErrorCode errorCode = ErrorCode::NoError;
     
     QString currentConfig = sshSession->getTextFileFromContainer(
-            container, credentials, amnezia::protocols::xray::serverConfigPath, errorCode);
+            container, credentials, mugen::protocols::xray::serverConfigPath, errorCode);
 
     if (errorCode != ErrorCode::NoError) {
         return errorCode;
@@ -139,7 +139,7 @@ ErrorCode XrayInstaller::extractConfigFromContainer(DockerContainer container, c
         }
     }
 
-    // ── XHTTP settings (Xray-core SplitHTTPConfig + legacy Amnezia keys) ──
+    // ── XHTTP settings (Xray-core SplitHTTPConfig + legacy Mugen keys) ──
     if (srv.transport == "xhttp") {
         QJsonObject xhttpObj = streamSettings.value("xhttpSettings").toObject();
         {

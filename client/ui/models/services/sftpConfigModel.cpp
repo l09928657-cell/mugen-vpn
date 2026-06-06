@@ -5,7 +5,7 @@
 #include "core/utils/constants/configKeys.h"
 #include "core/utils/constants/protocolConstants.h"
 
-using namespace amnezia;
+using namespace mugen;
 
 SftpConfigModel::SftpConfigModel(QObject *parent) : QAbstractListModel(parent)
 {
@@ -53,7 +53,7 @@ QVariant SftpConfigModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void SftpConfigModel::updateModel(amnezia::DockerContainer container, const amnezia::SftpProtocolConfig &protocolConfig)
+void SftpConfigModel::updateModel(mugen::DockerContainer container, const mugen::SftpProtocolConfig &protocolConfig)
 {
     beginResetModel();
     m_container = container;
@@ -62,12 +62,12 @@ void SftpConfigModel::updateModel(amnezia::DockerContainer container, const amne
     endResetModel();
 }
 
-amnezia::SftpProtocolConfig SftpConfigModel::getProtocolConfig()
+mugen::SftpProtocolConfig SftpConfigModel::getProtocolConfig()
 {
     return m_protocolConfig;
 }
 
-void SftpConfigModel::applyDefaults(amnezia::SftpProtocolConfig& config)
+void SftpConfigModel::applyDefaults(mugen::SftpProtocolConfig& config)
 {
     if (config.userName.isEmpty()) {
         config.userName = protocols::sftp::defaultUserName;

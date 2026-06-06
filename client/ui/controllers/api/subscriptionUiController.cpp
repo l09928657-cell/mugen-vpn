@@ -1,6 +1,6 @@
 #include "subscriptionUiController.h"
 
-#include "amneziaApplication.h"
+#include "mugenApplication.h"
 #include "core/configurators/wireguardConfigurator.h"
 #include "core/utils/serverConfigUtils.h"
 #include "core/utils/constants/apiKeys.h"
@@ -202,7 +202,7 @@ bool SubscriptionUiController::importPremiumFromAppStore(const QString &storePro
 #if defined(Q_OS_IOS) || defined(MACOS_NE)
     QString productId = storeProductId.trimmed();
     if (productId.isEmpty()) {
-        productId = QStringLiteral("amnezia_premium_6_month");
+        productId = QStringLiteral("mugen_premium_6_month");
     }
 
     int duplicateServerIndex = -1;
@@ -230,7 +230,7 @@ bool SubscriptionUiController::importPremiumFromAppStore(const QString &storePro
 bool SubscriptionUiController::restoreServiceFromAppStore()
 {
 #if defined(Q_OS_IOS) || defined(MACOS_NE)
-    const QString premiumServiceType = QStringLiteral("amnezia-premium");
+    const QString premiumServiceType = QStringLiteral("mugen-premium");
 
     if (!fillAvailableServices()) {
         qWarning().noquote() << "[IAP] Unable to fetch services list before restore";

@@ -14,11 +14,11 @@
 
 #include <QtGlobal>
 
-using namespace amnezia;
+using namespace mugen;
 
 namespace {
-    constexpr QLatin1String kMtProxyClientJsonPath("/data/amnezia-mtproxy-client.json");
-    constexpr QLatin1String kMtProxyClientJsonUploadPath("data/amnezia-mtproxy-client.json");
+    constexpr QLatin1String kMtProxyClientJsonPath("/data/mugen-mtproxy-client.json");
+    constexpr QLatin1String kMtProxyClientJsonUploadPath("data/mugen-mtproxy-client.json");
     constexpr QLatin1String kMtProxySecretPath("/data/secret");
 }
 
@@ -80,8 +80,8 @@ ErrorCode MtProxyInstaller::queryDiagnostics(SshSession &sshSession, const Serve
             QStringLiteral(
                     "PORT_OK=$(sudo docker exec %1 sh -c 'ss -tlnp 2>/dev/null | grep -q :%2 && echo yes || echo no' 2>/dev/null || echo no); "
                     "TG_OK=$(curl -s --max-time 5 -o /dev/null -w '%%{http_code}' https://core.telegram.org/getProxySecret 2>/dev/null | grep -q '200' && echo yes || echo no); "
-                    "CLIENTS=$(sudo docker exec amnezia-mtproxy sh -c 'curl -s --max-time 3 http://localhost:2398/stats 2>/dev/null | grep -o \"total_special_connections:[0-9]*\" | cut -d: -f2' 2>/dev/null); "
-                    "CONF_TIME=$(sudo docker exec amnezia-mtproxy sh -c 'stat -c \"%%y\" /data/proxy-multi.conf 2>/dev/null | cut -d. -f1' 2>/dev/null || echo unknown); "
+                    "CLIENTS=$(sudo docker exec mugen-mtproxy sh -c 'curl -s --max-time 3 http://localhost:2398/stats 2>/dev/null | grep -o \"total_special_connections:[0-9]*\" | cut -d: -f2' 2>/dev/null); "
+                    "CONF_TIME=$(sudo docker exec mugen-mtproxy sh -c 'stat -c \"%%y\" /data/proxy-multi.conf 2>/dev/null | cut -d. -f1' 2>/dev/null || echo unknown); "
                     "echo \"PORT_OK=${PORT_OK}\"; "
                     "echo \"TG_OK=${TG_OK}\"; "
                     "echo \"CLIENTS=${CLIENTS:-0}\"; "

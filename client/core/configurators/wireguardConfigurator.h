@@ -29,31 +29,31 @@ public:
         QString port;
     };
 
-    amnezia::ProtocolConfig createConfig(const amnezia::ServerCredentials &credentials, amnezia::DockerContainer container,
-                                const amnezia::ContainerConfig &containerConfig,
-                                const amnezia::DnsSettings &dnsSettings,
-                                amnezia::ErrorCode &errorCode) override;
+    mugen::ProtocolConfig createConfig(const mugen::ServerCredentials &credentials, mugen::DockerContainer container,
+                                const mugen::ContainerConfig &containerConfig,
+                                const mugen::DnsSettings &dnsSettings,
+                                mugen::ErrorCode &errorCode) override;
 
-    amnezia::ProtocolConfig processConfigWithLocalSettings(const amnezia::ConnectionSettings &settings,
-                                                           amnezia::ProtocolConfig protocolConfig) override;
-    amnezia::ProtocolConfig processConfigWithExportSettings(const amnezia::ExportSettings &settings,
-                                                            amnezia::ProtocolConfig protocolConfig) override;
+    mugen::ProtocolConfig processConfigWithLocalSettings(const mugen::ConnectionSettings &settings,
+                                                           mugen::ProtocolConfig protocolConfig) override;
+    mugen::ProtocolConfig processConfigWithExportSettings(const mugen::ExportSettings &settings,
+                                                            mugen::ProtocolConfig protocolConfig) override;
 
     static ConnectionData genClientKeys();
 
 private:
     QList<QHostAddress> getIpsFromConf(const QString &input);
-    ConnectionData prepareWireguardConfig(const amnezia::ServerCredentials &credentials, amnezia::DockerContainer container,
-                                          const amnezia::WireGuardServerConfig* serverConfig,
-                                          const amnezia::AwgServerConfig* awgServerConfig,
-                                          const amnezia::DnsSettings &dnsSettings,
-                                          amnezia::ErrorCode &errorCode);
+    ConnectionData prepareWireguardConfig(const mugen::ServerCredentials &credentials, mugen::DockerContainer container,
+                                          const mugen::WireGuardServerConfig* serverConfig,
+                                          const mugen::AwgServerConfig* awgServerConfig,
+                                          const mugen::DnsSettings &dnsSettings,
+                                          mugen::ErrorCode &errorCode);
 
     bool m_isAwg;
     QString m_serverConfigPath;
     QString m_serverPublicKeyPath;
     QString m_serverPskKeyPath;
-    amnezia::ProtocolScriptType m_configTemplate;
+    mugen::ProtocolScriptType m_configTemplate;
     QString m_protocolName;
     QString m_defaultPort;
 };

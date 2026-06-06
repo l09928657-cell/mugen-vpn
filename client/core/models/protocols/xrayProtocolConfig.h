@@ -6,7 +6,7 @@
 #include <QString>
 #include <optional>
 
-namespace amnezia
+namespace mugen
 {
 
 // ── xPadding ─────────────────────────────────────────────────────────────────
@@ -75,7 +75,7 @@ struct XrayXhttpConfig {
     XrayXmuxConfig     xmux;
 
     QJsonObject toJson() const;
-    /// Reads only keys present in JSON (no Amnezia UI defaults). Use XrayConfigModel::applyDefaultsToServerConfig for UI.
+    /// Reads only keys present in JSON (no Mugen UI defaults). Use XrayConfigModel::applyDefaultsToServerConfig for UI.
     static XrayXhttpConfig fromJson(const QJsonObject &json);
 };
 
@@ -144,6 +144,6 @@ struct XrayProtocolConfig {
     bool hydrateServerConfigFromClientNative();
 };
 
-} // namespace amnezia
+} // namespace mugen
 
 #endif // XRAYPROTOCOLCONFIG_H
