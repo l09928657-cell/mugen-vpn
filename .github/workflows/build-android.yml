@@ -13,12 +13,12 @@ jobs:
 
       - name: Download libxray.aar
         run: |
-          gh release download 4.8.2.2 \
+          gh release download 4.8.15.4 \
             --repo amnezia-vpn/amnezia-client \
             --pattern "libxray.aar" \
             --output client/android/xray/libXray/libxray.aar || \
           wget -O client/android/xray/libXray/libxray.aar \
-            "https://github.com/amnezia-vpn/amnezia-client/releases/download/4.8.2.2/libxray.aar"
+            "https://github.com/amnezia-vpn/amnezia-client/releases/download/4.8.15.4/libxray.aar"
           ls -lh client/android/xray/libXray/libxray.aar
         env:
           GH_TOKEN: ${{ github.token }}
